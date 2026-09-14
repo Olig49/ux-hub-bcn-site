@@ -11,8 +11,8 @@
 .mail-row input,
 .custom-row input { font-size: 16px; }
 
-/* The marquee is decorative, so stop it when the visitor asks for less motion. */
-@media (prefers-reduced-motion: reduce) { .marquee-track { animation: none; } }
+/* The marquee (and image ticker) is decorative, so stop it when the visitor asks for less motion. */
+@media (prefers-reduced-motion: reduce) { .marquee-track, .img-ticker-track { animation: none; } }
 
 /* 44px tap targets wherever the default fell short. */
 .modal-close { width: 44px; height: 44px; }
@@ -26,16 +26,21 @@
 .mail-row input { padding-top: 16px; padding-bottom: 16px; }
 
 @media (max-width: 700px) {
-  /* Three overlapping photos get cramped on a phone — lead with one. */
+  /* Three overlapping photos get cramped on a phone — lead with one, and
+     keep the other two visible via the scrolling ticker below instead. */
   .collage { aspect-ratio: auto; max-width: none; }
   .collage .ph { position: static; }
   .collage .p2, .collage .p3, .collage .blob { display: none; }
   .collage .p1 { width: 100%; aspect-ratio: 4/3; }
+  .img-ticker { display: block; }
 }
 
 @media (max-width: 620px) {
   /* The top bar holds brand + CTA + burger; the drawer carries the CTA instead. */
   .site-header .nav-cta { display: none; }
+  /* nav-cta was carrying the margin-left:auto that keeps the burger pinned
+     right (see site.css); once it's hidden too, the burger needs its own. */
+  .nav-burger { margin-left: auto; }
 }
 
 @media (max-width: 520px) {

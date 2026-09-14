@@ -361,8 +361,13 @@
     // Tab is trapped inside while open, and clicking outside closes it too.
     function setDrawer(open) {
       if (!drawer || !burger) return;
-      drawer.classList.toggle('open', open);
-      drawer.hidden = !open;
+      if (open) {
+        drawer.hidden = false;
+        requestAnimationFrame(() => drawer.classList.add('open'));
+      } else {
+        drawer.classList.remove('open');
+        setTimeout(() => { drawer.hidden = true; }, 220); // matches --uxh-dur-overlay
+      }
       burger.setAttribute('aria-expanded', String(open));
       burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
       document.body.style.overflow = open ? 'hidden' : '';

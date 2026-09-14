@@ -22,11 +22,21 @@ for the live-rendered catalog.
   (see `core/README.md`).
 - **Burger** (`.nav-burger`): `40px` circle, hidden until ≤880px, where it swaps places with
   `.nav-links` (`display: none` on one side of the breakpoint, `inline-flex` on the other).
+- **Right-alignment gotcha:** `.nav` is a plain flex row; `.nav-links` carries the
+  `margin-left: auto` that pushes everything after it (CTA, burger) to the right edge. That
+  margin disappears the instant `.nav-links` is `display: none` (≤880px), which used to leave
+  the burger stranded next to the brand instead of pinned right. Fixed by re-declaring
+  `margin-left: auto` on whichever sibling becomes the new first-visible one at each
+  breakpoint — `.nav-cta` inside the same `@media (max-width: 880px)` block, then
+  `.nav-burger` inside `@media (max-width: 620px)` in mobile-tweaks.css once the CTA also
+  hides. Any future "hide element X in the nav row" change needs the same check: does X carry
+  the auto-margin, and if so, who inherits it once X is gone?
 
 **Selector/location:** `.site-header`, `.nav`, `.nav-brand`, `.nav-links`, `.nav-link`,
-`.nav-cta`, `.nav-burger` — site.css:25-57. **Found in:** UX Hub Barcelona.html:32-53 and
-sponsors.html:104-122 (same structure, sponsors.html's CTA reads "Become a sponsor" and its
-in-page links point at `UX Hub Barcelona.html#partners` etc. rather than same-page anchors).
+`.nav-cta`, `.nav-burger` — site.css:27-59, mobile-tweaks.css (620px burger fallback).
+**Found in:** index.html:32-53 and sponsors.html:104-122 (same structure, sponsors.html's CTA
+reads "Become a sponsor" and its in-page links point at `index.html#partners` etc. rather than
+same-page anchors).
 
 **Accessibility:** `<nav aria-label="Primary">` names the landmark; the brand link carries
 `aria-label="UX Hub Barcelona, home"` since its only visible content is a logo image whose own
@@ -45,50 +55,61 @@ site-wide (site.css:132-133).
 
 - **Geometry:** `position: fixed; inset: 70px 14px auto 14px`, `background: #fff`,
   `1px solid var(--uxh-line)`, `border-radius: 20px` (→ `var(--uxh-radius-lg)`), `padding: 12px`,
-  `box-shadow: var(--uxh-shadow-md)`, `display: flex; flex-direction: column; gap: 4px` (only
-  when `.open` — otherwise `display: none`).
+  `box-shadow: var(--uxh-shadow-md)`, `display: flex; flex-direction: column; gap: 4px`.
+- **Open/close transition:** the drawer used to be a hard `display: none` ↔ `flex` toggle with
+  no animation. It now stays `display: flex` at all times and animates between
+  `opacity: 0; transform: translateY(-8px) scale(0.98)` (closed) and `opacity: 1;
+  transform: none` (`.open`), `transition: opacity/transform var(--uxh-dur-overlay)
+  var(--uxh-ease)` (220ms). The `hidden` attribute still does the real removal-from-layout
+  (`.mobile-drawer[hidden] { display: none; }`, same pattern as the Modal's `.modal-overlay`
+  — see `overlay/README.md`), but JS now sequences it: on open, clear `hidden` first, then add
+  `.open` on the next animation frame (`requestAnimationFrame`) so the browser actually has a
+  frame to transition from; on close, remove `.open` first, then set `hidden = true` after a
+  `setTimeout` matching the transition duration (220ms) rather than instantly.
 - **Items:** `padding: 14px 16px`, `border-radius: 12px` (→ `var(--uxh-radius-md)`), hover
-  → `var(--uxh-soft-beige)`. **`.drawer-cta`:** same row shape, `background: var(--site-accent)`,
-  `font: 600 16px/1`, left-aligned.
+  → `var(--uxh-soft-beige)`. **`.drawer-cta`:** sized to its own content (`display: inline-flex;
+  align-self: flex-start`, not a full-width row like the plain links), full pill
+  (`var(--uxh-radius-pill)`) matching the desktop `.nav-cta`, `background: var(--site-accent)`,
+  `font: 600 16px/1`, and carries the same trailing-arrow markup + hover nudge as `.nav-cta`.
 
 **Selector/location:** `.mobile-drawer`, `.mobile-drawer.open`, `.mobile-drawer a`,
-`.mobile-drawer .drawer-cta` — site.css:60-66. **Found in:** UX Hub Barcelona.html:55-61
-(markup) + :540-570 (behaviour script) and sponsors.html:124-130 + :350-361 (a lighter version
-of the same behaviour, without focus-trap or Escape handling — see the gap below).
+`.mobile-drawer .drawer-cta` — site.css. **Found in:** index.html:55-61 (markup) + the
+`setDrawer()` script further down, and sponsors.html at the equivalent locations — both pages
+now share the identical `setDrawer()` implementation.
 
-**Behaviour, required per spec (§3 "nav/NavBar + nav/MobileDrawer"):**
+**Behaviour, required per spec (§3 "nav/NavBar + nav/MobileDrawer") — implemented identically
+on both pages:**
 
-| Requirement | Homepage (`UX Hub Barcelona.html`) | Sponsors page (`sponsors.html`) |
+| Requirement | Homepage | Sponsors page |
 |---|---|---|
-| Escape closes | ✅ (line 559) | ❌ not implemented |
-| Outside pointerdown closes | ✅ (line 567-570) | ❌ not implemented |
-| Tab focus containment | ✅ (lines 560-566) | ❌ not implemented |
-| Focus returns to burger on close | ✅ (`burger.focus()`, line 553) | ❌ not implemented |
-| `overflow:hidden` on body while open | ✅ (line 551) | ❌ not implemented |
+| Escape closes | ✅ | ✅ |
+| Outside pointerdown closes | ✅ | ✅ |
+| Tab focus containment | ✅ | ✅ |
+| Focus returns to burger on close | ✅ (`burger.focus()`) | ✅ |
+| `overflow:hidden` on body while open | ✅ | ✅ |
+| Animated open/close (not instant) | ✅ | ✅ |
 
-**This is a real, verified inconsistency, not a spec gap:** the two pages share identical
-drawer markup and CSS but sponsors.html's inline script (sponsors.html:350-361) only toggles
-`.open`/`hidden`/`aria-expanded` on click and closes on link click — none of the keyboard/focus
-requirements the spec calls for are present there. Fix by porting the homepage's fuller handler
-(UX Hub Barcelona.html:540-570) into sponsors.html rather than maintaining two versions.
+(An earlier pass found sponsors.html missing every row above except the last; it's since been
+ported from the homepage's handler so both pages run one `setDrawer()` implementation.)
 
 **Accessibility:** the burger button pairs `aria-controls="mobile-drawer"` with
 `aria-expanded` kept in sync, and its `aria-label` toggles between "Open menu" / "Close menu" —
 present on both pages. The drawer itself has no `role="dialog"`; that's appropriate here (unlike
-the event Modal) since it's inline page navigation, not a modal overlay — but the missing focus
-trap on sponsors.html means a sighted keyboard user tabbing through the open drawer there can
-tab straight out into content behind it.
+the event Modal) since it's inline page navigation, not a modal overlay.
 
 **Tokens to use:** `var(--uxh-radius-lg)` (drawer), `var(--uxh-radius-md)` (items),
-`var(--uxh-shadow-md)`, `var(--uxh-tap-min)` (drawer links/CTA already meet 44px via the
-combinator rule at site.css:133).
+`var(--uxh-radius-pill)` (drawer-cta), `var(--uxh-shadow-md)`, `var(--uxh-dur-overlay)` +
+`var(--uxh-ease)` (open/close transition), `var(--uxh-tap-min)` (drawer links/CTA already meet
+44px via the combinator rule in site.css).
 
 ---
 
 ## Footer — `.site-footer`
 
 - **Geometry:** `background: var(--uxh-teal-night)`, `color: #fff`, `padding: 96px 0 40px`,
-  `margin-top: 40px`.
+  `margin-top: 40px`; reduced to `padding: 56px 0 32px` at ≤780px (the same breakpoint
+  `.footer-top` already stacks to one column at) since the full desktop padding reads as
+  needlessly tall once the two-column layout collapses.
 - **Top grid** (`.footer-top`): `1fr auto`, `gap: 60px`, stacks to one column ≤780px.
 - **Brand block:** logo (`.footer-logo svg`/`img`, `220px` wide, `168px` at ≤480px), mission
   copy: lead `font: 700 18px/1.4`, body `font: 400 16px/1.5` at `rgba(255,255,255,0.82)`.
@@ -110,7 +131,7 @@ combinator rule at site.css:133).
   `cards/README.md`.
 
 **Selector/location:** `.site-footer` and all `.footer-*`/`.fb-*` descendants — site.css:452-481.
-**Found in:** UX Hub Barcelona.html:445-484; sponsors.html:286-323 (identical structure, its own
+**Found in:** index.html:445-484; sponsors.html:286-323 (identical structure, its own
 page marked current via `aria-current="page"` on the Sponsors link instead of Start).
 
 **Page-scoped override on sponsors.html only:** `.site-footer .fb-line-1 .fb-link` there gets

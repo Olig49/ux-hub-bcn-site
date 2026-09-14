@@ -132,6 +132,10 @@
 /* ----- Semantic element styles -------------------------------- */
 html, body { background: var(--uxh-bg); color: var(--uxh-fg); }
 body { font-family: var(--uxh-font-sans); font-size: var(--uxh-body); line-height: var(--uxh-body-lh); -webkit-font-smoothing: antialiased; }
+/* In-page anchor links (nav, drawer, footer, hero CTAs) jump straight to
+   their target by default — smooth-scroll them instead, except when the
+   visitor has asked for less motion. */
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
 
 h1, .uxh-h1 { font: 700 var(--uxh-h1-size)/var(--uxh-h1-lh) var(--uxh-font-sans); letter-spacing: var(--uxh-h1-tracking); margin: 0; color: var(--uxh-fg); }
 h2, .uxh-h2 { font: 700 var(--uxh-h2-size)/var(--uxh-h2-lh) var(--uxh-font-sans); letter-spacing: var(--uxh-h2-tracking); margin: 0; color: var(--uxh-fg); }

@@ -100,6 +100,23 @@
       </div>
     </section>
 
+    <!-- ============== Image ticker (mobile only) ==============
+         The hero collage hides two of its three photos below 700px
+         (see mobile-tweaks.css) so they don't get cramped — this keeps
+         all three visible instead of just dropping them, as a smooth
+         continuous-scroll strip. -->
+    <div class="img-ticker" aria-hidden="true">
+      <div class="img-ticker-track">
+        <img src="assets/photo-meetup-1-800.webp" width="600" height="800" alt="" loading="lazy" decoding="async" />
+        <img src="assets/photo-meetup-2-800.webp" width="600" height="400" alt="" loading="lazy" decoding="async" />
+        <img src="assets/photo-meetup-3-800.webp" width="600" height="400" alt="" loading="lazy" decoding="async" />
+        <!-- duplicate for seamless loop -->
+        <img src="assets/photo-meetup-1-800.webp" width="600" height="800" alt="" loading="lazy" decoding="async" />
+        <img src="assets/photo-meetup-2-800.webp" width="600" height="400" alt="" loading="lazy" decoding="async" />
+        <img src="assets/photo-meetup-3-800.webp" width="600" height="400" alt="" loading="lazy" decoding="async" />
+      </div>
+    </div>
+
     <!-- ============== Marquee ============== -->
     <div class="marquee" aria-hidden="true">
       <div class="marquee-track">
@@ -594,8 +611,16 @@
     // keyboard treatment as the event modal.
     function setDrawer(open) {
       if (!drawer || !burger) return;
-      drawer.classList.toggle('open', open);
-      drawer.hidden = !open;
+      if (open) {
+        drawer.hidden = false;
+        // Force a layout flush before adding .open, so the browser actually
+        // transitions from the opacity:0/translateY starting state instead
+        // of jumping straight to the end state in the same paint.
+        requestAnimationFrame(() => drawer.classList.add('open'));
+      } else {
+        drawer.classList.remove('open');
+        setTimeout(() => { drawer.hidden = true; }, 220); // matches --uxh-dur-overlay
+      }
       burger.setAttribute('aria-expanded', String(open));
       burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
       document.body.style.overflow = open ? 'hidden' : '';

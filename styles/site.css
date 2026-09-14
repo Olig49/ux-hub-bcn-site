@@ -54,13 +54,20 @@ html[data-accent="teal"]   { --site-accent: var(--uxh-seaturtle); --site-accent-
 @media (max-width: 880px) {
   .nav-links { display: none; }
   .nav-burger { display: inline-flex; }
+  /* nav-links normally carries the margin-left:auto that pushes everything
+     after it to the right edge; once it's hidden, nav-cta needs to take
+     over that job so the burger doesn't collapse back next to the brand. */
+  .nav-cta { margin-left: auto; }
 }
 
 /* Mobile nav drawer */
-.mobile-drawer { display: none; position: fixed; inset: 70px 14px auto 14px; z-index: 49;
+.mobile-drawer { position: fixed; inset: 70px 14px auto 14px; z-index: 49;
   background: #fff; border: 1px solid var(--uxh-line); border-radius: 20px; padding: 12px;
-  box-shadow: var(--uxh-shadow-md); flex-direction: column; gap: 4px; }
-.mobile-drawer.open { display: flex; }
+  box-shadow: var(--uxh-shadow-md); display: flex; flex-direction: column; gap: 4px;
+  opacity: 0; transform: translateY(-8px) scale(0.98); pointer-events: none;
+  transition: opacity var(--uxh-dur-overlay) var(--uxh-ease), transform var(--uxh-dur-overlay) var(--uxh-ease); }
+.mobile-drawer[hidden] { display: none; }
+.mobile-drawer.open { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
 .mobile-drawer a { padding: 14px 16px; border-radius: 12px; font: 500 16px/1 var(--uxh-font-sans); }
 .mobile-drawer a:hover { background: var(--uxh-soft-beige); }
 .mobile-drawer .drawer-cta { align-self: flex-start; margin-top: 4px; padding: 14px 16px; border-radius: 999px;
@@ -189,10 +196,18 @@ html[data-accent="teal"]   { --site-accent: var(--uxh-seaturtle); --site-accent-
 /* Marquee strip */
 .marquee { background: var(--uxh-seaturtle); color: #fff; padding: 18px 0; overflow: hidden;
   border-top: 1px solid rgba(255,255,255,0.12); border-bottom: 1px solid rgba(255,255,255,0.12); }
-.marquee-track { display: flex; gap: 56px; white-space: nowrap; animation: marquee 28s linear infinite; align-items: center; }
+.marquee-track { display: flex; gap: 56px; white-space: nowrap; animation: marquee 22s linear infinite; align-items: center; }
 .marquee-item { font: 500 18px/1 var(--uxh-font-sans); letter-spacing: -0.01em; display: inline-flex; align-items: center; gap: 16px; }
 .marquee-item .star { color: var(--uxh-yolk); }
 .marquee-item em { font-family: var(--uxh-font-serif); font-style: italic; font-weight: 500; color: var(--uxh-ceramic); }
+
+/* Image ticker — mobile-only continuous-scroll strip, see mobile-tweaks.css
+   for the breakpoint that reveals it and the collage rule it complements. */
+.img-ticker { display: none; overflow: hidden; padding: 4px 0 20px;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 28px, #000 calc(100% - 28px), transparent);
+  mask-image: linear-gradient(to right, transparent, #000 28px, #000 calc(100% - 28px), transparent); }
+.img-ticker-track { display: flex; gap: 12px; width: max-content; animation: marquee 26s linear infinite; }
+.img-ticker-track img { flex: none; width: 148px; height: 110px; object-fit: cover; border-radius: var(--uxh-radius-lg); box-shadow: var(--uxh-shadow-sm); }
 @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
 /* ------------- Section heading bar ------------- */
@@ -468,7 +483,12 @@ html[data-accent="teal"]   { --site-accent: var(--uxh-seaturtle); --site-accent-
 /* ------------- Footer ------------- */
 .site-footer { background: var(--uxh-teal-night); color: #fff; padding: 96px 0 40px; margin-top: 40px; }
 .footer-top { display: grid; grid-template-columns: 1fr auto; gap: 60px; align-items: start; }
-@media (max-width: 780px) { .footer-top { grid-template-columns: 1fr; gap: 44px; } }
+@media (max-width: 780px) {
+  .footer-top { grid-template-columns: 1fr; gap: 44px; }
+  /* 96px top padding was tuned for the two-column desktop layout; once it
+     stacks to one column the section reads as needlessly tall. */
+  .site-footer { padding: 56px 0 32px; }
+}
 
 .footer-brand { max-width: 460px; }
 .footer-logo { display: inline-block; color: #fff; }
