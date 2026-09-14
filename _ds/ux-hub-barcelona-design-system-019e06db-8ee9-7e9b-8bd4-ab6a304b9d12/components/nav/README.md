@@ -5,13 +5,25 @@ for the live-rendered catalog.
 
 ---
 
-## NavBar — `.site-header` / `.nav`
+## NavBar — `.site-header` / `.nav-shell` / `.nav`
 
-- **Header wrapper:** `position: sticky; top: 14px; z-index: 50; margin: 14px 14px 0`.
-- **Bar** (`.nav`): `background: rgba(255,255,255,0.82)`, `backdrop-filter: blur(16px) saturate(140%)`,
-  `1px solid rgba(0,0,0,0.06)`, `border-radius: 999px` (→ `var(--uxh-radius-pill)`),
-  `box-shadow: 0 8px 28px rgba(15,55,58,0.06)`, `padding: 10px 12px 10px 20px`, `gap: 18px`,
-  `max-width: 1280px`.
+- **Header wrapper** (`.site-header`): `position: sticky; top: 14px; z-index: 50;
+  margin: 14px 14px 0` — just positioning, carries no visual styling of its own.
+- **Shell** (`.nav-shell`) — **the one rounded card.** `.nav` (the bar row) and `.mobile-drawer`
+  (the collapsible section) are both children of `.nav-shell`, not siblings each styled as their
+  own floating panel — so opening the drawer grows this one shape rather than popping a second
+  card open below it. `background: rgba(255,255,255,0.82)`, `backdrop-filter: blur(16px)
+  saturate(140%)`, `1px solid rgba(0,0,0,0.06)`, `box-shadow: 0 8px 28px rgba(15,55,58,0.06)`,
+  `max-width: 1280px`, `overflow: hidden` (required — it's what lets the drawer's height
+  actually collapse to 0, and what clips the shell to its rounded corners as it resizes).
+  `border-radius: 999px` (→ `var(--uxh-radius-pill)`) at rest; `28px` while
+  `.mobile-drawer.open` is present inside it (`.nav-shell:has(.mobile-drawer.open)`) — a
+  999px-radius pill reads fine at bar height, but the same radius on a much taller open shell
+  would just clamp to a near-circular corner on a tall box, so the corners relax to a normal
+  card radius instead. Transitions on `border-radius` alone, `var(--uxh-dur-overlay)
+  var(--uxh-ease)` (220ms), timed to match the drawer's own height transition below.
+- **Bar** (`.nav`): plain flex row inside the shell — `padding: 10px 12px 10px 20px`, `gap: 18px`.
+  No background/border/radius of its own any more; that all moved to `.nav-shell` above.
 - **Links** (`.nav-link`): `padding: 9px 16px`, pill, `font: 500 14px/1`; hover →
   `rgba(42,153,160,0.10)` bg + seaturtle text, `transition: background 160ms, color 160ms`.
   An external link (Events → Meetup) carries a small 12px arrow icon (`.ext`, opacity 0.55 →
@@ -22,6 +34,13 @@ for the live-rendered catalog.
   (see `core/README.md`).
 - **Burger** (`.nav-burger`): `40px` circle, hidden until ≤880px, where it swaps places with
   `.nav-links` (`display: none` on one side of the breakpoint, `inline-flex` on the other).
+  **Morphs into an X, doesn't just sit next to the drawer** — its icon is three absolutely
+  positioned `.burger-bar` spans (not an SVG; per-bar CSS `transform`/`top` is simpler to
+  animate than swapping SVG paths), styled off `[aria-expanded]` rather than a separate JS-added
+  class, so the same attribute that already drives the accessible state also drives the visual
+  one — no risk of the two disagreeing. Open state: bars 1 and 3 slide to the vertical centre
+  (`top: 19px`) and rotate ±45°, bar 2 fades to `opacity: 0`. `transition: transform 240ms,
+  opacity 160ms, top 240ms`, all `var(--uxh-ease)`.
 - **Right-alignment gotcha:** `.nav` is a plain flex row; `.nav-links` carries the
   `margin-left: auto` that pushes everything after it (CTA, burger) to the right edge. That
   margin disappears the instant `.nav-links` is `display: none` (≤880px), which used to leave
@@ -32,11 +51,11 @@ for the live-rendered catalog.
   hides. Any future "hide element X in the nav row" change needs the same check: does X carry
   the auto-margin, and if so, who inherits it once X is gone?
 
-**Selector/location:** `.site-header`, `.nav`, `.nav-brand`, `.nav-links`, `.nav-link`,
-`.nav-cta`, `.nav-burger` — site.css:27-59, mobile-tweaks.css (620px burger fallback).
-**Found in:** index.html:32-53 and sponsors.html:104-122 (same structure, sponsors.html's CTA
-reads "Become a sponsor" and its in-page links point at `index.html#partners` etc. rather than
-same-page anchors).
+**Selector/location:** `.site-header`, `.nav-shell`, `.nav`, `.nav-brand`, `.nav-links`,
+`.nav-link`, `.nav-cta`, `.nav-burger`, `.burger-bar` — site.css:26-70ish, mobile-tweaks.css
+(620px burger fallback). **Found in:** index.html:32-73 and sponsors.html:104-133 (same
+structure, sponsors.html's CTA reads "Become a sponsor" and its in-page links point at
+`index.html#partners` etc. rather than same-page anchors).
 
 **Accessibility:** `<nav aria-label="Primary">` names the landmark; the brand link carries
 `aria-label="UX Hub Barcelona, home"` since its only visible content is a logo image whose own
@@ -44,38 +63,60 @@ same-page anchors).
 accessible name once, not twice). The CTA button uses `aria-haspopup="dialog"` +
 `aria-controls="event-modal"` to describe what it opens (see `overlay/README.md` for the modal
 itself). `.nav-brand`, like every other tappable element here, is floored at `min-height: 44px`
-site-wide (site.css:132-133).
+site-wide (site.css:145-146). The burger's icon bars are purely decorative (`aria-hidden` isn't
+even needed — they're plain `<span>`s with no text content), so the button's accessible name
+still comes entirely from its `aria-label`, which JS keeps in sync ("Open menu" / "Close menu").
 
 **Tokens to use:** `var(--uxh-radius-pill)`, `var(--uxh-dur-hover)`, `var(--uxh-dur-press)`,
 `var(--uxh-dur-move)` for the CTA's transitions (currently bare literals matching those durations).
+
+**Browser support note:** the shell's radius morph uses `:has()` (`.nav-shell:has(.mobile-drawer.open)`).
+Supported in every evergreen browser as of this pattern's introduction (Safari 15.4+, Chrome
+105+, Firefox 121+); on anything older the shell simply keeps its pill radius while open instead
+of relaxing to 28px — a cosmetic-only fallback, not a functional break, so no JS fallback was
+added for it.
 
 ---
 
 ## MobileDrawer — `.mobile-drawer`
 
-- **Geometry:** `position: fixed; inset: 70px 14px auto 14px`, `background: #fff`,
-  `1px solid var(--uxh-line)`, `border-radius: 20px` (→ `var(--uxh-radius-lg)`), `padding: 12px`,
-  `box-shadow: var(--uxh-shadow-md)`, `display: flex; flex-direction: column; gap: 4px`.
-- **Open/close transition:** the drawer used to be a hard `display: none` ↔ `flex` toggle with
-  no animation. It now stays `display: flex` at all times and animates between
-  `opacity: 0; transform: translateY(-8px) scale(0.98)` (closed) and `opacity: 1;
-  transform: none` (`.open`), `transition: opacity/transform var(--uxh-dur-overlay)
-  var(--uxh-ease)` (220ms). The `hidden` attribute still does the real removal-from-layout
-  (`.mobile-drawer[hidden] { display: none; }`, same pattern as the Modal's `.modal-overlay`
-  — see `overlay/README.md`), but JS now sequences it: on open, clear `hidden` first, then add
-  `.open` on the next animation frame (`requestAnimationFrame`) so the browser actually has a
-  frame to transition from; on close, remove `.open` first, then set `hidden = true` after a
-  `setTimeout` matching the transition duration (220ms) rather than instantly.
-- **Items:** `padding: 14px 16px`, `border-radius: 12px` (→ `var(--uxh-radius-md)`), hover
-  → `var(--uxh-soft-beige)`. **`.drawer-cta`:** sized to its own content (`display: inline-flex;
-  align-self: flex-start`, not a full-width row like the plain links), full pill
-  (`var(--uxh-radius-pill)`) matching the desktop `.nav-cta`, `background: var(--site-accent)`,
-  `font: 600 16px/1`, and carries the same trailing-arrow markup + hover nudge as `.nav-cta`.
+- **It's a section of `.nav-shell`, not a floating panel.** Earlier this was
+  `position: fixed; inset: 70px 14px auto 14px` with its own background/border/radius/shadow —
+  a second card that appeared 14px below the nav bar with a visible gap between them, out of
+  step with a request for the nav to read as one component that expands, not two stacked ones.
+  It's now a normal in-flow child of `.nav-shell`, directly below `.nav`, with no background/
+  border/shadow of its own — it inherits the shell's.
+- **Height animation** (`.mobile-drawer`): `display: grid; grid-template-rows: 0fr` (closed) →
+  `1fr` (`.open`), `transition: grid-template-rows var(--uxh-dur-overlay) var(--uxh-ease)`
+  (220ms). This is the standard "CSS-only accordion" trick — a single-row, single-column grid
+  can tween its row size in `fr` units from 0 to content-height smoothly, which a plain `height`
+  or `max-height` transition can't do without either hardcoding a pixel value or overshooting.
+  It only collapses all the way to a true `0px` because the actual content sits in a nested
+  **`.mobile-drawer-inner`** wrapper with `overflow: hidden`: a grid track's automatic minimum
+  size is normally content-based (so `0fr` alone would still show the content's min-content
+  height), but that automatic minimum drops to `0` once the grid item's own overflow isn't
+  `visible` — the `overflow: hidden` on `.mobile-drawer-inner` is what makes `0fr` actually mean
+  zero, not a decoration.
+- **`[hidden]` still does real removal-from-layout** once the close transition finishes
+  (`.mobile-drawer[hidden] { display: none; }`, same pattern as the Modal's `.modal-overlay` —
+  see `overlay/README.md`) — same JS sequencing as before, just now toggling a grid row instead
+  of opacity/transform: on open, clear `hidden` first, then add `.open` on the next animation
+  frame (`requestAnimationFrame`) so the browser has a frame to transition from; on close,
+  remove `.open` first, then set `hidden = true` after a `setTimeout` matching the transition
+  duration (220ms) rather than instantly.
+- **Items** (inside `.mobile-drawer-inner`): `padding: 14px 16px`, `border-radius: 12px` (→
+  `var(--uxh-radius-md)`), hover → `var(--uxh-soft-beige)`. **`.drawer-cta`:** sized to its own
+  content (`display: inline-flex; align-self: flex-start`, not a full-width row like the plain
+  links), full pill (`var(--uxh-radius-pill)`) matching the desktop `.nav-cta`, `background:
+  var(--site-accent)`, `font: 600 16px/1`, and carries the same trailing-arrow markup + hover
+  nudge as `.nav-cta`.
 
-**Selector/location:** `.mobile-drawer`, `.mobile-drawer.open`, `.mobile-drawer a`,
-`.mobile-drawer .drawer-cta` — site.css. **Found in:** index.html:55-61 (markup) + the
-`setDrawer()` script further down, and sponsors.html at the equivalent locations — both pages
-now share the identical `setDrawer()` implementation.
+**Selector/location:** `.mobile-drawer`, `.mobile-drawer.open`, `.mobile-drawer-inner`,
+`.mobile-drawer-inner a`, `.mobile-drawer-inner .drawer-cta` — site.css. **Found in:**
+index.html:55-73 (markup, nested inside `.nav-shell`) + the `setDrawer()` script further down,
+and sponsors.html at the equivalent locations — both pages still share the identical
+`setDrawer()` implementation (it didn't need to change: it only ever toggled `hidden` and
+`.open`, never touched the CSS properties those drive).
 
 **Behaviour, required per spec (§3 "nav/NavBar + nav/MobileDrawer") — implemented identically
 on both pages:**
@@ -97,10 +138,11 @@ ported from the homepage's handler so both pages run one `setDrawer()` implement
 present on both pages. The drawer itself has no `role="dialog"`; that's appropriate here (unlike
 the event Modal) since it's inline page navigation, not a modal overlay.
 
-**Tokens to use:** `var(--uxh-radius-lg)` (drawer), `var(--uxh-radius-md)` (items),
-`var(--uxh-radius-pill)` (drawer-cta), `var(--uxh-shadow-md)`, `var(--uxh-dur-overlay)` +
-`var(--uxh-ease)` (open/close transition), `var(--uxh-tap-min)` (drawer links/CTA already meet
-44px via the combinator rule in site.css).
+**Tokens to use:** `var(--uxh-radius-md)` (items), `var(--uxh-radius-pill)` (drawer-cta),
+`var(--uxh-dur-overlay)` + `var(--uxh-ease)` (open/close transition — shared with `.nav-shell`'s
+radius morph so both read as one motion), `var(--uxh-tap-min)` (drawer links/CTA already meet
+44px via the combinator rule in site.css). No radius/shadow tokens of its own any more — see
+`.nav-shell` above for those.
 
 ---
 

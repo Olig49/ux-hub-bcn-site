@@ -24,12 +24,23 @@ html[data-accent="teal"]   { --site-accent: var(--uxh-seaturtle); --site-accent-
 
 /* ------------- Header ------------- */
 .site-header { position: sticky; top: 14px; z-index: 50; margin: 14px 14px 0; }
-.nav { display: flex; align-items: center; gap: 18px; max-width: 1280px; margin: 0 auto;
-  padding: 10px 12px 10px 20px;
+/* .nav-shell is the single rounded card — .nav (the top row) and .mobile-drawer
+   (the collapsible section) are both its children, sharing one background/
+   border/shadow, so opening the drawer reads as one shape expanding rather
+   than a second floating panel appearing below it. */
+.nav-shell { max-width: 1280px; margin: 0 auto; overflow: hidden;
   background: rgba(255,255,255,0.82);
   backdrop-filter: blur(16px) saturate(140%); -webkit-backdrop-filter: blur(16px) saturate(140%);
   border: 1px solid rgba(0,0,0,0.06); border-radius: 999px;
   box-shadow: 0 8px 28px rgba(15,55,58,0.06);
+  transition: border-radius var(--uxh-dur-overlay) var(--uxh-ease);
+}
+/* Pill corners read fine at bar height; once the drawer opens the shell is much
+   taller, so the corners relax to a normal card radius instead of staying an
+   oversized pill-radius clamped down by the box's own height. */
+.nav-shell:has(.mobile-drawer.open) { border-radius: 28px; }
+.nav { display: flex; align-items: center; gap: 18px;
+  padding: 10px 12px 10px 20px;
 }
 .nav-brand { display: flex; align-items: center; gap: 12px; color: var(--uxh-fg); }
 .nav-logo { height: 30px; width: auto; display: block; }
@@ -49,8 +60,18 @@ html[data-accent="teal"]   { --site-accent: var(--uxh-seaturtle); --site-accent-
 .nav-cta:active { transform: scale(0.98); }
 .nav-cta .arrow { transition: transform 200ms; }
 .nav-cta:hover .arrow { transform: translateX(3px); }
-.nav-burger { display: none; width: 40px; height: 40px; border-radius: 999px; align-items: center; justify-content: center; }
+.nav-burger { display: none; width: 40px; height: 40px; border-radius: 999px; align-items: center; justify-content: center; position: relative; flex: none; }
 .nav-burger:hover { background: rgba(0,0,0,0.05); }
+/* Three bars that morph into an X — positioned absolutely so each bar's own
+   center of rotation stays fixed as it rotates into place. */
+.burger-bar { position: absolute; left: 50%; top: 19px; width: 18px; height: 2px; margin-left: -9px;
+  border-radius: 999px; background: var(--uxh-fg);
+  transition: transform 240ms var(--uxh-ease), opacity 160ms var(--uxh-ease), top 240ms var(--uxh-ease); }
+.burger-bar:nth-child(1) { top: 14px; }
+.burger-bar:nth-child(3) { top: 24px; }
+.nav-burger[aria-expanded="true"] .burger-bar:nth-child(1) { top: 19px; transform: rotate(45deg); }
+.nav-burger[aria-expanded="true"] .burger-bar:nth-child(2) { opacity: 0; }
+.nav-burger[aria-expanded="true"] .burger-bar:nth-child(3) { top: 19px; transform: rotate(-45deg); }
 @media (max-width: 880px) {
   .nav-links { display: none; }
   .nav-burger { display: inline-flex; }
@@ -60,23 +81,28 @@ html[data-accent="teal"]   { --site-accent: var(--uxh-seaturtle); --site-accent-
   .nav-cta { margin-left: auto; }
 }
 
-/* Mobile nav drawer */
-.mobile-drawer { position: fixed; inset: 70px 14px auto 14px; z-index: 49;
-  background: #fff; border: 1px solid var(--uxh-line); border-radius: 20px; padding: 12px;
-  box-shadow: var(--uxh-shadow-md); display: flex; flex-direction: column; gap: 4px;
-  opacity: 0; transform: translateY(-8px) scale(0.98); pointer-events: none;
-  transition: opacity var(--uxh-dur-overlay) var(--uxh-ease), transform var(--uxh-dur-overlay) var(--uxh-ease); }
+/* Mobile nav drawer — an in-flow collapsible section inside .nav-shell, right
+   below .nav, not a separately floating panel. Animating height directly
+   (e.g. max-height) either clips a tall list short or leaves dead space, so
+   this uses the grid-template-rows 0fr/1fr trick instead: the row itself
+   tweens from zero to content height. That only collapses all the way to 0
+   because .mobile-drawer-inner has overflow:hidden — a grid track's
+   automatic minimum size is content-based unless the item's overflow is
+   hidden, in which case it can shrink past that floor. */
+.mobile-drawer { display: grid; grid-template-rows: 0fr;
+  transition: grid-template-rows var(--uxh-dur-overlay) var(--uxh-ease); }
+.mobile-drawer.open { grid-template-rows: 1fr; }
 .mobile-drawer[hidden] { display: none; }
-.mobile-drawer.open { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
-.mobile-drawer a { padding: 14px 16px; border-radius: 12px; font: 500 16px/1 var(--uxh-font-sans); }
-.mobile-drawer a:hover { background: var(--uxh-soft-beige); }
-.mobile-drawer .drawer-cta { align-self: flex-start; margin-top: 4px; padding: 14px 16px; border-radius: 999px;
+.mobile-drawer-inner { overflow: hidden; display: flex; flex-direction: column; gap: 4px; padding: 0 12px 12px; }
+.mobile-drawer-inner a { padding: 14px 16px; border-radius: 12px; font: 500 16px/1 var(--uxh-font-sans); }
+.mobile-drawer-inner a:hover { background: var(--uxh-soft-beige); }
+.mobile-drawer-inner .drawer-cta { align-self: flex-start; margin-top: 4px; padding: 14px 16px; border-radius: 999px;
   background: var(--site-accent); color: var(--site-accent-fg); font: 600 16px/1 var(--uxh-font-sans);
   display: inline-flex; align-items: center; gap: 8px; transition: filter 160ms, transform 80ms; }
-.mobile-drawer .drawer-cta:hover { filter: brightness(0.95); }
-.mobile-drawer .drawer-cta:active { transform: scale(0.98); }
-.mobile-drawer .drawer-cta .arrow { transition: transform 200ms; }
-.mobile-drawer .drawer-cta:hover .arrow { transform: translateX(3px); }
+.mobile-drawer-inner .drawer-cta:hover { filter: brightness(0.95); }
+.mobile-drawer-inner .drawer-cta:active { transform: scale(0.98); }
+.mobile-drawer-inner .drawer-cta .arrow { transition: transform 200ms; }
+.mobile-drawer-inner .drawer-cta:hover .arrow { transform: translateX(3px); }
 
 /* ------------- Next event modal ------------- */
 .modal-overlay[hidden] { display: none; }
@@ -143,7 +169,7 @@ html[data-accent="teal"]   { --site-accent: var(--uxh-seaturtle); --site-accent-
 
 /* 44px floor for anything tappable, so buttons stop landing a pixel or two short. */
 .btn, .nav-cta, .join-cta, .drawer-cta { min-height: 44px; }
-.footer-nav a, .nav-brand, .mobile-drawer a { min-height: 44px; display: flex; align-items: center; }
+.footer-nav a, .nav-brand, .mobile-drawer-inner a { min-height: 44px; display: flex; align-items: center; }
 
 /* Section number */
 .section-number { font: 500 96px/1 var(--uxh-font-sans); color: var(--site-accent); letter-spacing: -0.04em; display: inline-block; }

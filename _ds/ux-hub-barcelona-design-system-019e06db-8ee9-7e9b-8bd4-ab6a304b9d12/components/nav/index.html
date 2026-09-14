@@ -21,12 +21,10 @@
   .ds-variant { font: 600 11px/1 var(--uxh-font-sans); letter-spacing: 0.08em; text-transform: uppercase; color: var(--uxh-fg-2); margin: 28px 0 12px; }
   .ds-variant:first-of-type { margin-top: 0; }
   .ds-note { font-size: 12px; color: var(--uxh-teal-night); background: var(--uxh-ceramic); border-radius: 8px; padding: 8px 12px; margin: 12px 0 0; display: inline-block; }
-  /* A frame so the sticky/fixed real components render inside a bounded box instead of
-     jumping to the viewport edges of this long catalog page. */
-  .ds-frame { position: relative; background: var(--uxh-warm-white); border: 1px solid var(--uxh-line); border-radius: 16px; padding: 28px 0 90px; overflow: hidden; }
-  .ds-frame .site-header { position: absolute; top: 14px; left: 14px; right: 14px; }
-  .ds-frame-drawer { position: relative; height: 260px; }
-  .ds-frame-drawer .mobile-drawer { position: absolute; inset: 20px 14px auto 14px; }
+  /* A frame so the sticky real component renders inside a bounded box instead of
+     jumping to the viewport edge of this long catalog page. */
+  .ds-frame { position: relative; background: var(--uxh-warm-white); border: 1px solid var(--uxh-line); border-radius: 16px; padding: 28px 14px 40px; overflow: hidden; }
+  .ds-frame .site-header { position: static; margin: 0; }
 </style>
 </head>
 <body class="ds-catalog">
@@ -34,61 +32,102 @@
   <a class="ds-back" href="../README.md">&larr; Component families</a>
   <p class="ds-kicker">Family · nav</p>
   <h1 class="ds-title">Nav</h1>
-  <p class="ds-desc">NavBar, its MobileDrawer companion, and Footer. Markup below is copied verbatim from <code>UX Hub Barcelona.html</code>; sponsors.html reuses the identical structure with its own CTA copy and relative link targets.</p>
+  <p class="ds-desc">NavBar, its MobileDrawer companion, and Footer. Markup below is copied verbatim from <code>index.html</code>; sponsors.html reuses the identical structure with its own CTA copy and relative link targets.</p>
 
   <!-- ===================================================================
-       NAVBAR — .site-header / .nav
+       NAVBAR — .site-header / .nav-shell / .nav (closed)
   ==================================================================== -->
   <section class="ds-component">
-    <h2 class="ds-label">NavBar — <code>.site-header</code> / <code>.nav</code></h2>
-    <p class="ds-label-sub">Frosted-glass pill bar, sticky 14px from the top. Source: UX Hub Barcelona.html:32-53.</p>
+    <h2 class="ds-label">NavBar — <code>.nav-shell</code> / <code>.nav</code> <span style="font-weight:500;color:var(--uxh-fg-2);">(closed)</span></h2>
+    <p class="ds-label-sub">Frosted-glass pill, sticky 14px from the top. Source: index.html:32-68. <code>.nav-shell</code> is the one rounded card — <code>.nav</code> (this row) and <code>.mobile-drawer</code> (below) are both its children, so opening the drawer grows this same shape instead of popping open a second panel.</p>
 
     <div class="ds-frame">
-      <header class="site-header" style="position:absolute;">
-        <nav class="nav" aria-label="Primary">
-          <a href="#home" class="nav-brand" aria-label="UX Hub Barcelona, home">
-            <img class="nav-logo" src="../../../../assets/logo-horizontal-seaturtle.svg" alt="UX Hub Barcelona" width="453" height="95" />
-          </a>
-          <div class="nav-links">
-            <a href="https://www.meetup.com/ux-hub-barcelona/events/" target="_blank" rel="noopener" class="nav-link">Events<span class="sr-only"> (opens in a new tab)</span><svg class="ext" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M9 7h8v8"/></svg></a>
-            <a href="#partners" class="nav-link">For partners</a>
-            <a href="#donate" class="nav-link">Donate</a>
-            <a href="#join" class="nav-link">Mailing list</a>
+      <header class="site-header" style="position:static;">
+        <div class="nav-shell">
+          <nav class="nav" aria-label="Primary">
+            <a href="#home" class="nav-brand" aria-label="UX Hub Barcelona, home">
+              <img class="nav-logo" src="../../../../assets/logo-horizontal-seaturtle.svg" alt="UX Hub Barcelona" width="453" height="95" />
+            </a>
+            <div class="nav-links">
+              <a href="https://www.meetup.com/ux-hub-barcelona/events/" target="_blank" rel="noopener" class="nav-link">Events<span class="sr-only"> (opens in a new tab)</span><svg class="ext" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M9 7h8v8"/></svg></a>
+              <a href="#partners" class="nav-link">For partners</a>
+              <a href="#donate" class="nav-link">Donate</a>
+              <a href="#join" class="nav-link">Mailing list</a>
+            </div>
+            <button type="button" class="nav-cta" aria-haspopup="dialog" aria-controls="event-modal">
+              Next event
+              <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+            </button>
+            <button type="button" class="nav-burger" aria-label="Open menu" aria-controls="mobile-drawer" aria-expanded="false">
+              <span class="burger-bar"></span>
+              <span class="burger-bar"></span>
+              <span class="burger-bar"></span>
+            </button>
+          </nav>
+          <div class="mobile-drawer" hidden>
+            <div class="mobile-drawer-inner">
+              <a href="https://www.meetup.com/ux-hub-barcelona/events/" target="_blank" rel="noopener">Events</a>
+              <a href="#partners">For partners</a>
+              <a href="#donate">Donate</a>
+              <a href="#join">Mailing list</a>
+              <button type="button" class="drawer-cta">
+                Next event
+                <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+              </button>
+            </div>
           </div>
-          <button type="button" class="nav-cta" aria-haspopup="dialog" aria-controls="event-modal">
-            Next event
-            <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
-          </button>
-          <button type="button" class="nav-burger" aria-label="Open menu" aria-controls="mobile-drawer" aria-expanded="false">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16"/><path d="M4 12h16"/><path d="M4 17h16"/></svg>
-          </button>
-        </nav>
+        </div>
       </header>
     </div>
     <p class="ds-note">The burger (<code>.nav-burger</code>) is <code>display:none</code> above 880px and
       the link row (<code>.nav-links</code>) is <code>display:none</code> at or below 880px — narrow this
       browser window past 880px to see the swap. Below 620px the CTA also hides
-      (<code>mobile-tweaks.css:38</code>) and moves into MobileDrawer instead.</p>
+      (<code>mobile-tweaks.css</code>) and moves into MobileDrawer instead. This copy is inert (no JS
+      wired up in the catalog), so click state is shown in the next section instead.</p>
   </section>
 
   <!-- ===================================================================
-       MOBILEDRAWER — .mobile-drawer
+       MOBILEDRAWER — .mobile-drawer (open)
   ==================================================================== -->
   <section class="ds-component">
-    <h2 class="ds-label">MobileDrawer — <code>.mobile-drawer</code></h2>
-    <p class="ds-label-sub">The ≤880px navigation surface. Source: UX Hub Barcelona.html:55-61. Shown here forced open (no <code>hidden</code> attribute, <code>.open</code> class added) since the shipped default state is closed.</p>
+    <h2 class="ds-label">MobileDrawer — <code>.mobile-drawer</code> <span style="font-weight:500;color:var(--uxh-fg-2);">(open)</span></h2>
+    <p class="ds-label-sub">The ≤880px navigation surface — the same <code>.nav-shell</code> as above, forced open (<code>aria-expanded="true"</code> on the burger, <code>.open</code> on the drawer, no <code>hidden</code> attribute) since the shipped default state is closed. Source: index.html:55-73.</p>
 
-    <div class="ds-frame-drawer">
-      <div class="mobile-drawer open">
-        <a href="https://www.meetup.com/ux-hub-barcelona/events/" target="_blank" rel="noopener">Events</a>
-        <a href="#partners">For partners</a>
-        <a href="#donate">Donate</a>
-        <a href="#join">Mailing list</a>
-        <button type="button" class="drawer-cta">Next event</button>
-      </div>
+    <div class="ds-frame">
+      <header class="site-header" style="position:static;">
+        <div class="nav-shell">
+          <nav class="nav" aria-label="Primary">
+            <a href="#home" class="nav-brand" aria-label="UX Hub Barcelona, home">
+              <img class="nav-logo" src="../../../../assets/logo-horizontal-seaturtle.svg" alt="UX Hub Barcelona" width="453" height="95" />
+            </a>
+            <div class="nav-links">
+              <a href="https://www.meetup.com/ux-hub-barcelona/events/" target="_blank" rel="noopener" class="nav-link">Events</a>
+            </div>
+            <button type="button" class="nav-cta" aria-haspopup="dialog" aria-controls="event-modal">Next event</button>
+            <button type="button" class="nav-burger" aria-label="Close menu" aria-controls="mobile-drawer" aria-expanded="true">
+              <span class="burger-bar"></span>
+              <span class="burger-bar"></span>
+              <span class="burger-bar"></span>
+            </button>
+          </nav>
+          <div class="mobile-drawer open">
+            <div class="mobile-drawer-inner">
+              <a href="https://www.meetup.com/ux-hub-barcelona/events/" target="_blank" rel="noopener">Events</a>
+              <a href="#partners">For partners</a>
+              <a href="#donate">Donate</a>
+              <a href="#join">Mailing list</a>
+              <button type="button" class="drawer-cta">
+                Next event
+                <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </header>
     </div>
     <p class="ds-note">
-      Needs (per spec, all implemented in the shipped inline script — UX Hub Barcelona.html:540-570):
+      Needs (per spec, all implemented in the shipped inline script — index.html, the
+      <code>setDrawer()</code> block near the end of <code>&lt;body&gt;</code>):
       Escape to close, outside-pointerdown to close, Tab containment while open (first/last
       focusable wrap around each other), focus returns to the burger on close, and
       <code>document.body.style.overflow = 'hidden'</code> while open so the page behind can't scroll.
