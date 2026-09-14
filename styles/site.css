@@ -446,8 +446,8 @@ html[data-accent="teal"]   { --site-accent: var(--uxh-seaturtle); --site-accent-
 .freq-btn.is-active { background: var(--uxh-fg); color: #fff; }
 .freq-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 .donate-submit { width: 100%; justify-content: center; margin-top: 18px; }
-.dc-fine { display: flex; align-items: flex-start; flex-wrap: wrap; gap: 6px; font-size: 12px; line-height: 1.5; color: var(--uxh-fg-2); margin: 14px 0 0; }
-.dc-info { display: inline-flex; align-items: center; justify-content: center; width: 16px; height: 16px; margin-left: 6px; padding: 0; border-radius: 999px; font-size: 13px; line-height: 1; color: var(--uxh-fg-2); vertical-align: baseline; position: relative; cursor: help; transition: color 160ms; }
+.dc-fine { font-size: 12px; line-height: 1.5; color: var(--uxh-fg-2); margin: 14px 0 0; }
+.dc-info { display: inline-flex; align-items: center; justify-content: center; width: 16px; height: 16px; margin-left: 6px; padding: 0; border-radius: 999px; font-size: 13px; line-height: 1; color: var(--uxh-fg-2); vertical-align: middle; position: relative; top: -1px; cursor: help; transition: color 160ms; }
 .dc-info:hover, .dc-info:focus-visible { color: var(--uxh-yolk); outline: none; }
 .dc-info::after { content: attr(data-tip); position: absolute; left: 50%; bottom: calc(100% + 8px); transform: translateX(-50%) translateY(4px); width: 220px; padding: 10px 12px; border-radius: 12px; background: var(--uxh-fg); color: #fff; font-size: 12px; line-height: 1.45; text-align: left; box-shadow: var(--uxh-shadow-md); opacity: 0; pointer-events: none; transition: opacity 160ms, transform 160ms; z-index: 5; }
 .dc-info::before { content: ""; position: absolute; left: 50%; bottom: calc(100% + 2px); transform: translateX(-50%); border: 6px solid transparent; border-top-color: var(--uxh-fg); opacity: 0; transition: opacity 160ms; }

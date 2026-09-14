@@ -128,12 +128,22 @@ font-size).
   each button + `aria-checked` kept in sync by the click handler — this is the exact ARIA pattern
   the spec calls for, correctly implemented, not just aspired to. `.amount-group` is the
   radiogroup for amount now (wrapping both `.amounts` and `.amount-any`), not `.amounts` itself.
-- **Fine print** (`.dc-fine`): `display: flex; align-items: flex-start; flex-wrap: wrap; gap: 6px`
-  — a **wrapping flex row**, deliberately, because the inline info button (`.dc-info`) that
-  follows the sentence can't itself wrap; if `.dc-fine` were `display: inline`/block text instead,
-  the info button could get pushed past the card's edge on narrow cards. The tooltip
-  (`.dc-info::after`, `data-tip` attr) is `220px` wide, and left-aligned instead of centred at
-  ≤520px so it doesn't overflow a narrow viewport.
+- **Fine print** (`.dc-fine`): plain paragraph text flow (no `display: flex`) — the info button
+  (`.dc-info`) is `display: inline-flex` and sits directly after the sentence with no space, so it
+  wraps as part of the sentence's own line-wrapping, landing right after "payment." on whichever
+  line that ends up on. This used to be `display: flex; flex-wrap: wrap; gap: 6px` on the theory
+  that flex-wrap was needed to keep the button from overflowing the card — in practice that
+  treated the button as a second, independent flex item, so on narrow cards where the sentence
+  wrapped to two lines, the button (not fitting after the wrapped text on either line) dropped to
+  its own third line, left-aligned and visually orphaned from the sentence it belongs to. Normal
+  inline flow doesn't have this failure mode: an inline-level box wraps with the text around it
+  same as a word would, and only overflows if it's wider than the whole container (it isn't — the
+  visible glyph is a 16px circle). The tooltip (`.dc-info::after`, `data-tip` attr) is `220px`
+  wide, and left-aligned instead of centred at ≤520px so it doesn't overflow a narrow viewport.
+  `.dc-info` also carries a `min-width/min-height: 44px` tap-target override (mobile-tweaks.css)
+  that's larger than its 16px visible circle — expected, and unrelated to this fix; it slightly
+  grows the line box on whichever line the icon lands on, which reads as a bit of breathing room
+  around the icon rather than a bug.
 
 **Stripe routing:** `STRIPE_LINKS[frequency][amount]` looks up a fixed-price Payment Link for
 the three numeric presets (once/monthly × €15/€25/€45 = 6 links, each a separate Stripe object);
