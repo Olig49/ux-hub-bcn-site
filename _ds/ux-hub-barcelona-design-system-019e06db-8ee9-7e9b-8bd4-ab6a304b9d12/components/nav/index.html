@@ -98,7 +98,7 @@
   ==================================================================== -->
   <section class="ds-component">
     <h2 class="ds-label">MobileDrawer — <code>.mobile-drawer</code> <span style="font-weight:500;color:var(--uxh-fg-2);">(open)</span></h2>
-    <p class="ds-label-sub">The ≤880px navigation surface — the same <code>.nav-shell</code> as above, forced open (<code>aria-expanded="true"</code> on the burger, <code>.open</code> on the drawer, no <code>hidden</code> attribute) since the shipped default state is closed. Source: index.html:55-73.</p>
+    <p class="ds-label-sub">The ≤880px navigation surface — the same <code>.nav-shell</code> as above, forced open (<code>aria-expanded="true"</code> on the burger, <code>.open</code> on the drawer, no <code>hidden</code> attribute) since the shipped default state is closed. Source: index.html:58-69.</p>
 
     <div class="ds-frame ds-frame--open">
       <header class="site-header" style="position:static;">
@@ -188,9 +188,10 @@
         </div>
       </div>
     </footer>
-    <p class="ds-note">Known gap (out of scope for this catalog per the handoff brief):
-      <code>logo-stacked-white.svg</code> above is ~19KB because it embeds a bitmap rather than
-      true vector paths — left untouched, see the top-level <code>components/README.md</code>.</p>
+    <p class="ds-note">This used to flag <code>logo-stacked-white.svg</code> as a bitmap-embedded
+      export (~19KB) rather than true vector paths — it's since been re-exported as clean vector
+      paths (10 <code>&lt;path&gt;</code> elements + 1 <code>&lt;rect&gt;</code>, no embedded
+      raster data); the file is still ~19KB, just from path detail rather than a bitmap.</p>
   </section>
 
 </body>

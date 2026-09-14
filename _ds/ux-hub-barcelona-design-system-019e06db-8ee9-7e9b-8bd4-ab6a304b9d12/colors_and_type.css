@@ -73,7 +73,7 @@
   --uxh-radius-md: 12px;
   --uxh-radius-lg: 20px;     /* primary card / image radius — the brand's signature radius */
   --uxh-radius-xl: 24px;     /* modal card, event feature, offer card, mail form, tier card */
-  --uxh-radius-2xl: 28px;    /* full-width dark panels: partner section, donate, volunteer */
+  --uxh-radius-2xl: 28px;    /* full-width dark panels: partner section, donate (.volunteer also uses it, but is unused CSS — no live markup) */
   --uxh-radius-pill: 999px;  /* CTA buttons + chips */
 
   /* ----- Elevation --------------------------------------------- */
@@ -109,14 +109,18 @@
 /* ----- Breakpoints (reference only — the real queries are literals,
    not custom properties, since media query values can't read var()) --
      980px  — event/card grids collapse to a single column
+     900px  — donate section + sponsors.html hero/tiers/sponsor-grid collapse
      880px  — nav collapses to the burger menu
-     820px  — two-up layouts become one column
-     780px  — footer grid stacks
-     720px  — page wrap padding steps 32px → 20px
-     620px  — mobile chrome adjustments (drawer, partner-card grid)
+     820px  — two-up layouts become one column (sponsors.html)
+     780px  — footer grid stacks + its padding tightens
+     720px  — page wrap padding steps 32px → 20px, section-head collapses
+     700px  — hero collage hides, mobile image ticker takes over
+     620px  — mobile chrome adjustments (nav-cta hides, partner-card layout)
+     600px  — back-to-top button shrinks
      540px  — modal padding steps down
-     520px  — form rows stack
+     520px  — mail-form padding tightens, donate tooltip repositions
      480px  — smallest-screen adjustments
+   Full detail: guidelines/breakpoints.html
 ------------------------------------------------------------------- */
 
 /* Slide-scale overrides — apply on .uxh-slides root */

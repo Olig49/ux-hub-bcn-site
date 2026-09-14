@@ -29,7 +29,7 @@ all, or open any file directly.
 ## Decisions already settled (don't re-open)
 
 - **Icons** stay the site's existing hand-written inline SVGs at 2.4px stroke — not Lucide. No icon card was authored since there's nothing to reference beyond that decision.
-- The two bitmap-embedded logo SVGs (`logo-horizontal-seaturtle.svg`, `logo-stacked-white.svg`) are a known, unfixed export gap — not addressed by these cards.
+- The two logo SVGs (`logo-horizontal-seaturtle.svg`, `logo-stacked-white.svg`) used to be flagged here as a bitmap-embedded export gap — they aren't: both are clean vector paths, just detailed enough to land at ~19KB each.
 - No slide-kit cards — the source Figma has no slide template.
 
 ## Verifying links

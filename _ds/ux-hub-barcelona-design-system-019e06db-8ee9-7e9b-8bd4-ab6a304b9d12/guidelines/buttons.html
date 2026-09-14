@@ -36,8 +36,8 @@
   .btn-dark{background:var(--uxh-fg);color:#fff;}
   .btn-dark:hover{background:var(--uxh-teal-night);}
 
-  .btn-ondark{background:#fff;color:var(--uxh-fg);}
-  .btn-ondark:hover{background:var(--uxh-ceramic);}
+  .btn-on-dark{background:#fff;color:var(--uxh-fg);}
+  .btn-on-dark:hover{background:var(--uxh-ceramic);}
 
   .note{font-size:13px;line-height:1.6;background:var(--uxh-ceramic);border-radius:var(--uxh-radius-md);padding:14px 16px;color:var(--uxh-fg);margin-top:12px;}
   .note code{font-family:var(--uxh-font-mono);}
@@ -57,7 +57,7 @@
     <div class="variant-row on-light">
       <button class="btn btn-primary" type="button">Get tickets</button>
     </div>
-    <p class="note"><code>--site-accent</code> is themable per page via <code>html[data-accent="yolk|purple|lime|teal"]</code> &mdash; this card shows the yolk default. Text stays dark (<code>--uxh-fg</code>) since every accent option is a light/mid tone.</p>
+    <p class="note"><code>--site-accent</code> is themable per page via <code>html[data-accent="yolk|purple|lime|teal"]</code> &mdash; this card shows the yolk default. Text colour is set per-variant by <code>--site-accent-fg</code>, not always dark: yolk/purple/lime pair with a dark fg (e.g. <code>#1f1402</code> for yolk), but the <code>teal</code> variant pairs Seaturtle with <strong>white</strong> text (<code>--site-accent-fg: #ffffff</code>), since Seaturtle itself is too mid-toned for dark text to stay legible. Both shipped pages (index.html, sponsors.html) currently set <code>data-accent="yolk"</code> only &mdash; purple/lime/teal exist in site.css but have no live instance today.</p>
   </section>
 
   <section>
@@ -75,9 +75,9 @@
   </section>
 
   <section>
-    <p class="spec"><b>onDark</b> &mdash; rest: white bg, <code>--uxh-fg</code> text &middot; hover: <code>--uxh-ceramic</code> bg &mdash; for use on Teal Night / Seaturtle panels</p>
+    <p class="spec"><b>onDark</b> &mdash; <code>.btn.btn-on-dark</code> &mdash; rest: white bg, <code>--uxh-fg</code> text &middot; hover: <code>--uxh-ceramic</code> bg &mdash; for use on Teal Night / Seaturtle panels. Live on sponsors.html's season-partner tier CTA.</p>
     <div class="variant-row on-dark">
-      <button class="btn btn-ondark" type="button">Join the mailing list</button>
+      <button class="btn btn-on-dark" type="button">Join the mailing list</button>
     </div>
   </section>
 

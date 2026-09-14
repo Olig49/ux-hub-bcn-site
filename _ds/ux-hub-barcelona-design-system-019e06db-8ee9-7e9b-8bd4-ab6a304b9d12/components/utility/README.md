@@ -99,7 +99,7 @@ place these photos appear with real alt text.
 
 - **Geometry:** `position: fixed; right: 24px; bottom: 24px; z-index: 60`, `48px` circle,
   `background: var(--uxh-fg)`, white icon, `box-shadow: var(--uxh-shadow-lg)`. Shrinks to `44px`
-  at ≤600px (site.css:492) — still meets `--uxh-tap-min` at the smallest size.
+  at ≤600px (site.css:609) — still meets `--uxh-tap-min` at the smallest size.
 - **Show/hide:** `opacity: 0; visibility: hidden; transform: translateY(10px)` at rest, `.show`
   → `opacity: 1; visibility: visible; transform: none`. `transition: opacity 240ms
   cubic-bezier(.2,.8,.2,1), transform 240ms cubic-bezier(.2,.8,.2,1), background 160ms` (→
@@ -110,7 +110,7 @@ place these photos appear with real alt text.
   `<head>`) — putting BackToTop on the right avoids the two fixed-position widgets ever
   overlapping in the same corner.
 
-**Selector/location:** `.to-top`, `.to-top.show` — site.css:486-492. **Found in:**
+**Selector/location:** `.to-top`, `.to-top.show` — site.css:603-609. **Found in:**
 index.html (markup near the end of `<body>`, behaviour in the inline `<script>` block) and
 sponsors.html at the equivalent locations.
 
@@ -144,10 +144,10 @@ from the tab order while hidden, unlike `opacity` alone would.
   600ms cubic-bezier(.2,.8,.2,1); }`, and `html.reveal-on .reveal.in { opacity: 1; transform:
   translateY(0); }`.
 
-  **Note the discrepancy between the CSS and the spec's documented token:** the spec (§2) names
-  `--uxh-dur-entry: 400ms` for this exact purpose, but the actual CSS rule uses a `600ms`
-  duration (site.css:497-498) — the token and the shipped value disagree. Either the token should
-  read 600ms or the CSS should be changed to 400ms; don't assume the token is already wired in.
+  **The token/CSS mismatch this used to flag is fixed:** the spec (§2) originally named
+  `--uxh-dur-entry: 400ms` for this exact purpose while the shipped CSS rule used `600ms`
+  (site.css:614) — token and shipped value disagreed. `--uxh-dur-entry` in tokens.css now reads
+  `600ms`, with a comment noting it matches the shipped `.reveal` transition, so the two agree.
 
 - **Observer config:** `threshold: 0, rootMargin: '0px 0px -8% 0px'` — `threshold: 0` so a
   section taller than the viewport still triggers as soon as any part enters; the `-8%` bottom
@@ -161,7 +161,7 @@ from the tab order while hidden, unlike `opacity` alone would.
   this doc claimed sponsors.html omitted this safety net — it doesn't; both pages match.)
 
 **Selector/location:** `.reveal`, `html.reveal-on .reveal`, `html.reveal-on .reveal.in` —
-site.css:613-614. **Behaviour:** index.html:751-768; sponsors.html:348-358 (same logic,
+site.css:613-615. **Behaviour:** index.html:751-768; sponsors.html:348-358 (same logic,
 including the safety net). **Found in:** applied to nearly every top-level section block across both
 pages — hero copy/visual, section heads, event-feature, offer cards, about media/copy, team
 cards, partner-section, donate, mailing form, and (sponsors.html) sp-hero, tiers, sponsor cards,
@@ -174,5 +174,5 @@ precondition (rather than only gating the CSS transition) means reduced-motion u
 get the `.reveal-on` class added, so they see fully-settled content from the first paint with no
 flash of hidden-then-shown.
 
-**Tokens to use:** `var(--uxh-dur-entry)` — but fix the token/CSS mismatch (400ms vs. 600ms,
-see above) before wiring it in, so the token names the value that's actually shipped.
+**Tokens to use:** `var(--uxh-dur-entry)` — now correctly names the 600ms value that's actually
+shipped (see above), so it's safe to wire in directly.

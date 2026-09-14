@@ -38,36 +38,51 @@ Each family directory has exactly two files:
   cross-checked against the live CSS, the real selector(s) and file:line where it's implemented,
   accessibility notes, and which `var(--uxh-...)` tokens it should be using.
 
-## Real inconsistencies found while cross-checking the two shipped pages
+## Inconsistencies found while cross-checking the two shipped pages
 
-These are flagged in the relevant family's README, not silently fixed (the source files are
-read-only for this task):
+Several were found and flagged here across earlier passes; most have since been fixed in the live
+site (noted below) rather than left as permanent documentation — this list is kept current, not
+historical, so re-check it against the code before trusting an entry rather than the other way
+around.
 
-- **MobileDrawer** (`nav/README.md`): the homepage's drawer has a full keyboard/focus contract
-  (Escape, outside-click, Tab trap, focus return, body scroll lock); sponsors.html's identical
-  markup has none of that — just open/close toggling.
-- **BackToTop** (`utility/README.md`): sponsors.html's click handler checks
-  `prefers-reduced-motion` before smooth-scrolling; the homepage's does not.
-- **Reveal-on-scroll** (`utility/README.md`): the homepage has a 1200ms safety-net timeout that
-  force-reveals anything the observer missed; sponsors.html has no equivalent.
-- **Reveal-on-scroll duration token** (`utility/README.md`): the spec names
-  `--uxh-dur-entry: 400ms`, but the shipped CSS transition is actually `600ms` — the token and
-  the live value disagree.
-- **`#6B6B6B` vs. `--uxh-fg-2`** (`cards/README.md`, `data/README.md`): several page-scoped rules
-  in sponsors.html hardcode `#6B6B6B` for secondary text — neither the original `#777` token value
-  nor its `#6a6a6a` AA-corrected replacement, a third, uncoordinated literal.
+**Still real, as of the latest check:**
+
 - **`.chip-teal`** (`core/README.md`): a solid-fill tag that contradicts the Tag family's own
   "outline-only, solid reserved for buttons" rule — flagged, not silently reclassified.
 - **`mobile-tweaks.css`'s unconditional rules** (`cards/`, `nav/`, `overlay/README.md`): several
   of its 44px tap-target overrides (modal close button, footer socials, team-card socials) are
   **not** wrapped in any `@media` query, so despite the file's name they apply at every viewport,
   not just small screens.
+- **`--uxh-dur-entry` isn't actually referenced by the CSS it describes**: the token is `600ms`
+  and now correctly matches `.reveal`'s live transition duration (an earlier version of this doc
+  found them disagreeing — that's fixed), but the transition rule itself still hardcodes the
+  literal `600ms` twice rather than reading `var(--uxh-dur-entry)` — the token documents the
+  value without being the value's actual source.
+
+**Resolved since an earlier pass of this doc (kept here so a future check doesn't re-flag them):**
+
+- **MobileDrawer parity**: sponsors.html's drawer used to have none of the homepage's keyboard/
+  focus contract (Escape, outside-click, Tab trap, focus return, body scroll lock) — it's since
+  been ported over; both pages now share one `setDrawer()` implementation. See `nav/README.md`.
+- **BackToTop reduced-motion**: the homepage's click handler used to smooth-scroll unconditionally
+  while sponsors.html checked `prefers-reduced-motion` first — both now check it identically. See
+  `utility/README.md`.
+- **Reveal-on-scroll safety net**: sponsors.html used to lack the homepage's 1200ms safety-net
+  timeout that force-reveals anything the observer missed — both pages now have it. See
+  `utility/README.md`.
+- **`#6B6B6B` vs. `--uxh-fg-2`**: sponsors.html's page-scoped rules for secondary text (sponsor
+  card body copy, StatsStrip labels) used to hardcode the literal `#6B6B6B` instead of the shared
+  token — both now correctly use `var(--uxh-fg-2)`. See `cards/README.md`, `data/README.md`.
+- **`.btn-dark`**: used to have no live instance in either page (the "Everything in the spec"
+  section below called this out) — the mailing-form's submit button now uses it
+  (`.btn.btn-dark`, index.html). See `core/README.md`.
 
 ## Known gaps carried over from `design-system-extraction.md` §6 (out of scope here)
 
-- `logo-horizontal-seaturtle.svg` and `logo-stacked-white.svg` embed bitmaps rather than true
-  vector paths (~19KB each) — used verbatim in NavBar and Footer's real markup regardless; not
-  touched by this catalog.
+- `logo-horizontal-seaturtle.svg` and `logo-stacked-white.svg` used to be flagged here as
+  embedding bitmaps rather than true vector paths — they don't: both are clean vector paths
+  (11/10 `<path>` elements + 1 `<rect>` each, no `<image>` or base64 data), just detailed enough
+  to land at ~19KB. Used verbatim in NavBar and Footer's real markup.
 - The icon set is hand-written inline SVG at 2.4px stroke, not Lucide — kept as-is per the
   decisions made for this task.
 
@@ -76,16 +91,20 @@ read-only for this task):
 Every component named in design-system-extraction.md §3 ("Component inventory") and §4 ("Also
 worth adding") has at least one live instance in the shipped pages, and every one of those
 instances is reproduced in a family `index.html` here — nothing in the twelve-family + 3-utility
-list had to be invented from the CSS alone. Two smaller pieces of markup the spec mentions only
-in passing turned out to have **no live instance** anywhere in either page, and are called out
-rather than faked:
+list had to be invented from the CSS alone. One smaller piece of markup the spec mentions only in
+passing still has **no live instance** anywhere in either page, and is called out rather than
+faked:
 
-- **Button `dark` variant** (`.btn-dark`) — the rule exists in site.css:110-111, but no `<button>`
-  or `<a>` in either shipped page carries the class. `core/index.html`'s example is synthesized
-  directly from the CSS rule alone, and is labelled as such.
-- **SectionHead's `.head-meta`** (third grid column, site.css:199) — defined in CSS but never
+- **SectionHead's `.head-meta`** (third grid column, site.css:278) — defined in CSS but never
   populated in either page's real `.section-head` markup. `core/index.html`'s example adds one
   to exercise the rule, and is labelled as such.
+
+**No longer true:** the Button `dark` variant (`.btn-dark`) used to have no live instance either —
+an earlier pass of this doc found the rule (site.css:110-111) unused by any `<button>` or `<a>` in
+either page, and `core/index.html`'s example was synthesized from the CSS alone. The mailing-form
+submit button (`<button type="submit" class="btn btn-dark">`, index.html) now uses it, so
+`core/index.html`'s example is a real, shipped instance, not a reconstruction — check
+`core/README.md` before assuming otherwise.
 
 ## Link verification
 

@@ -57,8 +57,8 @@ for the live-rendered catalog.
   the auto-margin, and if so, who inherits it once X is gone?
 
 **Selector/location:** `.site-header`, `.nav-shell`, `.nav`, `.nav-brand`, `.nav-links`,
-`.nav-link`, `.nav-cta`, `.nav-burger`, `.burger-bar` — site.css:26-70ish, mobile-tweaks.css
-(620px burger fallback). **Found in:** index.html:32-73 and sponsors.html:104-133 (same
+`.nav-link`, `.nav-cta`, `.nav-burger`, `.burger-bar` — site.css:26-79, mobile-tweaks.css
+(620px burger fallback). **Found in:** index.html:32-71 and sponsors.html:104-140 (same
 structure, sponsors.html's CTA reads "Become a sponsor" and its in-page links point at
 `index.html#partners` etc. rather than same-page anchors).
 
@@ -68,7 +68,7 @@ structure, sponsors.html's CTA reads "Become a sponsor" and its in-page links po
 accessible name once, not twice). The CTA button uses `aria-haspopup="dialog"` +
 `aria-controls="event-modal"` to describe what it opens (see `overlay/README.md` for the modal
 itself). `.nav-brand`, like every other tappable element here, is floored at `min-height: 44px`
-site-wide (site.css:145-146). The burger's icon bars are purely decorative (`aria-hidden` isn't
+site-wide (site.css:191-192). The burger's icon bars are purely decorative (`aria-hidden` isn't
 even needed — they're plain `<span>`s with no text content), so the button's accessible name
 still comes entirely from its `aria-label`, which JS keeps in sync ("Open menu" / "Close menu").
 
@@ -136,7 +136,7 @@ added for it.
 
 **Selector/location:** `.mobile-drawer`, `.mobile-drawer.open`, `.mobile-drawer-inner`,
 `.mobile-drawer-inner a`, `.mobile-drawer-inner .drawer-cta` — site.css. **Found in:**
-index.html:55-73 (markup, nested inside `.nav-shell`) + the `setDrawer()` script further down,
+index.html:58-69 (markup, nested inside `.nav-shell`) + the `setDrawer()` script further down,
 and sponsors.html at the equivalent locations — both pages still share the identical
 `setDrawer()` implementation (it didn't need to change: it only ever toggled `hidden` and
 `.open`, never touched the CSS properties those drive).
@@ -198,7 +198,7 @@ tokens of its own any more — see `.nav-shell` above for those.
   **also** a non-colour affordance, distinct from `aria-current`'s underline (this one just says
   "this is a link", not "this is the current page").
 - **Socials** (`.fb-socials a`): `34px` circle in site.css, `radius: 8px`,
-  `rgba(255,255,255,0.10)` bg, hover → white bg + teal-night icon. **`mobile-tweaks.css:19`
+  `rgba(255,255,255,0.10)` bg, hover → white bg + teal-night icon. **`mobile-tweaks.css:18`
   overrides this to `min-width/min-height: 44px` unconditionally** (not inside any `@media`
   block, so it applies at every viewport despite the file's name) — same "spec calls for 44px,
   mobile-tweaks.css already delivers it everywhere" pattern as the team-card socials in
@@ -210,8 +210,8 @@ tokens of its own any more — see `.nav-shell` above for those.
   a layout fix that happens to resolve a real-world visual collision, not purely a style
   preference.
 
-**Selector/location:** `.site-footer` and all `.footer-*`/`.fb-*` descendants — site.css:452-481.
-**Found in:** index.html:445-484; sponsors.html:286-323 (identical structure, its own
+**Selector/location:** `.site-footer` and all `.footer-*`/`.fb-*` descendants — site.css:551-598.
+**Found in:** index.html:515-554; sponsors.html:295-332 (identical structure, its own
 page marked current via `aria-current="page"` on the Sponsors link instead of Start).
 
 **Page-scoped override on sponsors.html only:** `.site-footer .fb-line-1 .fb-link` there gets

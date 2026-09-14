@@ -14,7 +14,7 @@ never both. Verified against every real card below — true in every case.
 - **Geometry:** `background: var(--uxh-white)`, `1px solid var(--uxh-line)`, `border-radius: 20px`
   (→ `var(--uxh-radius-lg)`), `padding: 28px`, `display: flex; flex-direction: column; gap: 12px`.
 - **Title** (`h4`): `font: 700 22px/1.15`, `letter-spacing: -0.02em`.
-- **Body** (`p`): `font-size: 15px; line-height: 1.55; color: #6B6B6B`.
+- **Body** (`p`): `font-size: 15px; line-height: 1.55; color: var(--uxh-fg-2)`.
 - **Footer link** (`.visit`): `font: 600 14px/1`, `min-height: 44px`, `white-space: nowrap`,
   color `var(--uxh-teal-night)`; its `svg` nudges `translate(2px,-2px)` on hover, `transition: transform 200ms`.
 - **Feature variant** (`.sponsor-card.feature`): spans the full grid row (`grid-column: 1 / -1`),
@@ -43,9 +43,9 @@ link's visible content is short text; the hover-only arrow nudge is decorative a
 any information.
 
 **Tokens to use:** `var(--uxh-radius-lg)` for the 20px radius; `var(--uxh-line)` already used
-correctly; `var(--uxh-fg-2)` (`#6a6a6a`) is the AA-corrected token — the card body copy currently
-hardcodes the **uncorrected** literal `#6B6B6B` instead (sponsors.html:30, :72) rather than either
-the old `#777` or the new `#6a6a6a` token; worth reconciling to one value, ideally the token.
+correctly; `var(--uxh-fg-2)` (`#6a6a6a`) is the AA-corrected token — the card body copy used to
+hardcode the **uncorrected** literal `#6B6B6B` instead of either the old `#777` or the new
+`#6a6a6a` token; sponsors.html's page-scoped rule now correctly reads `color: var(--uxh-fg-2)`.
 
 ---
 

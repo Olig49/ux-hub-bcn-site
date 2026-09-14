@@ -38,7 +38,7 @@
       <div>
         <p class="name">sm</p>
         <p class="spec">0 1px 2px rgba(0,0,0,0.06)</p>
-        <p class="use">Barely-there lift &mdash; the mailing-form input row.</p>
+        <p class="use">Barely-there lift &mdash; mobile image-ticker photos, the event-feature date-stamp badge.</p>
       </div>
     </div>
     <div class="cell">
@@ -46,7 +46,7 @@
       <div>
         <p class="name">md</p>
         <p class="spec">0 6px 18px rgba(0,0,0,0.08)</p>
-        <p class="use">Default card elevation &mdash; event feature, nav drawer.</p>
+        <p class="use">Default card elevation &mdash; event feature, hero collage photos, about-media photo, the CTA tooltip.</p>
       </div>
     </div>
     <div class="cell">
@@ -60,5 +60,11 @@
   </div>
 
   <p class="note">All three shadows are tinted &mdash; <code>sm</code>/<code>md</code> use neutral black at low opacity, <code>lg</code> shifts to <code>rgba(15,55,58,…)</code> (teal-night) so the deepest shadow reads warm, not muddy grey.</p>
+  <p class="note">Not shown above: the nav bar (<code>.nav-shell</code>) and its mobile drawer both use a
+    fourth, bespoke shadow &mdash; <code>0 8px 28px rgba(15,55,58,0.06)</code> &mdash; not one of
+    these three tokens. It's close to <code>lg</code>'s teal tint but far softer (0.06 vs 0.12
+    alpha, and a wider/lower spread), which suits a sticky element that's visible on every scroll
+    position rather than an occasional card lift. A real one-off, not an oversight to silently
+    fold into an existing token.</p>
 </body>
 </html>

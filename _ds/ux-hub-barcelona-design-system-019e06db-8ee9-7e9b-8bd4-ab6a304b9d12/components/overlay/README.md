@@ -15,8 +15,8 @@ One component: **Modal**. Open [`index.html`](./index.html) for the live-rendere
   Enters at `translateY(12px) scale(0.98)`, rests at `translateY(0) scale(1)` on `.open`,
   `transition: transform 240ms cubic-bezier(.2,.8,.2,1)` (→ `var(--uxh-dur-layout)` +
   `var(--uxh-ease)`).
-- **Close button:** background-free, defined at `38px × 38px` in site.css:79, but
-  **mobile-tweaks.css:18 overrides it to `44px × 44px` unconditionally** (that rule isn't wrapped
+- **Close button:** background-free, defined at `38px × 38px` in site.css:138, but
+  **mobile-tweaks.css:17 overrides it to `44px × 44px` unconditionally** (that rule isn't wrapped
   in a media query, so it applies at every viewport width, not just mobile — the file is loaded
   after site.css on both pages, so 44px wins everywhere in practice) — meets `--uxh-tap-min`.
   Colour `var(--uxh-fg-2)` → `var(--uxh-fg)` on hover.
@@ -42,16 +42,16 @@ button — see `nav/README.md`.
 
 - `role="dialog"`, `aria-modal="true"`, `aria-labelledby` pointing at the title — ✅ all present
   on the shipped `#event-modal` element.
-- **Escape closes** — ✅ (line 606).
+- **Escape closes** — ✅ (line 732).
 - **Tab focus trap** — ✅: the keydown handler collects every focusable, visible
   (`offsetParent !== null`) element inside the dialog on each Tab press and wraps `Shift+Tab` off
-  the first back to the last, and `Tab` off the last back to the first (lines 608-613) — a
+  the first back to the last, and `Tab` off the last back to the first (lines 733-739) — a
   re-computed-per-keypress trap rather than a fixed list, so it stays correct if the option list
   ever changes.
 - **Focus management on open/close:** the element that had focus before opening
   (`lastFocused = document.activeElement`) is restored on close; the close button receives focus
-  immediately on open (lines 583-595).
-- **Click-outside-closes:** clicking the overlay itself (not the card) closes it (line 602),
+  immediately on open (lines 709-721).
+- **Click-outside-closes:** clicking the overlay itself (not the card) closes it (line 728),
   and every element with `data-close` (all three options) also closes it on click.
 - **Body scroll lock:** `document.body.style.overflow = 'hidden'` while open, restored on close.
 

@@ -78,7 +78,7 @@
       <span class="mark">5</span>
       <div class="body">
         <h3>16px minimum input font (iOS zoom)</h3>
-        <p><code>--uxh-input-font: 16px</code>. Any text input set smaller than this triggers an automatic zoom on focus in iOS Safari, which is jarring and hard to undo one-handed. Applies to the mailing form and donate form inputs.</p>
+        <p><code>--uxh-input-font: 16px</code>. Any text input set smaller than this triggers an automatic zoom on focus in iOS Safari, which is jarring and hard to undo one-handed. Applies to the mailing form's five text inputs (<code>.mail-row input</code>). DonateForm used to have a free-text custom-amount input this also applied to, but that input has since been removed — DonateForm is now all buttons (amount chips, frequency toggle), so this rule no longer applies there.</p>
       </div>
     </li>
     <li>
@@ -99,7 +99,7 @@
       <span class="mark">8</span>
       <div class="body">
         <h3>Reduced-motion handling</h3>
-        <p>All non-essential motion &mdash; the marquee strip, reveal-on-scroll, hover lifts, the arrow nudge &mdash; must stop or become instant under <code>@media (prefers-reduced-motion: reduce)</code>. Reveal-on-scroll content is visible by default; the transition is added only when JS and motion are both available, so a reduced-motion visitor never loses content, only the animation.</p>
+        <p>Requirement, not yet fully met: only the marquee/image-ticker strips actually stop under <code>@media (prefers-reduced-motion: reduce)</code> today (mobile-tweaks.css) &mdash; that's the only animation family in the system gated by the media query at the CSS level. Reveal-on-scroll gets the same practical outcome a different way: its JS only adds the hidden&rarr;shown transition when <code>prefers-reduced-motion: no-preference</code> matches, so content is visible by default and a reduced-motion visitor never loses content, only the animation. Hover lifts (offer/team cards) and the arrow nudge are <strong>not</strong> currently gated by reduced-motion anywhere in the CSS &mdash; same open gap as the Eyebrow dot-pulse (see <code>core/README.md</code>), left here as a known TODO rather than a satisfied requirement.</p>
       </div>
     </li>
   </ul>

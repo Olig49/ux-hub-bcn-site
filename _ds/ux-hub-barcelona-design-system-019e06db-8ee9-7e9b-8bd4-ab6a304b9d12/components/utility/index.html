@@ -56,7 +56,7 @@
       </div>
     </div>
     <p class="ds-note">If your OS/browser is set to reduce motion, this track is static — that's
-      <code>mobile-tweaks.css:15</code> working correctly, not a bug in this catalog page.</p>
+      <code>mobile-tweaks.css:14</code> working correctly, not a bug in this catalog page.</p>
   </section>
 
   <!-- ===================================================================
@@ -74,7 +74,7 @@
     <p class="ds-note">Bottom-<strong>right</strong> is a deliberate choice — the spec notes the
       bottom-left corner is reserved for the third-party cookie-consent widget (GetTerms CMP,
       loaded in both pages' `&lt;head&gt;`), so BackToTop and the cookie widget never fight for the
-      same corner. At ≤600px it shrinks from 48px to 44px (site.css:492) — still meeting
+      same corner. At ≤600px it shrinks from 48px to 44px (site.css:609) — still meeting
       <code>--uxh-tap-min</code>. Smooth-scroll is only used when motion is welcome: both pages'
       handlers check <code>prefers-reduced-motion: reduce</code> and fall back to an instant jump
       (<code>behavior: reduceMotion ? 'auto' : 'smooth'</code>) — index.html and sponsors.html
@@ -86,7 +86,7 @@
   ==================================================================== -->
   <section class="ds-component">
     <h2 class="ds-label">Reveal-on-scroll — <code>.reveal</code></h2>
-    <p class="ds-label-sub">Opt-in fade+rise-in, applied to almost every top-level section block across both pages. Source (behaviour): index.html:751-768 and sponsors.html:348-358 (both include the safety-net timeout); CSS: site.css:613-614.</p>
+    <p class="ds-label-sub">Opt-in fade+rise-in, applied to almost every top-level section block across both pages. Source (behaviour): index.html:751-768 and sponsors.html:348-358 (both include the safety-net timeout); CSS: site.css:613-615.</p>
 
     <div class="ds-reveal-demo">
       <div class="section-head reveal">

@@ -38,8 +38,9 @@ component library to `import`. Lift markup, don't wire up a build step.
    signature card/image radius. `24px` (`--uxh-radius-xl`) is for modal
    cards, event features, offer cards, mail forms, tier cards. `28px`
    (`--uxh-radius-2xl`) is reserved for full-width dark panels (partner
-   section, donate, volunteer). Buttons are always full pill
-   (`--uxh-radius-pill`).
+   section, donate — a third, `.volunteer`, is fully styled at this radius
+   in site.css but has no live markup instance on either shipped page).
+   Buttons are always full pill (`--uxh-radius-pill`).
 3. **Cards get a hairline border OR `--uxh-shadow-md` — never both.**
 4. **Fonts: Work Sans everywhere, Lora only for quotes/callouts/numerals-in-editorial-moments.**
    Never introduce a third family. Headings always carry `-0.02em` tracking.
@@ -61,15 +62,17 @@ component library to `import`. Lift markup, don't wire up a build step.
    fade 220ms, scroll-reveal 400ms. No bounce, no dramatic entrances.
 8. **Breakpoints are literals, not tokens** (CSS custom properties can't be
    read inside `@media`) — see the documented list in `colors_and_type.css`.
-   Match the existing ones (`980`, `880`, `820`, `780`, `720`, `620`, `540`,
-   `520`, `480`) rather than inventing new breakpoints for a new component.
+   Match the existing ones (`980`, `900`, `880`, `820`, `780`, `720`, `700`,
+   `620`, `600`, `540`, `520`, `480`) rather than inventing new breakpoints for
+   a new component.
 
 ## Known gaps (don't silently "fix" these — flag instead)
 
 - `assets/logo-horizontal-seaturtle.svg` and `assets/logo-stacked-white.svg`
-  contain embedded bitmaps, not clean vectors (~19KB vs. ~4KB for the true-vector
-  bare mark). A clean Figma export from `/Guidelines/Logos` is still needed —
-  don't hand-redraw these.
+  used to be flagged here as containing embedded bitmaps rather than clean
+  vectors — they don't: both are plain `<path>`/`<rect>` vector geometry (no
+  `<image>` or base64 data), just detailed enough to land at ~19KB, vs. ~4KB
+  for the bare mark. No Figma re-export is needed after all.
 - No slide-deck template exists (the source Figma file has none).
 
 ## How to add a new page/section in this brand

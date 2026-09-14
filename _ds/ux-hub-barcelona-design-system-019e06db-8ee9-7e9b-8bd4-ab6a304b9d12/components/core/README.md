@@ -19,13 +19,13 @@ Pill CTA. Base class + one modifier per fill.
 
 | Variant | Rest | Hover | Selector | Found in |
 |---|---|---|---|---|
-| `primary` | `var(--site-accent)` bg, `var(--site-accent-fg)` text | `filter: brightness(0.95)` | `.btn.btn-primary` | site.css:105-107 |
-| `ghost` | transparent, `1px solid rgba(0,0,0,0.16)` | `rgba(42,153,160,0.08)` bg, seaturtle border+text | `.btn.btn-ghost` | site.css:108-109 |
-| `dark` | `var(--uxh-fg)` bg, white text | `var(--uxh-teal-night)` bg | `.btn.btn-dark` | site.css:110-111 — **no shipped instance**; the catalog's example is synthesized from this rule alone |
-| `onDark` | white bg, `var(--uxh-fg)` text | `var(--uxh-ceramic)` bg | `.btn.btn-on-dark` | site.css:112-113 |
+| `primary` | `var(--site-accent)` bg, `var(--site-accent-fg)` text | `filter: brightness(0.95)` | `.btn.btn-primary` | site.css:164-165 |
+| `ghost` | transparent, `1px solid rgba(0,0,0,0.16)` | `rgba(42,153,160,0.08)` bg, seaturtle border+text | `.btn.btn-ghost` | site.css:167-168 |
+| `dark` | `var(--uxh-fg)` bg, white text | `var(--uxh-teal-night)` bg | `.btn.btn-dark` | site.css:169-170 — mailing-form submit button (`index.html`, `#join-form .btn`) |
+| `onDark` | white bg, `var(--uxh-fg)` text | `var(--uxh-ceramic)` bg | `.btn.btn-on-dark` | site.css:171-172 |
 
 `--site-accent` / `--site-accent-fg` are themed per page via `html[data-accent="yolk\|purple\|lime\|teal"]`
-(site.css:11-15); both shipped pages set `data-accent="yolk"`.
+(site.css:12-15); both shipped pages set `data-accent="yolk"`.
 
 **Accessibility:** `min-height: 44px` is enforced site-wide via the combinator rule
 `.btn, .nav-cta, .join-cta, .drawer-cta, .mail-row button { min-height: 44px; }` (site.css:132) — meets

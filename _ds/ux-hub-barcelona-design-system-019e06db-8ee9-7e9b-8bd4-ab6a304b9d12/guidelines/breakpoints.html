@@ -27,21 +27,23 @@
   <header class="card-head">
     <p class="uxh-eyebrow">Foundations &middot; Layout</p>
     <h1>Breakpoints</h1>
-    <p class="card-desc">Documentation only &mdash; these are literal <code>@media</code> values in <code>site.css</code>, not custom properties (a media query can't read <code>var()</code>). Nine widths, each tied to one specific layout change.</p>
+    <p class="card-desc">Documentation only &mdash; these are literal <code>@media</code> values in <code>site.css</code>/<code>mobile-tweaks.css</code>/<code>sponsors.html</code>'s inline styles, not custom properties (a media query can't read <code>var()</code>). Twelve widths, each tied to one or more specific layout changes.</p>
   </header>
 
   <table>
     <tr><th>Width</th><th>What changes</th></tr>
     <tr><td>980px</td><td>Event / card grids collapse to a single column.</td></tr>
+    <tr><td>900px</td><td>Donate section collapses to one column; sponsors.html's hero grid, pricing tiers, and sponsor grid collapse the same way.</td></tr>
     <tr><td>880px</td><td>Nav collapses to the burger menu.</td></tr>
-    <tr><td>820px</td><td>Two-up layouts become one column.</td></tr>
-    <tr><td>780px</td><td>Footer grid stacks.</td></tr>
-    <tr><td>720px</td><td>Page wrap padding steps <code>32px &rarr; 20px</code>; <code>SectionHead</code> collapses to one column.</td></tr>
-    <tr><td>620px</td><td>Mobile chrome adjustments &mdash; nav drawer CTA, partner-card grid goes two-column.</td></tr>
-    <tr><td>600px</td><td>BackToTop shrinks to 44px; numeral motif steps to 72px.</td></tr>
-    <tr><td>540px</td><td>Modal padding steps down (<code>36px &rarr; 26px 22px</code>).</td></tr>
-    <tr><td>520px</td><td>Form rows stack (mailing form, donate form).</td></tr>
-    <tr><td>480px</td><td>Smallest-screen adjustments.</td></tr>
+    <tr><td>820px</td><td>Two-up layouts become one column (sponsors.html sponsor cards).</td></tr>
+    <tr><td>780px</td><td>Footer grid stacks; its vertical padding also tightens (<code>96px 0 40px &rarr; 56px 0 32px</code>) since the full desktop padding reads as needlessly tall once it's one column.</td></tr>
+    <tr><td>720px</td><td>Page wrap padding steps <code>32px &rarr; 20px</code>; <code>SectionHead</code> collapses to one column; section numerals step to 72px; event-feature body padding tightens.</td></tr>
+    <tr><td>700px</td><td>Hero collage hides entirely (<code>display:none</code>), replaced by the mobile image ticker &mdash; not a "keep one photo" fallback.</td></tr>
+    <tr><td>620px</td><td>Mobile chrome adjustments &mdash; the nav bar's own CTA hides (the drawer's <code>.drawer-cta</code> becomes the only way to reach it), each partner-card's own internal layout goes two-column (numeral + heading inline).</td></tr>
+    <tr><td>600px</td><td>BackToTop shrinks to 44px.</td></tr>
+    <tr><td>540px</td><td>Modal padding steps down (<code>36px &rarr; 26px 22px</code>); a modal option's tag pill hides.</td></tr>
+    <tr><td>520px</td><td>Mailing-form label/fineprint padding tightens; the donate-form info tooltip repositions so it doesn't overflow a narrow card.</td></tr>
+    <tr><td>480px</td><td>Smallest-screen adjustments &mdash; nav logo shrinks, about-stats stays two columns, the mailing form's first/last-name row stacks to one column, footer logo shrinks.</td></tr>
   </table>
 
   <p class="note">Author new responsive rules against these same widths rather than introducing new ones &mdash; the list above is already the site's full set.</p>
