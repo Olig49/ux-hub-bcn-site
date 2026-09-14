@@ -24,21 +24,26 @@ html[data-accent="teal"]   { --site-accent: var(--uxh-seaturtle); --site-accent-
 
 /* ------------- Header ------------- */
 .site-header { position: sticky; top: 14px; z-index: 50; margin: 14px 14px 0; }
-/* .nav-shell is the single rounded card — .nav (the top row) and .mobile-drawer
-   (the collapsible section) are both its children, sharing one background/
-   border/shadow, so opening the drawer reads as one shape expanding rather
-   than a second floating panel appearing below it. */
-.nav-shell { max-width: 1280px; margin: 0 auto; overflow: hidden;
+/* .nav-shell is the bar's own rounded card. .mobile-drawer (below) is
+   positioned absolutely against it rather than laid out in flow inside it —
+   an in-flow drawer grows this box's own height, which pushes whatever's
+   below the sticky header down the page every time the menu opens or
+   closes. Positioning it out of flow keeps the page underneath completely
+   still; matching background/border/radius and a zero-gap seam (see
+   .mobile-drawer below) is what keeps it reading as one continuous shape
+   instead of a second card appearing underneath. */
+.nav-shell { max-width: 1280px; margin: 0 auto; position: relative;
   background: rgba(255,255,255,0.82);
   backdrop-filter: blur(16px) saturate(140%); -webkit-backdrop-filter: blur(16px) saturate(140%);
   border: 1px solid rgba(0,0,0,0.06); border-radius: 999px;
   box-shadow: 0 8px 28px rgba(15,55,58,0.06);
   transition: border-radius var(--uxh-dur-nav) var(--uxh-ease);
 }
-/* Pill corners read fine at bar height; once the drawer opens the shell is much
-   taller, so the corners relax to a normal card radius instead of staying an
-   oversized pill-radius clamped down by the box's own height. */
-.nav-shell:has(.mobile-drawer.open) { border-radius: 28px; }
+/* The shell's own height never changes now (the drawer no longer lives
+   inside it), so its bottom corners just flatten to 0 while open — that's
+   what lines them up flush with the drawer's square top edge below, with
+   no rounded-corner gap between the two shapes. */
+.nav-shell:has(.mobile-drawer.open) { border-radius: 28px 28px 0 0; }
 .nav { display: flex; align-items: center; gap: 18px;
   padding: 10px 12px 10px 20px;
 }
@@ -81,15 +86,30 @@ html[data-accent="teal"]   { --site-accent: var(--uxh-seaturtle); --site-accent-
   .nav-cta { margin-left: auto; }
 }
 
-/* Mobile nav drawer — an in-flow collapsible section inside .nav-shell, right
-   below .nav, not a separately floating panel. Animating height directly
-   (e.g. max-height) either clips a tall list short or leaves dead space, so
-   this uses the grid-template-rows 0fr/1fr trick instead: the row itself
-   tweens from zero to content height. That only collapses all the way to 0
-   because .mobile-drawer-inner has overflow:hidden — a grid track's
-   automatic minimum size is content-based unless the item's overflow is
-   hidden, in which case it can shrink past that floor. */
-.mobile-drawer { display: grid; grid-template-rows: 0fr;
+/* Mobile nav drawer — an absolutely positioned overlay anchored to
+   .nav-shell (top:100%, flush against its bottom edge), not an in-flow
+   child of it. It used to be laid out in flow, which grew .nav-shell's own
+   box and pushed the page content below the header down on every open;
+   taking it out of flow means opening/closing only ever repaints this
+   overlay, the page underneath never moves. Same background/blur/border as
+   .nav-shell, no top border (the shell's own bottom border is the seam
+   between them), radius rounds only the bottom two corners — combined with
+   .nav-shell's top corners flattening while open (above), the two boxes
+   read as one continuous shape with a zero-gap seam, not two separate
+   cards. Height still animates via the grid-template-rows 0fr/1fr trick
+   (a plain max-height/height transition either clips a tall list short or
+   overshoots past its real content height): the row tweens from zero to
+   content height, and only collapses all the way to a true 0 because
+   .mobile-drawer-inner has overflow:hidden — a grid track's automatic
+   minimum size is content-based unless the item's own overflow isn't
+   visible, in which case it can shrink past that floor. */
+.mobile-drawer { position: absolute; top: 100%; left: 0; right: 0;
+  background: rgba(255,255,255,0.82);
+  backdrop-filter: blur(16px) saturate(140%); -webkit-backdrop-filter: blur(16px) saturate(140%);
+  border: 1px solid rgba(0,0,0,0.06); border-top: 0; border-radius: 0 0 28px 28px;
+  box-shadow: 0 8px 28px rgba(15,55,58,0.06);
+  overflow: hidden;
+  display: grid; grid-template-rows: 0fr;
   transition: grid-template-rows var(--uxh-dur-nav) var(--uxh-ease); }
 .mobile-drawer.open { grid-template-rows: 1fr; }
 .mobile-drawer[hidden] { display: none; }

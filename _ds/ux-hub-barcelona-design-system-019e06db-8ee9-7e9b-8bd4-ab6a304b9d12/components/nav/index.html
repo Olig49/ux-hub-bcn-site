@@ -25,6 +25,13 @@
      jumping to the viewport edge of this long catalog page. */
   .ds-frame { position: relative; background: var(--uxh-warm-white); border: 1px solid var(--uxh-line); border-radius: 16px; padding: 28px 14px 40px; overflow: hidden; }
   .ds-frame .site-header { position: static; margin: 0; }
+  /* .mobile-drawer is position:absolute in the real site.css now (see nav/README.md
+     — it no longer pushes page content when it opens), so it doesn't contribute to
+     this frame's height the way an in-flow element would. This variant, used only
+     for the "open" demo below, reserves enough room for it explicitly instead of
+     relying on auto-height, and drops overflow:hidden so the open drawer isn't
+     clipped by the frame's own bottom edge. */
+  .ds-frame--open { padding-bottom: 320px; overflow: visible; }
 </style>
 </head>
 <body class="ds-catalog">
@@ -39,7 +46,7 @@
   ==================================================================== -->
   <section class="ds-component">
     <h2 class="ds-label">NavBar — <code>.nav-shell</code> / <code>.nav</code> <span style="font-weight:500;color:var(--uxh-fg-2);">(closed)</span></h2>
-    <p class="ds-label-sub">Frosted-glass pill, sticky 14px from the top. Source: index.html:32-68. <code>.nav-shell</code> is the one rounded card — <code>.nav</code> (this row) and <code>.mobile-drawer</code> (below) are both its children, so opening the drawer grows this same shape instead of popping open a second panel.</p>
+    <p class="ds-label-sub">Frosted-glass pill, sticky 14px from the top. Source: index.html:32-68. <code>.mobile-drawer</code> is an absolutely positioned overlay anchored to <code>.nav-shell</code>, not laid out in flow inside it — opening it never changes this bar's own height or pushes the page below it down, while matching background/border/radius and a zero-gap seam still make it read as one continuous shape, not a second floating panel.</p>
 
     <div class="ds-frame">
       <header class="site-header" style="position:static;">
@@ -93,7 +100,7 @@
     <h2 class="ds-label">MobileDrawer — <code>.mobile-drawer</code> <span style="font-weight:500;color:var(--uxh-fg-2);">(open)</span></h2>
     <p class="ds-label-sub">The ≤880px navigation surface — the same <code>.nav-shell</code> as above, forced open (<code>aria-expanded="true"</code> on the burger, <code>.open</code> on the drawer, no <code>hidden</code> attribute) since the shipped default state is closed. Source: index.html:55-73.</p>
 
-    <div class="ds-frame">
+    <div class="ds-frame ds-frame--open">
       <header class="site-header" style="position:static;">
         <div class="nav-shell">
           <nav class="nav" aria-label="Primary">

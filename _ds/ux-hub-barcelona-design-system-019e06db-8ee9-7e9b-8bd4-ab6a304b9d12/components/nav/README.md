@@ -9,22 +9,22 @@ for the live-rendered catalog.
 
 - **Header wrapper** (`.site-header`): `position: sticky; top: 14px; z-index: 50;
   margin: 14px 14px 0` — just positioning, carries no visual styling of its own.
-- **Shell** (`.nav-shell`) — **the one rounded card.** `.nav` (the bar row) and `.mobile-drawer`
-  (the collapsible section) are both children of `.nav-shell`, not siblings each styled as their
-  own floating panel — so opening the drawer grows this one shape rather than popping a second
-  card open below it. `background: rgba(255,255,255,0.82)`, `backdrop-filter: blur(16px)
-  saturate(140%)`, `1px solid rgba(0,0,0,0.06)`, `box-shadow: 0 8px 28px rgba(15,55,58,0.06)`,
-  `max-width: 1280px`, `overflow: hidden` (required — it's what lets the drawer's height
-  actually collapse to 0, and what clips the shell to its rounded corners as it resizes).
-  `border-radius: 999px` (→ `var(--uxh-radius-pill)`) at rest; `28px` while
-  `.mobile-drawer.open` is present inside it (`.nav-shell:has(.mobile-drawer.open)`) — a
-  999px-radius pill reads fine at bar height, but the same radius on a much taller open shell
-  would just clamp to a near-circular corner on a tall box, so the corners relax to a normal
-  card radius instead. Transitions on `border-radius` alone, `var(--uxh-dur-nav)
-  var(--uxh-ease)` (360ms — its own token, deliberately slower than the 220ms
-  `--uxh-dur-overlay` used elsewhere, e.g. the event Modal: a full-menu open/close read as
-  rushed at 220ms in review, so the nav got its own, longer duration rather than everything on
-  that token slowing down with it), timed to match the drawer's own height transition below.
+- **Shell** (`.nav-shell`) — the bar's own rounded card, and the positioning anchor
+  `.mobile-drawer` overlays against (see MobileDrawer below for why the drawer is an absolutely
+  positioned sibling now, not a child laid out in flow inside it). `position: relative`
+  (required — it's `.mobile-drawer`'s `position: absolute` containing block), `background:
+  rgba(255,255,255,0.82)`, `backdrop-filter: blur(16px) saturate(140%)`, `1px solid
+  rgba(0,0,0,0.06)`, `box-shadow: 0 8px 28px rgba(15,55,58,0.06)`, `max-width: 1280px`.
+  `border-radius: 999px` (→ `var(--uxh-radius-pill)`) at rest; `28px 28px 0 0` while
+  `.mobile-drawer.open` exists inside it (`.nav-shell:has(.mobile-drawer.open)`) — the shell's
+  own height never changes (the drawer isn't inside its box any more), so this is purely about
+  flattening the bottom two corners to line up flush with the drawer's square top edge below,
+  not about a pill radius clamping down on a taller box the way it briefly did in an earlier
+  version. Transitions on `border-radius` alone, `var(--uxh-dur-nav) var(--uxh-ease)` (360ms —
+  its own token, deliberately slower than the 220ms `--uxh-dur-overlay` used elsewhere, e.g. the
+  event Modal: a full-menu open/close read as rushed at 220ms in review, so the nav got its own,
+  longer duration rather than everything on that token slowing down with it), timed to match the
+  drawer's own height transition below.
 - **Bar** (`.nav`): plain flex row inside the shell — `padding: 10px 12px 10px 20px`, `gap: 18px`.
   No background/border/radius of its own any more; that all moved to `.nav-shell` above.
 - **Links** (`.nav-link`): `padding: 9px 16px`, pill, `font: 500 14px/1`; hover →
@@ -85,12 +85,24 @@ added for it.
 
 ## MobileDrawer — `.mobile-drawer`
 
-- **It's a section of `.nav-shell`, not a floating panel.** Earlier this was
-  `position: fixed; inset: 70px 14px auto 14px` with its own background/border/radius/shadow —
-  a second card that appeared 14px below the nav bar with a visible gap between them, out of
-  step with a request for the nav to read as one component that expands, not two stacked ones.
-  It's now a normal in-flow child of `.nav-shell`, directly below `.nav`, with no background/
-  border/shadow of its own — it inherits the shell's.
+- **An absolutely positioned overlay anchored to `.nav-shell`, not a child laid out in flow
+  inside it.** This has moved twice. Originally `position: fixed; inset: 70px 14px auto 14px`
+  with its own background/border/radius/shadow — a second card that appeared 14px below the nav
+  bar with a visible gap, which read as two stacked panels rather than one component expanding.
+  That was fixed by making it a normal in-flow child of `.nav-shell`, sharing the shell's
+  background/border/shadow directly — which *did* read as one seamless shape, but growing in
+  flow also grew `.nav-shell`'s own box, which pushed every bit of page content below the sticky
+  header down the page on every open/close. Reported as a real regression ("content behind
+  should stay in place"), so it moved again: now `position: absolute; top: 100%; left: 0;
+  right: 0` against `.nav-shell` (which is why the shell needs `position: relative` — see
+  above), completely out of document flow, so opening/closing it never changes the shell's
+  height or moves anything below the header. It keeps its own matching `background`/
+  `backdrop-filter`/`border` (`border-top: 0` — the shell's own bottom border is the seam
+  between the two, so there's no doubled border line) and `border-radius: 0 0 28px 28px` (only
+  the bottom two corners — the top ones are square, flush against the shell's now-square bottom
+  corners while open). The result reads as the same one continuous shape as the in-flow version
+  did, just achieved by two separately positioned boxes with matching styling and a zero-gap
+  seam instead of one box that grows.
 - **Height animation** (`.mobile-drawer`): `display: grid; grid-template-rows: 0fr` (closed) →
   `1fr` (`.open`), `transition: grid-template-rows var(--uxh-dur-nav) var(--uxh-ease)`
   (360ms — see `.nav-shell` above for why this got its own, slower token instead of reusing
@@ -102,7 +114,11 @@ added for it.
   size is normally content-based (so `0fr` alone would still show the content's min-content
   height), but that automatic minimum drops to `0` once the grid item's own overflow isn't
   `visible` — the `overflow: hidden` on `.mobile-drawer-inner` is what makes `0fr` actually mean
-  zero, not a decoration.
+  zero, not a decoration. This part of the mechanism is unchanged by the move to
+  `position: absolute` — grid row sizing is computed from the grid container's own box
+  regardless of whether that box is in flow or positioned, so `0fr`/`1fr` still animate the same
+  way; only the *consequence* of the drawer's height changed (repaints an overlay instead of
+  reflowing the page).
 - **`[hidden]` still does real removal-from-layout** once the close transition finishes
   (`.mobile-drawer[hidden] { display: none; }`, same pattern as the Modal's `.modal-overlay` —
   see `overlay/README.md`) — same JS sequencing as before, just now toggling a grid row instead
