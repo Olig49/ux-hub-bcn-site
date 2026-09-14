@@ -87,6 +87,37 @@ font-size).
 
 ---
 
+## DonateFacts — `.donate-facts`
+
+The €-amount / impact-description list in `.donate-copy`, to the left of `.donate-card` on the
+dark Donate panel (not part of the card or form itself).
+
+- **Row** (`.donate-facts li`): `display: grid; grid-template-columns: 44px 1fr; align-items:
+  start; gap: 16px`. **Was** `display: flex; align-items: baseline` — baseline alignment pins
+  the amount to the *first line* of its description, which is invisible when every description
+  is one line but leaves the amount stranded near the top on a two-line row ("snacks for 4
+  tables of newcomers", "drinks for a third of the room at one meetup") with nothing next to the
+  wrapped second line — a real misalignment, not just a style nit. `align-items: start` on a
+  fixed-width grid column fixes it (the amount now aligns with the description block as a
+  whole, and every description starts at the exact same x regardless of how many digits the
+  amount has, which `min-width: 44px` on a flex item only approximated).
+- **Amount** (`.df-n`): `font: 700 22px/1`, `color: var(--uxh-yolk)`.
+- **Description** (`.df-l`): `font-size: 15px`, `line-height: 1.35` (tightened from the default
+  ~1.5 — a two-line description reads as one compact block instead of loosely spaced, which
+  matters more now that `align-items: start` makes the two-line rows visibly taller than the
+  one-line row).
+- **List gap:** `16px` between rows (was `12px` — bumped slightly since rows are no longer a
+  uniform height once alignment stopped hiding the one-line/two-line difference).
+
+**Selector/location:** `.donate-facts`, `.df-n`, `.df-l` — site.css, inside the `.donate-copy`
+block. **Found in:** index.html only (homepage's Donate section; sponsors.html has no Donate
+section).
+
+**Tokens to use:** none currently reference a design token (`22px`/`15px`/`16px` are bare
+literals) — no exact token match in the scale, left as-is rather than forcing a near-miss.
+
+---
+
 ## DonateForm — `.donate-card`
 
 - **Card:** `background: var(--uxh-warm-white)`, `border-radius: 20px` (→ `var(--uxh-radius-lg)`),

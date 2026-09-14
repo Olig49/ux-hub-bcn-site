@@ -466,10 +466,10 @@ html[data-accent="teal"]   { --site-accent: var(--uxh-seaturtle); --site-accent-
 .donate-copy h2 { font: 700 clamp(30px, 3.8vw, 46px)/1.08 var(--uxh-font-sans); letter-spacing: -0.025em; color: #fff; margin: 14px 0 16px; text-wrap: balance; }
 .donate-copy h2 em { font-family: var(--uxh-font-serif); font-style: italic; font-weight: 500; color: var(--uxh-yolk); }
 .donate-copy p { font-size: 16px; line-height: 1.6; color: rgba(255,255,255,0.82); margin: 0; max-width: 480px; }
-.donate-facts { list-style: none; margin: 26px 0 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
-.donate-facts li { display: flex; align-items: baseline; gap: 16px; }
-.donate-facts .df-n { flex: none; width: auto; min-width: 44px; font: 700 22px/1 var(--uxh-font-sans); letter-spacing: -0.02em; color: var(--uxh-yolk); }
-.donate-facts .df-l { font-size: 15px; color: rgba(255,255,255,0.82); }
+.donate-facts { list-style: none; margin: 26px 0 0; padding: 0; display: flex; flex-direction: column; gap: 16px; }
+.donate-facts li { display: grid; grid-template-columns: 44px 1fr; align-items: start; gap: 16px; }
+.donate-facts .df-n { font: 700 22px/1 var(--uxh-font-sans); letter-spacing: -0.02em; color: var(--uxh-yolk); }
+.donate-facts .df-l { font-size: 15px; line-height: 1.35; color: rgba(255,255,255,0.82); }
 
 .donate-card { background: var(--uxh-warm-white); border-radius: 20px; padding: 28px; box-shadow: var(--uxh-shadow-lg); }
 .dc-label { font: 500 12px/1 var(--uxh-font-sans); letter-spacing: 0.12em; text-transform: uppercase; color: var(--uxh-fg-2); margin: 0 0 14px; }

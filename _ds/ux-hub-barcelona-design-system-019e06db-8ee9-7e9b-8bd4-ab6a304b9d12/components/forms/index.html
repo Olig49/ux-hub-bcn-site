@@ -56,6 +56,29 @@
   </section>
 
   <!-- ===================================================================
+       DONATEFACTS — .donate-facts
+  ==================================================================== -->
+  <section class="ds-component">
+    <h2 class="ds-label">DonateFacts — <code>.donate-facts</code></h2>
+    <p class="ds-label-sub">The €-amount / impact list in <code>.donate-copy</code>, to the left of DonateForm on the same dark panel — not part of the card or form itself.</p>
+
+    <div class="ds-dark">
+      <ul class="donate-facts">
+        <li><span class="df-n">€15</span><span class="df-l">snacks for 4 tables of newcomers</span></li>
+        <li><span class="df-n">€25</span><span class="df-l">materials for three events</span></li>
+        <li><span class="df-n">€45</span><span class="df-l">drinks for a third of the room at one meetup</span></li>
+      </ul>
+    </div>
+    <p class="ds-note">Rows use a fixed-width grid column (<code>44px 1fr</code>) with
+      <code>align-items: start</code>, not a flex row with <code>align-items: baseline</code> —
+      baseline alignment pinned each amount to the first line of its description, which left it
+      stranded near the top on a two-line row like the first and third here, with nothing next
+      to the wrapped second line. Top-aligning against a fixed column fixes both the vertical
+      alignment and guarantees every description starts at the same x, regardless of how many
+      digits the amount has.</p>
+  </section>
+
+  <!-- ===================================================================
        DONATEFORM — .donate-card
   ==================================================================== -->
   <section class="ds-component">
