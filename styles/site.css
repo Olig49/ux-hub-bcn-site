@@ -442,11 +442,13 @@ html[data-accent="teal"]   { --site-accent: var(--uxh-seaturtle); --site-accent-
 .mailing p.lead { font-size: 17px; color: var(--uxh-fg-2); line-height: 1.55; margin: 0; max-width: 460px; }
 .mail-form { background: var(--uxh-soft-beige); border-radius: 24px; padding: 28px; margin-top: 11px; max-width: 635px; min-height: 205px; box-sizing: border-box; }
 .mail-form label { display: block; padding-left: 18px; font: 500 13px/1 var(--uxh-font-sans); color: var(--uxh-fg-2); letter-spacing: 0.04em; }
-.mail-row { display: flex; gap: 8px; margin: 14px 0 10px; align-items: center; background: #fff; border-radius: 999px; padding: 6px 6px 6px 18px; box-shadow: var(--uxh-shadow-sm); }
+.mail-row { display: flex; gap: 8px; margin: 14px 0 10px; align-items: center; background: #fff; border-radius: 999px; padding: 6px 6px 6px 18px; box-shadow: var(--uxh-shadow-sm); border: 1.5px solid transparent; transition: border-color 160ms; }
 .mail-row input { flex: 1; border: 0; outline: 0; padding: 12px 0; font: 500 15px/1 var(--uxh-font-sans); color: var(--uxh-fg); background: transparent; }
 .mail-row input::placeholder { color: var(--uxh-fg-3); }
 .mail-row button { padding: 12px 22px; border-radius: 999px; background: var(--uxh-fg); color: #fff; font: 600 14px/1 var(--uxh-font-sans); transition: background 160ms; }
 .mail-row button:hover { background: var(--uxh-teal-night); }
+.mail-row.has-error { border-color: #C0392B; }
+.mail-error { margin: 8px 0 0; padding: 0 18px; font: 500 13px/1.4 var(--uxh-font-sans); color: #C0392B; }
 .mail-form .tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
 .mail-form .tag { padding: 6px 12px; border-radius: 999px; background: #fff; border: 1px solid var(--uxh-line); font: 500 12px/1 var(--uxh-font-sans); color: var(--uxh-fg-2); }
 .mail-form .fineprint a { color: var(--uxh-teal-night); text-decoration: none; }

@@ -429,12 +429,13 @@
             <p class="lead">A lot is happening in our community. Stay up to date with our next free meetup, upcoming workshops or all the UX goodies that we share on a regular basis.</p>
           </div>
 
-          <form class="mail-form reveal" id="join-form" action="https://48db4b2d.sibforms.com/serve/MUIFALfB0bn_p1G9zS7yYICl8fr4aT-cjBYl7Ow1DKvi6gv1FzDSE3Dt9fmIH5k78PONlJNEn2S6UnpOuo_VNIeUd69dkI5RJ0kaw7TjtxPjtwYy8KKc80BkMTozTqyRXiKCcXK9G8y-NccOB4S1Ci0SPkuWLJ5BCVWC80yGZ9bhinpCpoBKNV5cyovr3wH4BWM1_lNTf8IsVTvO" method="post" target="_blank" rel="noopener">
+          <form class="mail-form reveal" id="join-form" action="https://48db4b2d.sibforms.com/serve/MUIFALfB0bn_p1G9zS7yYICl8fr4aT-cjBYl7Ow1DKvi6gv1FzDSE3Dt9fmIH5k78PONlJNEn2S6UnpOuo_VNIeUd69dkI5RJ0kaw7TjtxPjtwYy8KKc80BkMTozTqyRXiKCcXK9G8y-NccOB4S1Ci0SPkuWLJ5BCVWC80yGZ9bhinpCpoBKNV5cyovr3wH4BWM1_lNTf8IsVTvO" method="post" target="_blank" rel="noopener" novalidate>
             <label for="email">Your email</label>
-            <div class="mail-row">
-              <input id="email" name="EMAIL" type="email" autocomplete="email" placeholder="example@nevanscott.com" required />
+            <div class="mail-row" id="mail-row">
+              <input id="email" name="EMAIL" type="email" autocomplete="email" placeholder="example@nevanscott.com" required aria-describedby="mail-error" />
               <button type="submit">Sign up</button>
             </div>
+            <p class="mail-error" id="mail-error" hidden role="alert">Please enter a valid email address.</p>
             <p class="mail-ack" id="mail-ack" hidden role="status">Thanks. We&rsquo;ve opened a new tab, check your inbox to confirm your subscription.</p>
             <p class="fineprint">By subscribing you agree to our <a href="https://app.getterms.io/view/QJbom/privacy/en-us" target="_blank" rel="noopener">privacy policy</a>. Unsubscribing is one click. We use it for events, nothing else.</p>
           </form>
@@ -573,10 +574,33 @@
     });
 
     // Brevo posts to its own tab, so confirm on this page too.
-    document.getElementById('join-form')?.addEventListener('submit', () => {
+    (function () {
+      const form = document.getElementById('join-form');
+      const row = document.getElementById('mail-row');
+      const email = document.getElementById('email');
+      const error = document.getElementById('mail-error');
       const ack = document.getElementById('mail-ack');
-      if (ack) ack.hidden = false;
-    });
+      if (!form || !row || !email || !error) return;
+
+      function setInvalid(invalid) {
+        row.classList.toggle('has-error', invalid);
+        email.setAttribute('aria-invalid', String(invalid));
+        error.hidden = !invalid;
+      }
+
+      email.addEventListener('input', () => { if (row.classList.contains('has-error')) setInvalid(false); });
+
+      form.addEventListener('submit', (e) => {
+        if (!email.checkValidity()) {
+          e.preventDefault();
+          setInvalid(true);
+          email.focus();
+          return;
+        }
+        setInvalid(false);
+        if (ack) ack.hidden = false;
+      });
+    })();
 
     // Next-event modal
     const eventModal = document.getElementById('event-modal');
