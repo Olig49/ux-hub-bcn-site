@@ -25,9 +25,17 @@ live-rendered catalog.
   .img-ticker-track { animation: none; } }` — mobile-tweaks.css. This is the **only** animation
   family in the system gated by `prefers-reduced-motion` at the CSS level (contrast with the
   Eyebrow dot-pulse, which isn't — see `core/README.md`).
+- **Paused off-screen:** an `IntersectionObserver` in index.html (near the reveal-on-scroll
+  setup) toggles `.is-paused` on `.marquee` (and separately on `.img-ticker`, see below)
+  whenever the element isn't intersecting the viewport; `.marquee.is-paused .marquee-track {
+  animation-play-state: paused; }` stops the loop while it's scrolled past. Both an infinite
+  `linear` animation and battery on a phone are finite resources — there's no reason to keep
+  spending the second on motion nobody can see. Purely a performance measure: while the strip
+  is actually in view, nothing about its behaviour changes.
 
 **Selector/location:** `.marquee`, `.marquee-track`, `.marquee-item`, `@keyframes marquee` —
-site.css. **Found in:** index.html only — sponsors.html has no marquee.
+site.css; the `IntersectionObserver` — index.html, in an IIFE right after reveal-on-scroll.
+**Found in:** index.html only — sponsors.html has no marquee.
 
 **Accessibility:** the whole strip is `aria-hidden="true"` — it's treated as decorative ambient
 copy repeating things already said elsewhere on the page (free, drinks included, etc.), not as
@@ -51,15 +59,28 @@ is the only hero visual, scrolling through all three photos instead of showing o
 - **Band:** `overflow: hidden`, edge-fade via `mask-image: linear-gradient(to right,
   transparent, #000 28px, #000 calc(100% - 28px), transparent)` (plus the `-webkit-` prefix) —
   this is what gives items a soft fade in/out at the container edges instead of a hard clip.
+  `padding: 4px 0 32px` (bottom was `20px`, bumped for more air before the text Marquee directly
+  below it — two full-width strips scrolling back-to-back with no gap between them read as one
+  continuous "movement zone" rather than two distinct moments).
 - **Track** (`.img-ticker-track`): same `@keyframes marquee` as the text Marquee above, `gap:
-  14px`, `animation: marquee 32s linear infinite`. Markup duplicates all three photos once
-  (6 `<img>`s = 3 unique × 2) for the same seamless-loop reason as the text marquee.
+  14px`, `animation: marquee 32s linear infinite reverse`. Markup duplicates all three photos
+  once (6 `<img>`s = 3 unique × 2) for the same seamless-loop reason as the text marquee.
+  **`reverse`** is the only difference from the text Marquee's use of the same keyframe — the
+  text scrolls left, the photos scroll right, so the two strips don't read as everything on the
+  page drifting the same direction. `animation-direction: reverse` plays the same `0%→-50%`
+  keyframe backwards (starts at `-50%`, animates toward `0%`, loops back to `-50%`) rather than
+  needing a second, mirrored keyframe — the loop point is seamless for the same reason the
+  forward version is: `-50%` and `0%` are visually identical positions once the content is
+  duplicated, so where in that cycle playback starts doesn't matter.
 - **Cards:** `220×160px`, `object-fit: cover`, `border-radius: var(--uxh-radius-lg)`,
   `box-shadow: var(--uxh-shadow-sm)` — sized deliberately larger than a typical logo/chip ticker
   since these are the hero's primary photography, not a secondary decorative strip.
 - **Visibility:** `display: none` by default, `display: block` only at `≤700px` (the same
   breakpoint that hides the collage) — mobile-tweaks.css. Desktop is untouched; the collage still
   renders exactly as before there.
+- **Paused off-screen:** same `IntersectionObserver` as the text Marquee above (it observes both
+  `.marquee` and `.img-ticker` in one pass), toggling `.is-paused` → `animation-play-state:
+  paused` on `.img-ticker-track` whenever `.img-ticker` isn't intersecting the viewport.
 
 **Selector/location:** `.img-ticker`, `.img-ticker-track` — site.css; breakpoint + collage
 hand-off — mobile-tweaks.css. **Found in:** index.html only, between the hero section and the

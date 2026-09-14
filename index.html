@@ -767,6 +767,20 @@
       }), 1200);
     })();
 
+    // Pause the marquee/image-ticker loops while they're off-screen — they run
+    // forever otherwise, burning battery/CPU for motion nobody can see.
+    // prefers-reduced-motion already stops these animations outright
+    // (mobile-tweaks.css), so this only ever matters when they're running.
+    (function () {
+      if (!('IntersectionObserver' in window)) return;
+      const targets = document.querySelectorAll('.marquee, .img-ticker');
+      if (!targets.length) return;
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => e.target.classList.toggle('is-paused', !e.isIntersecting));
+      }, { threshold: 0 });
+      targets.forEach(el => io.observe(el));
+    })();
+
     // Donate form
     (function () {
       const amounts = document.getElementById('amounts');

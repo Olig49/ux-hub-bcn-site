@@ -248,13 +248,25 @@ html[data-accent="teal"]   { --site-accent: var(--uxh-seaturtle); --site-accent-
 .marquee-item em { font-family: var(--uxh-font-serif); font-style: italic; font-weight: 500; color: var(--uxh-ceramic); }
 
 /* Image ticker — mobile-only continuous-scroll strip, see mobile-tweaks.css
-   for the breakpoint that reveals it and the collage rule it complements. */
-.img-ticker { display: none; overflow: hidden; padding: 4px 0 20px;
+   for the breakpoint that reveals it and the collage rule it complements.
+   Extra bottom padding (was 20px) gives it clear air from the marquee band
+   directly below — two full-width strips scrolling back-to-back with no gap
+   read as one continuous "movement zone" instead of two distinct moments.
+   Scrolls right (reverse) while the text marquee below scrolls left, so the
+   two don't read as everything drifting the same way. */
+.img-ticker { display: none; overflow: hidden; padding: 4px 0 32px;
   -webkit-mask-image: linear-gradient(to right, transparent, #000 28px, #000 calc(100% - 28px), transparent);
   mask-image: linear-gradient(to right, transparent, #000 28px, #000 calc(100% - 28px), transparent); }
-.img-ticker-track { display: flex; gap: 14px; width: max-content; animation: marquee 32s linear infinite; }
+.img-ticker-track { display: flex; gap: 14px; width: max-content; animation: marquee 32s linear infinite reverse; }
 .img-ticker-track img { flex: none; width: 220px; height: 160px; object-fit: cover; border-radius: var(--uxh-radius-lg); box-shadow: var(--uxh-shadow-sm); }
 @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* Pause both loops while off-screen (toggled by an IntersectionObserver in
+   index.html) — they'd otherwise run forever, burning battery/CPU for
+   motion nobody can see. Purely a perf measure, no visual change while
+   either strip is actually in view. */
+.marquee.is-paused .marquee-track,
+.img-ticker.is-paused .img-ticker-track { animation-play-state: paused; }
 
 /* ------------- Section heading bar ------------- */
 .section { padding: 100px 0; }
