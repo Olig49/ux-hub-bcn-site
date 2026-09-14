@@ -206,8 +206,8 @@ html[data-accent="teal"]   { --site-accent: var(--uxh-seaturtle); --site-accent-
 .img-ticker { display: none; overflow: hidden; padding: 4px 0 20px;
   -webkit-mask-image: linear-gradient(to right, transparent, #000 28px, #000 calc(100% - 28px), transparent);
   mask-image: linear-gradient(to right, transparent, #000 28px, #000 calc(100% - 28px), transparent); }
-.img-ticker-track { display: flex; gap: 12px; width: max-content; animation: marquee 26s linear infinite; }
-.img-ticker-track img { flex: none; width: 148px; height: 110px; object-fit: cover; border-radius: var(--uxh-radius-lg); box-shadow: var(--uxh-shadow-sm); }
+.img-ticker-track { display: flex; gap: 14px; width: max-content; animation: marquee 32s linear infinite; }
+.img-ticker-track img { flex: none; width: 220px; height: 160px; object-fit: cover; border-radius: var(--uxh-radius-lg); box-shadow: var(--uxh-shadow-sm); }
 @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
 /* ------------- Section heading bar ------------- */

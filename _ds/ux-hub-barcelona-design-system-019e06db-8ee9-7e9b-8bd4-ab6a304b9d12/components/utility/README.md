@@ -1,7 +1,8 @@
 # Utility
 
-Three cross-cutting behaviours from design-system-extraction.md §4 ("Also worth adding"):
-**Marquee**, **BackToTop**, **Reveal-on-scroll**. Open [`index.html`](./index.html) for the
+Four cross-cutting behaviours: the three from design-system-extraction.md §4 ("Also worth
+adding") — **Marquee**, **BackToTop**, **Reveal-on-scroll** — plus **ImageTicker**, added later
+and specific to the homepage's mobile hero. Open [`index.html`](./index.html) for the
 live-rendered catalog.
 
 ---
@@ -11,29 +12,65 @@ live-rendered catalog.
 - **Band:** `background: var(--uxh-seaturtle)`, white text, `padding: 18px 0`, hairline top/bottom
   borders (`rgba(255,255,255,0.12)`), `overflow: hidden`.
 - **Track** (`.marquee-track`): `display: flex; gap: 56px; white-space: nowrap`,
-  `animation: marquee 28s linear infinite`. The keyframe (`@keyframes marquee`) only translates
+  `animation: marquee 22s linear infinite` (nudged down from an original 28s for a slightly
+  livelier pace). The keyframe (`@keyframes marquee`) only translates
   from `0` to `-50%` — this works because the **markup itself duplicates every item once**
   (12 spans = 6 unique items × 2), so at the `-50%` mark the track has scrolled exactly one full
   set of unique items and the loop point is seamless. This is a markup-level trick, not something
-  the CSS alone accomplishes — removing the duplicate spans would break the loop.
+  the CSS alone accomplishes — removing the duplicate spans would break the loop. The same
+  `@keyframes marquee` is reused by ImageTicker below, just with a different duration/gap.
 - **Item** (`.marquee-item`): `font: 500 18px/1`, `letter-spacing: -0.01em`; alternating items
   lead with a yolk-coloured `✦` (`.star`); each item ends in a Lora-italic `·` (`em`) in ceramic.
-- **Reduced motion:** `@media (prefers-reduced-motion: reduce) { .marquee-track { animation:
-  none; } }` — mobile-tweaks.css:15. This is the **only** animation in the system gated by
-  `prefers-reduced-motion` at the CSS level (contrast with the Eyebrow dot-pulse, which isn't —
-  see `core/README.md`).
+- **Reduced motion:** `@media (prefers-reduced-motion: reduce) { .marquee-track,
+  .img-ticker-track { animation: none; } }` — mobile-tweaks.css. This is the **only** animation
+  family in the system gated by `prefers-reduced-motion` at the CSS level (contrast with the
+  Eyebrow dot-pulse, which isn't — see `core/README.md`).
 
 **Selector/location:** `.marquee`, `.marquee-track`, `.marquee-item`, `@keyframes marquee` —
-site.css:183-190; reduced-motion override at mobile-tweaks.css:15. **Found in:**
-UX Hub Barcelona.html:101-117 only — sponsors.html has no marquee.
+site.css. **Found in:** index.html only — sponsors.html has no marquee.
 
 **Accessibility:** the whole strip is `aria-hidden="true"` — it's treated as decorative ambient
 copy repeating things already said elsewhere on the page (free, drinks included, etc.), not as
 unique content a screen reader user would need. This is the correct call *given* the content is
 purely repetitive; it would not be correct if the marquee were the only place some fact appeared.
 
-**Tokens to use:** `var(--uxh-dur-entry)` doesn't apply here (marquee has its own explicit 28s
+**Tokens to use:** `var(--uxh-dur-entry)` doesn't apply here (marquee has its own explicit 22s
 duration, unrelated to the 400ms entry-animation token); no radius/shadow involved.
+
+---
+
+## ImageTicker — `.img-ticker` (mobile-only, homepage only)
+
+Not from the original spec — added later to solve a specific problem: the hero's overlapping
+three-photo collage collapses to a single static lead photo below 700px (`.collage .p2, .p3`
+hidden), which silently dropped two of the three photos on mobile. First pass duplicated the
+lead photo (kept it large above *and* repeated it inside the ticker); the current version
+removes that duplication — **on mobile the whole `.collage` is `display: none`** and the ticker
+is the only hero visual, scrolling through all three photos instead of showing one twice.
+
+- **Band:** `overflow: hidden`, edge-fade via `mask-image: linear-gradient(to right,
+  transparent, #000 28px, #000 calc(100% - 28px), transparent)` (plus the `-webkit-` prefix) —
+  this is what gives items a soft fade in/out at the container edges instead of a hard clip.
+- **Track** (`.img-ticker-track`): same `@keyframes marquee` as the text Marquee above, `gap:
+  14px`, `animation: marquee 32s linear infinite`. Markup duplicates all three photos once
+  (6 `<img>`s = 3 unique × 2) for the same seamless-loop reason as the text marquee.
+- **Cards:** `220×160px`, `object-fit: cover`, `border-radius: var(--uxh-radius-lg)`,
+  `box-shadow: var(--uxh-shadow-sm)` — sized deliberately larger than a typical logo/chip ticker
+  since these are the hero's primary photography, not a secondary decorative strip.
+- **Visibility:** `display: none` by default, `display: block` only at `≤700px` (the same
+  breakpoint that hides the collage) — mobile-tweaks.css. Desktop is untouched; the collage still
+  renders exactly as before there.
+
+**Selector/location:** `.img-ticker`, `.img-ticker-track` — site.css; breakpoint + collage
+hand-off — mobile-tweaks.css. **Found in:** index.html only, between the hero section and the
+text Marquee. Not present on sponsors.html (no hero collage there to replace).
+
+**Accessibility:** `aria-hidden="true"` on the container, `alt=""` on every image — same
+reasoning as the text Marquee: this is a duplicate/decorative echo of photography whose real,
+accessible alt text lives once (on the collage's images, on desktop). It's never the *only*
+place these photos appear with real alt text.
+
+**Tokens to use:** `var(--uxh-radius-lg)`, `var(--uxh-shadow-sm)`.
 
 ---
 

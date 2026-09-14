@@ -25,12 +25,11 @@
 .freq-btn { padding-top: 16px; padding-bottom: 16px; }
 
 @media (max-width: 700px) {
-  /* Three overlapping photos get cramped on a phone — lead with one, and
-     keep the other two visible via the scrolling ticker below instead. */
-  .collage { aspect-ratio: auto; max-width: none; }
-  .collage .ph { position: static; }
-  .collage .p2, .collage .p3, .collage .blob { display: none; }
-  .collage .p1 { width: 100%; aspect-ratio: 4/3; }
+  /* Three overlapping photos get cramped on a phone, and a single static
+     lead photo duplicated the same image the ticker already scrolls
+     through — so on mobile the collage is replaced entirely by the ticker
+     rather than showing one photo twice. */
+  .collage { display: none; }
   .img-ticker { display: block; }
 }
 
