@@ -23,7 +23,6 @@
 .team-card .socials { gap: 2px; margin-left: -8px; }
 .fb-line-1 .fb-link { display: inline-block; padding: 12px 0; }
 .freq-btn { padding-top: 16px; padding-bottom: 16px; }
-.mail-row input { padding-top: 16px; padding-bottom: 16px; }
 
 @media (max-width: 700px) {
   /* Three overlapping photos get cramped on a phone — lead with one, and
@@ -44,9 +43,6 @@
 }
 
 @media (max-width: 520px) {
-  /* Each mail-row now wraps a single input (button lives outside it), so the
-     pill shape holds fine at any width — just tighten the side inset. */
-  .mail-row { padding: 6px 14px; }
   .mail-form label,
   .mail-form .fineprint,
   .mail-ack { padding-left: 4px; padding-right: 4px; }

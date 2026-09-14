@@ -456,28 +456,32 @@ html[data-accent="teal"]   { --site-accent: var(--uxh-seaturtle); --site-accent-
 .mailing h2 em { font-family: var(--uxh-font-serif); font-style: italic; font-weight: 500; color: var(--uxh-seaturtle); }
 .mailing p.lead { font-size: 17px; color: var(--uxh-fg-2); line-height: 1.55; margin: 0; max-width: 460px; }
 .mail-form { background: var(--uxh-soft-beige); border-radius: 24px; padding: 28px; margin-top: 11px; max-width: 460px; box-sizing: border-box; }
-.mail-form label { display: block; padding-left: 18px; font: 500 13px/1 var(--uxh-font-sans); color: var(--uxh-fg-2); letter-spacing: 0.04em; }
+.mail-form label { display: block; padding-left: 14px; font: 500 13px/1 var(--uxh-font-sans); color: var(--uxh-fg-2); letter-spacing: 0.04em; }
 .mail-field { margin: 0 0 14px; }
 .mail-field-group { display: flex; gap: 12px; }
 .mail-field-group .mail-field { flex: 1; min-width: 0; }
 @media (max-width: 480px) { .mail-field-group { flex-direction: column; gap: 0; } }
-.mail-row { display: flex; gap: 8px; margin: 8px 0 0; align-items: center; background: #fff; border-radius: 999px; padding: 6px 18px; box-shadow: var(--uxh-shadow-sm); border: 1.5px solid transparent; transition: border-color 160ms; }
-.mail-row input { width: 100%; border: 0; outline: 0; padding: 12px 0; font: 500 15px/1 var(--uxh-font-sans); color: var(--uxh-fg); background: transparent; }
+/* Same treatment as the donate form's .custom-row: radius-md + a visible
+   line-strong border, not a pill — a form field should read as "a field",
+   not compete with the pill-shaped submit button below it. */
+.mail-row { display: flex; gap: 8px; margin: 8px 0 0; align-items: center; background: #fff; border-radius: var(--uxh-radius-md); padding: 0 14px; border: 1px solid var(--uxh-line-strong); transition: border-color 160ms; }
+.mail-row:focus-within { border-color: var(--uxh-seaturtle); }
+.mail-row input { width: 100%; border: 0; outline: 0; padding: 13px 0; font: 500 16px/1 var(--uxh-font-sans); color: var(--uxh-fg); background: transparent; }
 .mail-row input::placeholder { color: var(--uxh-fg-3); }
 .mail-row.has-error { border-color: #C0392B; }
-.mail-error { margin: 6px 0 0; padding: 0 18px; font: 500 13px/1.4 var(--uxh-font-sans); color: #C0392B; }
-.mail-optin { display: flex; align-items: flex-start; gap: 10px; margin: 18px 0 0; padding: 0 18px; font: 400 13px/1.5 var(--uxh-font-sans); color: var(--uxh-fg); cursor: pointer; }
+.mail-error { margin: 6px 0 0; padding: 0 14px; font: 500 13px/1.4 var(--uxh-font-sans); color: #C0392B; }
+.mail-optin { display: flex; align-items: flex-start; gap: 10px; margin: 18px 0 0; padding: 0 14px; font: 400 13px/1.5 var(--uxh-font-sans); color: var(--uxh-fg); cursor: pointer; }
 .mail-optin input[type="checkbox"] { flex: none; width: 20px; height: 20px; margin-top: 1px; accent-color: var(--uxh-seaturtle); }
 .mail-optin a { color: var(--uxh-teal-night); }
 .mail-optin.has-error span { color: #C0392B; }
 .mail-optin.has-error input[type="checkbox"] { outline: 2px solid #C0392B; outline-offset: 2px; }
-.mail-form .btn { margin: 18px 18px 0; }
+.mail-form .btn { margin: 18px 14px 0; }
 .mail-hp { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
 .mail-form .tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
 .mail-form .tag { padding: 6px 12px; border-radius: 999px; background: #fff; border: 1px solid var(--uxh-line); font: 500 12px/1 var(--uxh-font-sans); color: var(--uxh-fg-2); }
 .mail-form .fineprint a { color: var(--uxh-teal-night); text-decoration: none; }
 .mail-form .fineprint a:hover, .mail-form .fineprint a:focus-visible { text-decoration: underline; text-underline-offset: 3px; }
-.mail-ack { margin: 14px 0 0; padding: 0 18px; font: 500 13px/1.45 var(--uxh-font-sans); color: var(--uxh-teal-night); }
+.mail-ack { margin: 14px 0 0; padding: 0 14px; font: 500 13px/1.45 var(--uxh-font-sans); color: var(--uxh-teal-night); }
 .mail-form .fineprint { font-size: 12px; color: var(--uxh-fg-2); line-height: 1.45; margin: 14px 0 0; padding: 0 18px; }
 
 /* ------------- Footer ------------- */
