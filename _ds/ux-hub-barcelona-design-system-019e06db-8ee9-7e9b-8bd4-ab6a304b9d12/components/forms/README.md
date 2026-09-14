@@ -12,8 +12,11 @@ Rebuilt since the spec was first written: the Brevo list behind this form actual
 (`OPT_IN`) — not just email. The form now collects all six.
 
 - **Card:** `background: var(--uxh-soft-beige)`, `border-radius: 24px` (→ `var(--uxh-radius-xl)`),
-  `padding: 28px`, `max-width: 460px`, `box-sizing: border-box`. (No more fixed `min-height` —
-  content naturally determines height now that there are five fields instead of one.)
+  `padding: 28px`, `box-sizing: border-box`. (No more fixed `min-height` — content naturally
+  determines height now that there are five fields instead of one.) **No `max-width` any more
+  either** — it used to be capped at `460px`, a leftover from the single-email-field version, which
+  left unused whitespace once the card grew to five fields tall inside its `.mailing` grid column.
+  The card now fills its column the same way DonateForm's card fills its own (see below).
 - **Fields** (`.mail-field`, grouped two-up for first/last name via `.mail-field-group`): each
   is a `<label>` + a `.mail-row` + an optional `.mail-error`. **Label:** `padding-left: 14px`,
   `font: 500 13px/1`, `color: var(--uxh-fg-2)`, `letter-spacing: 0.04em`.
@@ -49,6 +52,14 @@ Rebuilt since the spec was first written: the Brevo list behind this form actual
 
 **Selector/location:** `.mail-form` and all descendants — site.css. **Found in:** index.html
 (homepage-only; sponsors.html has no mailing form).
+
+**Parent grid** (`.mailing`): `display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 60px;
+align-items: center;` — matches the Donate section's grid immediately above it
+(`.donate { grid-template-columns: 1.05fr 0.95fr; align-items: center; }`) so both sections read
+as the same layout pattern up and down the page. This used to be `align-items: start`, which
+looked fine with the old one-field form but left the copy column pinned to the top once the card
+grew taller than it — a real inconsistency with the section right above, not a deliberate
+variation. Collapses to a single column at ≤980px, same breakpoint as `.donate`'s at ≤900px.
 
 **Why it posts to a new tab:** the form's real `action` targets Brevo (`sibforms.com`) with
 `method="post" target="_blank" rel="noopener"` — Brevo's endpoint doesn't support CORS for a
