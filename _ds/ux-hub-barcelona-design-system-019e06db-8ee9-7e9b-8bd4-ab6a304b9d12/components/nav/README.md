@@ -159,7 +159,13 @@ tokens of its own any more — see `.nav-shell` above for those.
   `margin-top: 40px`; reduced to `padding: 56px 0 32px` at ≤780px (the same breakpoint
   `.footer-top` already stacks to one column at) since the full desktop padding reads as
   needlessly tall once the two-column layout collapses.
-- **Top grid** (`.footer-top`): `1fr auto`, `gap: 60px`, stacks to one column ≤780px.
+- **Top grid** (`.footer-top`): `1fr auto`, `gap: 60px`, stacks to one column ≤780px, **centred**
+  at that breakpoint (`text-align: center` on `.footer-top`, plus `margin: 0 auto` on
+  `.footer-brand` and `.mission-body` since a max-width block doesn't centre from `text-align`
+  alone, and `align-items: center` on the `.footer-nav` flex column so each link — sized to its
+  own text via `width: fit-content` — centres individually rather than stretching full-width and
+  left-aligning). Was left-aligned at this breakpoint; centred per a request that mobile footer
+  content shouldn't read as left-aligned once it's a single stacked column.
 - **Brand block:** logo (`.footer-logo svg`/`img`, `220px` wide, `168px` at ≤480px), mission
   copy: lead `font: 700 18px/1.4`, body `font: 400 16px/1.5` at `rgba(255,255,255,0.82)`.
 - **Nav column** (`.footer-nav`): heading `font: 700 16px/1`; links `font: 400 16px/1.3` at
@@ -168,16 +174,25 @@ tokens of its own any more — see `.nav-shell` above for those.
   text-decoration-color: rgba(255,255,255,0.45)` — a **non-colour affordance**, exactly what the
   spec calls for so the current page isn't marked by hover-colour alone.
 - **Bottom row** (`.footer-bottom`): legal line + socials, `border-top: 1px solid
-  rgba(255,255,255,0.22)`, `margin-top: 72px`, stacks ≤780px. Legal links (`.fb-link`) are
-  `text-decoration: underline` by default on the homepage — **also** a non-colour affordance,
-  distinct from `aria-current`'s underline (this one just says "this is a link", not "this is the
-  current page").
+  rgba(255,255,255,0.22)`, `margin-top: 72px`, stacks ≤780px, **centred** at that breakpoint too
+  (`align-items: center; text-align: center` on `.footer-bottom`, `align-items: center` on
+  `.fb-legal` so the legal line/address/ID shrink-to-fit and centre as a block instead of
+  stretching full-width, `justify-content: center` on `.fb-line-1` for its own wrapped row of
+  links). Legal links (`.fb-link`) are `text-decoration: underline` by default on the homepage —
+  **also** a non-colour affordance, distinct from `aria-current`'s underline (this one just says
+  "this is a link", not "this is the current page").
 - **Socials** (`.fb-socials a`): `34px` circle in site.css, `radius: 8px`,
   `rgba(255,255,255,0.10)` bg, hover → white bg + teal-night icon. **`mobile-tweaks.css:19`
   overrides this to `min-width/min-height: 44px` unconditionally** (not inside any `@media`
   block, so it applies at every viewport despite the file's name) — same "spec calls for 44px,
   mobile-tweaks.css already delivers it everywhere" pattern as the team-card socials in
-  `cards/README.md`.
+  `cards/README.md`. **Why centring here specifically mattered:** left-aligned, `.fb-socials` sat
+  flush in the bottom-left corner of the footer — the same corner a third-party cookie-consent
+  widget (gettermscmp.com, its blocker/widget scripts loaded in `<head>`) anchors its own
+  floating settings button in. That widget is outside this codebase's control (no CSS hook is
+  documented for repositioning it), so centring the icons moves them out of that corner instead —
+  a layout fix that happens to resolve a real-world visual collision, not purely a style
+  preference.
 
 **Selector/location:** `.site-footer` and all `.footer-*`/`.fb-*` descendants — site.css:452-481.
 **Found in:** index.html:445-484; sponsors.html:286-323 (identical structure, its own

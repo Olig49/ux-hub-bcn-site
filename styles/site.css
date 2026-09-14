@@ -519,10 +519,19 @@ html[data-accent="teal"]   { --site-accent: var(--uxh-seaturtle); --site-accent-
 .site-footer { background: var(--uxh-teal-night); color: #fff; padding: 96px 0 40px; margin-top: 40px; }
 .footer-top { display: grid; grid-template-columns: 1fr auto; gap: 60px; align-items: start; }
 @media (max-width: 780px) {
-  .footer-top { grid-template-columns: 1fr; gap: 44px; }
+  /* Centered, not left-aligned, once the two columns stack — left-aligned
+     content also used to put the social icons flush in the bottom-left
+     corner, the same corner a third-party cookie-consent widget
+     (gettermscmp.com, injected in <head>) anchors its own floating button
+     in, so the two overlapped. Centering the whole footer moves the icons
+     away from that corner as a side effect, not just a style preference. */
+  .footer-top { grid-template-columns: 1fr; gap: 44px; text-align: center; }
   /* 96px top padding was tuned for the two-column desktop layout; once it
      stacks to one column the section reads as needlessly tall. */
   .site-footer { padding: 56px 0 32px; }
+  .footer-brand { margin: 0 auto; }
+  .footer-mission .mission-body { margin: 0 auto; }
+  .footer-nav { align-items: center; }
 }
 
 .footer-brand { max-width: 460px; }
@@ -550,7 +559,11 @@ html[data-accent="teal"]   { --site-accent: var(--uxh-seaturtle); --site-accent-
 .fb-socials a { width: 34px; height: 34px; border-radius: 8px; background: rgba(255,255,255,0.10); display: grid; place-items: center; color: #fff; transition: background 160ms, color 160ms; }
 .fb-socials a:hover { background: #fff; color: var(--uxh-teal-night); }
 .fb-socials svg { width: 18px; height: 18px; }
-@media (max-width: 780px) { .footer-bottom { flex-direction: column; align-items: flex-start; } }
+@media (max-width: 780px) {
+  .footer-bottom { flex-direction: column; align-items: center; text-align: center; }
+  .fb-legal { align-items: center; }
+  .fb-line-1 { justify-content: center; }
+}
 
 .donate-hint { font: 400 13px/1.45 var(--uxh-font-sans); color: var(--uxh-fg-2); margin: 0 0 14px; max-width: 42ch; }
 
