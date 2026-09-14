@@ -69,14 +69,8 @@
           <button type="button" role="radio" aria-checked="false" class="amount" data-amount="15">€15</button>
           <button type="button" role="radio" aria-checked="true" class="amount is-active" data-amount="25">€25</button>
           <button type="button" role="radio" aria-checked="false" class="amount" data-amount="45">€45</button>
+          <button type="button" role="radio" aria-checked="false" class="amount" data-amount="any">Any amount</button>
         </div>
-        <label class="dc-custom" for="ds-custom-amount">
-          <span>Or a custom amount</span>
-          <div class="custom-row">
-            <span class="cur">€</span>
-            <input type="number" id="ds-custom-amount" min="1" step="1" inputmode="numeric" placeholder="Custom" />
-          </div>
-        </label>
         <div class="freq" role="radiogroup" aria-label="Frequency">
           <button type="button" role="radio" aria-checked="false" class="freq-btn" data-freq="once">One-time</button>
           <button type="button" role="radio" aria-checked="true" class="freq-btn is-active" data-freq="monthly">Monthly</button>
@@ -88,11 +82,14 @@
         <p class="dc-fine">You&rsquo;ll be taken to Stripe for secure one-off or recurring payment.<button type="button" class="dc-info" aria-label="More about donations" data-tip="We&rsquo;re a registered non-profit, ID G-75534479. Donations may be tax-deductible in Spain.">&#9432;</button></p>
       </form>
     </div>
-    <p class="ds-note">Amount chips and frequency pills are populated/kept in sync by inline JS
-      (UX Hub Barcelona.html:644-716), which also maps the selection to one of six pre-built Stripe
-      Payment Links (three amounts × two frequencies) or a fallback any-amount link for custom
-      values. Hover the info icon (or focus it) to see the fine-print tooltip driven by
-      <code>data-tip</code> + <code>::after</code> (site.css:425-431).</p>
+    <p class="ds-note">Amount chips and frequency pills are populated/kept in sync by inline JS in
+      index.html, which maps the selection to one of six pre-built Stripe Payment Links (three
+      amounts × two frequencies) or, for the "Any amount" chip, opens Stripe's own
+      customer-enters-amount page directly. There used to be a fifth option here — a free-text
+      "custom amount" input — but it asked visitors to type an amount twice (once on this page,
+      once again on Stripe's, since Payment Links can't accept a pre-filled custom price via URL)
+      so it was replaced by this plain chip instead. Hover the info icon (or focus it) to see the
+      fine-print tooltip driven by <code>data-tip</code> + <code>::after</code>.</p>
   </section>
 
 </body>

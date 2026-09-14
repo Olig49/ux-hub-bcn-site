@@ -432,12 +432,6 @@ html[data-accent="teal"]   { --site-accent: var(--uxh-seaturtle); --site-accent-
   font: 600 17px/1 var(--uxh-font-sans); color: var(--uxh-fg); transition: border-color 160ms, background 160ms, color 160ms; }
 .amount:hover { border-color: var(--uxh-seaturtle); }
 .amount.is-active { background: var(--uxh-seaturtle); border-color: var(--uxh-seaturtle); color: #fff; }
-.dc-custom { display: block; margin-top: 14px; }
-.dc-custom > span { font: 500 12px/1 var(--uxh-font-sans); letter-spacing: 0.12em; text-transform: uppercase; color: var(--uxh-fg-2); }
-.custom-row { display: flex; align-items: center; gap: 6px; margin-top: 8px; background: #fff; border: 1px solid var(--uxh-line-strong); border-radius: 12px; padding: 0 14px; transition: border-color 160ms; }
-.custom-row:focus-within { border-color: var(--uxh-seaturtle); }
-.custom-row .cur { font: 600 16px/1 var(--uxh-font-sans); color: var(--uxh-fg-2); }
-.custom-row input { flex: 1; border: 0; outline: 0; background: transparent; padding: 13px 0; font: 500 16px/1 var(--uxh-font-sans); color: var(--uxh-fg); }
 .freq { display: inline-flex; gap: 4px; margin-top: 16px; background: var(--uxh-warm-white); border: 1px solid var(--uxh-line); padding: 4px; border-radius: 999px; }
 .freq-btn { padding: 9px 18px; border-radius: 999px; font: 500 13px/1 var(--uxh-font-sans); color: var(--uxh-fg-2); transition: background 160ms, color 160ms; }
 .freq-btn.is-active { background: var(--uxh-fg); color: #fff; }
@@ -461,9 +455,10 @@ html[data-accent="teal"]   { --site-accent: var(--uxh-seaturtle); --site-accent-
 .mail-field-group { display: flex; gap: 12px; }
 .mail-field-group .mail-field { flex: 1; min-width: 0; }
 @media (max-width: 480px) { .mail-field-group { flex-direction: column; gap: 0; } }
-/* Same treatment as the donate form's .custom-row: radius-md + a visible
-   line-strong border, not a pill — a form field should read as "a field",
-   not compete with the pill-shaped submit button below it. */
+/* radius-md + a visible line-strong border, not a pill — a form field should
+   read as "a field", not compete with the pill-shaped submit button below
+   it (this matches the donate form's amount chips, which use the same
+   radius-md + line-strong treatment). */
 .mail-row { display: flex; gap: 8px; margin: 8px 0 0; align-items: center; background: #fff; border-radius: var(--uxh-radius-md); padding: 0 14px; border: 1px solid var(--uxh-line-strong); transition: border-color 160ms; }
 .mail-row:focus-within { border-color: var(--uxh-seaturtle); }
 .mail-row input { width: 100%; border: 0; outline: 0; padding: 13px 0; font: 500 16px/1 var(--uxh-font-sans); color: var(--uxh-fg); background: transparent; }

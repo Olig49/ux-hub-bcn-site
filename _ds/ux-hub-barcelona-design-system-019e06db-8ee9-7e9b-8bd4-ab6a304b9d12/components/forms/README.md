@@ -17,14 +17,14 @@ Rebuilt since the spec was first written: the Brevo list behind this form actual
 - **Fields** (`.mail-field`, grouped two-up for first/last name via `.mail-field-group`): each
   is a `<label>` + a `.mail-row` + an optional `.mail-error`. **Label:** `padding-left: 14px`,
   `font: 500 13px/1`, `color: var(--uxh-fg-2)`, `letter-spacing: 0.04em`.
-- **Row** (`.mail-row`) — **intentionally matches DonateForm's `.custom-row` exactly, not a
-  pill:** `border-radius: 12px` (→ `var(--uxh-radius-md)`), `border: 1px solid
-  var(--uxh-line-strong)`, `padding: 0 14px`, white background, `:focus-within` → seaturtle
-  border. Input: `padding: 13px 0`, `font: 500 16px/1` (16px directly, not the old 15px+mobile-
-  override split — avoids the iOS zoom-on-focus problem without needing a separate rule). This
-  was a real inconsistency until it was fixed: the row used to be a `999px` pill with a
-  shadow instead of a border, the only field-like element on the page styled that way while
-  every other input (DonateForm's amount chips and custom-amount field) used radius-md +
+- **Row** (`.mail-row`) — **intentionally matches DonateForm's field treatment, not a pill:**
+  `border-radius: 12px` (→ `var(--uxh-radius-md)`), `border: 1px solid var(--uxh-line-strong)`,
+  `padding: 0 14px`, white background, `:focus-within` → seaturtle border. Input: `padding: 13px
+  0`, `font: 500 16px/1` (16px directly, not the old 15px+mobile-override split — avoids the iOS
+  zoom-on-focus problem without needing a separate rule). This was a real inconsistency until it
+  was fixed: the row used to be a `999px` pill with a shadow instead of a border, the only
+  field-like element on the page styled that way while every other input (DonateForm's amount
+  chips, and its now-removed custom-amount field — see DonateForm below) used radius-md +
   line-strong border. See "Field radius vs. button radius" below for why buttons stay pill-shaped
   while this didn't.
 - **Error state** (`.mail-row.has-error` / `.mail-error`): added along with the Brevo rebuild —
@@ -63,12 +63,12 @@ otherwise disorient the layout after typing.
 
 **Field radius vs. button radius — not an inconsistency:** the brand's own rule (README.md,
 "Layout, shapes, motifs") is explicit that buttons go full pill while everything else scales
-from 8–28px. DonateForm already ships this exact split — `.amount` chips and `.custom-row` at
-`radius-md` (12px) sitting directly above a `.btn.btn-primary.donate-submit` pill — with no
-reported issue, which is why MailingForm's row was the actual outlier to fix, not evidence that
-pill buttons next to non-pill fields is wrong. The pill exists specifically to make buttons read
-as "tap this to act," distinct from "type into this" — mixing the two on the same control would
-blur that signal, not sharpen it.
+from 8–28px. DonateForm already ships this exact split — `.amount` chips at `radius-md` (12px)
+sitting directly above a `.btn.btn-primary.donate-submit` pill — with no reported issue, which is
+why MailingForm's row was the actual outlier to fix, not evidence that pill buttons next to
+non-pill fields is wrong. The pill exists specifically to make buttons read as "tap this to act,"
+distinct from "type into this" — mixing the two on the same control would blur that signal, not
+sharpen it.
 
 **Tokens to use:** `var(--uxh-radius-xl)` (card), `var(--uxh-radius-md)` (rows — matches
 DonateForm), `var(--uxh-line-strong)` (row border), `var(--uxh-input-font)` (16px input
@@ -83,27 +83,40 @@ font-size).
   panel, this card is the one light surface in the section.
 - **Amount chips** (`.amount`): `flex: 1 1 60px`, `padding: 14px 0`, `border-radius: 12px` (→
   `var(--uxh-radius-md)`), `1px solid var(--uxh-line-strong)`, `font: 600 17px/1`. Active state
-  (`.is-active`): seaturtle fill, white text, matching border colour.
+  (`.is-active`): seaturtle fill, white text, matching border colour. **Four chips, not three:**
+  `€15` / `€25` / `€45` / `Any amount` — all rendered by the same `renderChips()`, no separate
+  markup or styling for the fourth one.
+- **"Any amount" — a chip, not a text field.** This replaced an earlier `<input type="number">`
+  design (`.custom-row`, now removed) that asked the visitor to type an amount on this page
+  *and then again* on Stripe's own page — Stripe Payment Links can't accept a pre-filled custom
+  price via URL (a real, confirmed Stripe limitation, not a bug in this codebase), so the typed
+  value here was never actually reaching checkout. The "Any amount" chip sets no local number at
+  all — clicking it just opens Stripe's own customer-enters-amount page
+  (`STRIPE_DONATE_ANY`), where the amount is typed exactly once, in the right place.
 - **Frequency** (`.freq`): pill group container, `background: var(--uxh-warm-white)`,
   `1px solid var(--uxh-line)`, `padding: 4px`, `border-radius: 999px`. Active pill
-  (`.freq-btn.is-active`): `background: var(--uxh-fg)`, white text.
+  (`.freq-btn.is-active`): `background: var(--uxh-fg)`, white text. Switching frequency snaps
+  `amount` back to a valid preset only if the current selection isn't offered under the new
+  frequency — `Any amount` is valid under both, so it survives a frequency switch unchanged.
 - **Both groups need, and both have:** `role="radiogroup"` on the container + `role="radio"` on
-  each button + `aria-checked` kept in sync by the click handler (UX Hub Barcelona.html:659-683)
-  — this is the exact ARIA pattern the spec calls for, correctly implemented, not just aspired to.
-- **Custom amount:** a `<label>` wrapping a bordered row (`.custom-row`) with a fixed `€` prefix
-  and a `type="number"` input; `focus-within` swaps the row border to seaturtle. Selecting a
-  preset chip clears the custom field and vice versa (mutually exclusive selection, enforced in
-  JS, not just CSS).
+  each button + `aria-checked` kept in sync by the click handler — this is the exact ARIA pattern
+  the spec calls for, correctly implemented, not just aspired to.
 - **Fine print** (`.dc-fine`): `display: flex; align-items: flex-start; flex-wrap: wrap; gap: 6px`
   — a **wrapping flex row**, deliberately, because the inline info button (`.dc-info`) that
   follows the sentence can't itself wrap; if `.dc-fine` were `display: inline`/block text instead,
   the info button could get pushed past the card's edge on narrow cards. The tooltip
-  (`.dc-info::after`, `data-tip` attr) is `220px` wide, `180px` and left-aligned instead of
-  centred at ≤520px (site.css:425-431) so it doesn't overflow a narrow viewport.
+  (`.dc-info::after`, `data-tip` attr) is `220px` wide, and left-aligned instead of centred at
+  ≤520px so it doesn't overflow a narrow viewport.
 
-**Selector/location:** `.donate-card` and all `.amount`/`.freq`/`.dc-*`/`.custom-row` descendants
-— site.css:407-431. **Found in:** UX Hub Barcelona.html:396-415 (markup) + :643-716 (chip/frequency
-state machine + Stripe Payment Link routing).
+**Stripe routing:** `STRIPE_LINKS[frequency][amount]` looks up a fixed-price Payment Link for
+the three numeric presets (once/monthly × €15/€25/€45 = 6 links, each a separate Stripe object);
+`amount === 'any'` never matches a key in that lookup, so it falls straight through to
+`STRIPE_DONATE_ANY` — the same fallback that used to catch unmappable typed values, now reached
+by a deliberate choice instead of a workaround.
+
+**Selector/location:** `.donate-card` and all `.amount`/`.freq`/`.dc-*` descendants — site.css.
+**Found in:** index.html (markup + the chip/frequency state machine + Stripe Payment Link
+routing, all in one IIFE).
 
 **Accessibility:** both radiogroups are correctly rolled and kept in sync — verified against the
 live click handlers, not assumed from markup alone. The info button (`.dc-info`) has

@@ -8,8 +8,7 @@
 .hero h1 { font-size: clamp(40px, 6.6vw, 84px); }
 
 /* iOS zooms the page when a focused input is under 16px. */
-.mail-row input,
-.custom-row input { font-size: 16px; }
+.mail-row input { font-size: 16px; }
 
 /* The marquee (and image ticker) is decorative, so stop it when the visitor asks for less motion. */
 @media (prefers-reduced-motion: reduce) { .marquee-track, .img-ticker-track { animation: none; } }

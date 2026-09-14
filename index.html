@@ -416,13 +416,6 @@
           <form class="donate-card" id="donate-form">
             <p class="dc-label">Choose an amount</p>
             <div class="amounts" id="amounts" role="radiogroup" aria-label="Donation amount"></div>
-            <label class="dc-custom" for="custom-amount">
-              <span>Or a custom amount</span>
-              <div class="custom-row">
-                <span class="cur">€</span>
-                <input type="number" id="custom-amount" min="1" step="1" inputmode="numeric" placeholder="Custom" />
-              </div>
-            </label>
             <div class="freq" id="freq" role="radiogroup" aria-label="Frequency">
               <button type="button" role="radio" aria-checked="false" class="freq-btn" data-freq="once">One-time</button>
               <button type="button" role="radio" aria-checked="true" class="freq-btn is-active" data-freq="monthly">Monthly</button>
@@ -767,34 +760,30 @@
     // Donate form
     (function () {
       const amounts = document.getElementById('amounts');
-      const custom = document.getElementById('custom-amount');
       const freq = document.getElementById('freq');
       const form = document.getElementById('donate-form');
       const submit = document.getElementById('donate-submit');
       const submitHTML = submit.innerHTML;
-      // Preset amounts matching Stripe. Order = chip order; first entry is the default.
-      const PRESETS = { once: [15, 25, 45], monthly: [15, 25, 45] };
+      // Preset amounts matching Stripe, plus 'any' — a plain chip that opens Stripe's
+      // own customer-enters-amount page, rather than a text field that made visitors
+      // type the number twice (once here, once on Stripe). Order = chip order; first
+      // entry is the default.
+      const PRESETS = { once: [15, 25, 45, 'any'], monthly: [15, 25, 45, 'any'] };
       let frequency = 'monthly', amount = 25;
       function renderChips() {
-        amounts.innerHTML = PRESETS[frequency].map((v, i) =>
-          '<button type="button" role="radio" aria-checked="' + (v === amount) + '" class="amount' + (v === amount ? ' is-active' : '') + '" data-amount="' + v + '">€' + v + '</button>'
+        amounts.innerHTML = PRESETS[frequency].map((v) =>
+          '<button type="button" role="radio" aria-checked="' + (v === amount) + '" class="amount' + (v === amount ? ' is-active' : '') + '" data-amount="' + v + '">' + (v === 'any' ? 'Any amount' : ('€' + v)) + '</button>'
         ).join('');
       }
       let refresh = function () {
         const suffix = frequency === 'monthly' ? '/mo' : '';
         const el = document.getElementById('donate-amount-label');
-        if (el) el.textContent = amount ? ('€' + amount + suffix) : '';
+        if (el) el.textContent = amount === 'any' ? '' : ('€' + amount + suffix);
       };
       amounts?.addEventListener('click', (e) => {
         const b = e.target.closest('.amount'); if (!b) return;
-        amount = Number(b.dataset.amount);
-        if (custom) custom.value = '';
+        amount = b.dataset.amount === 'any' ? 'any' : Number(b.dataset.amount);
         renderChips(); refresh();
-      });
-      custom?.addEventListener('input', () => {
-        amounts.querySelectorAll('.amount').forEach(x => { x.classList.remove('is-active'); x.setAttribute('aria-checked', 'false'); });
-        amount = Number(custom.value) || 0;
-        refresh();
       });
       freq?.addEventListener('click', (e) => {
         const b = e.target.closest('.freq-btn'); if (!b) return;
@@ -802,7 +791,7 @@
         b.classList.add('is-active'); b.setAttribute('aria-checked', 'true');
         frequency = b.dataset.freq;
         // snap to a valid preset for this frequency (keep current if still offered)
-        if (!custom.value) { if (!PRESETS[frequency].includes(amount)) amount = PRESETS[frequency][0]; }
+        if (!PRESETS[frequency].includes(amount)) amount = PRESETS[frequency][0];
         renderChips(); refresh();
       });
       renderChips();
@@ -816,11 +805,10 @@
                    25: 'https://donate.stripe.com/aFa9AVd3809M13v79667S00',
                    45: 'https://donate.stripe.com/9B6dRb7IO5u6bI9eBy67S02' }
       };
-      // Typed amounts cannot map to a fixed link, so they fall back to the any-amount link.
+      // 'any' has no fixed-price link — it opens Stripe's own customer-enters-amount page.
       const STRIPE_DONATE_ANY = 'https://buy.stripe.com/4gM00l3sy3lYeUl65267S07';
       form?.addEventListener('submit', (e) => {
         e.preventDefault();
-        if (!amount) { custom?.focus(); return; }
         const exact = STRIPE_LINKS[frequency] && STRIPE_LINKS[frequency][amount];
         window.open(exact || STRIPE_DONATE_ANY, '_blank', 'noopener');
         submit.innerHTML = exact
@@ -832,10 +820,6 @@
         setTimeout(() => { submit.innerHTML = submitHTML; submit.style.background = ''; refresh(); }, 4000);
         submit.style.color = '#fff';
       });
-      // Surface the hint only while no exact link exists for the current choice.
-      const hint = document.getElementById('donate-hint');
-      const syncHint = () => { if (hint) hint.hidden = !!(STRIPE_LINKS[frequency] && STRIPE_LINKS[frequency][amount]); };
-      const _refresh = refresh; refresh = function () { _refresh(); syncHint(); };
       refresh();
     })();
 
