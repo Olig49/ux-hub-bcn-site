@@ -1,7 +1,7 @@
 # Components
 
 Seven family directories, built from what the two shipped pages actually contain
-(`UX Hub Barcelona.html`, `sponsors.html`, `styles/site.css`, `styles/tokens.css`,
+(`index.html`, `sponsors.html`, `styles/site.css`, `styles/tokens.css`,
 `styles/mobile-tweaks.css`) — see `design-system-extraction.md` §3-4 for the underlying spec.
 Every `index.html` renders real, verbatim markup against the real stylesheets; every
 `README.md` documents exact values, real selector locations, and accessibility notes, and calls

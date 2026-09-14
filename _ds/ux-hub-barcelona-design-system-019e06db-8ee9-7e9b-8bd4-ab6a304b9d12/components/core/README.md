@@ -52,8 +52,8 @@ Small uppercase kicker with an animated dot.
   `animation: dot-pulse 2.2s ease-in-out infinite` (scale 1→1.6, opacity 1→0.4, both at 50%)
 - `.eyebrow.on-dark`: text → `var(--uxh-ceramic)`, dot → `var(--uxh-yolk)`
 
-Selector: `.eyebrow` / `.eyebrow.on-dark` / `.eyebrow .dot` — site.css:117-121.
-Found in: UX Hub Barcelona.html:146 (default), :348 and :386 (on-dark); sponsors.html:138 (default), :265 (on-dark).
+Selector: `.eyebrow` / `.eyebrow.on-dark` / `.eyebrow .dot` — site.css:176-179.
+Found in: index.html:172 (default), :374 and :412 (on-dark); sponsors.html:147 (default), :274 (on-dark).
 
 **Accessibility:** the dot is purely decorative and carries no `aria-hidden` attribute in the shipped
 markup — it's an empty `<span>` with no text content, so screen readers announce nothing for it, but
@@ -132,18 +132,18 @@ sponsors.html:246 (Uxcel, "25% off with code `UXSALON25`").
 Same geometry as `.badge` on dark: `padding: 6px 12px`, pill, `rgba(255,255,255,0.16)` fill,
 `1.5px solid rgba(255,255,255,0.6)` border, white text, `font: 600 12px/1`, `letter-spacing: 0.06em`,
 uppercase.
-**Selector/location:** `.partner-card .pn` — site.css:380. **Found in:** UX Hub Barcelona.html:361-371
+**Selector/location:** `.partner-card .pn` — site.css:459. **Found in:** index.html:387-397
 (partner cards "01"/"02"/"03") and sponsors.html:275-278 ("01"–"04").
-Note: a *different* `.pn` exists — `.pillar .pn` (site.css:293-294), a solid-yolk circular numeral for
-an "About" pillars grid (`.about-grid .pillars`, site.css:287). **Neither `.pillar` nor `.pillars` has
+Note: a *different* `.pn` exists — `.pillar .pn` (site.css:372), a solid-yolk circular numeral for
+an "About" pillars grid (`.about-grid .pillars`, site.css:366). **Neither `.pillar` nor `.pillars` has
 any live markup in either shipped page** — the CSS rule is currently dead code; the homepage's real
 About section uses `.about-stats .stat` instead (see `data/README.md`).
 
 ### Bonus: `.chip.chip-teal` (not named in the spec's Tag list)
 `display: inline-flex`, `padding: 6px 12px`, pill, `font: 500 13px/1`, base `.chip` background
 `var(--uxh-soft-beige)`; `.chip-teal` overrides to `background: var(--uxh-seaturtle)`, `color: #fff`
-— a **solid** fill. **Selector/location:** site.css:123-129 (`.chip`, `.chip-yolk`, `.chip-lime`,
-`.chip-purple`, `.chip-teal`, `.chip-outline`). **Found in:** UX Hub Barcelona.html:132, the event
+— a **solid** fill. **Selector/location:** site.css:182-188 (`.chip`, `.chip-yolk`, `.chip-lime`,
+`.chip-purple`, `.chip-teal`, `.chip-outline`). **Found in:** index.html:158, the event
 status label ("Talk · free"). Only `.chip-teal` has a live instance; `.chip-yolk`, `.chip-lime`,
 `.chip-purple` and `.chip-outline` are defined but unused in either page.
 **Flagging, not silently fixing:** this solid teal fill directly contradicts the family's own

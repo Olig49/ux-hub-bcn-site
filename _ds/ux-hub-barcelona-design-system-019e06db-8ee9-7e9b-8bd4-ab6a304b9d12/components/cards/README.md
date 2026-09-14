@@ -70,8 +70,8 @@ the old `#777` or the new `#6a6a6a` token; worth reconciling to one value, ideal
   instance uses it** — the three real offer-cards never include this element. Documented for
   completeness only; don't assume it's live.
 
-**Selector/location:** `.offer-card`, `.offer-card.is-*`, `.icon-blob` — site.css:256-274.
-**Found in:** UX Hub Barcelona.html:192-217, "Learn / Meet / Connect" 3-up (`.offer-grid`,
+**Selector/location:** `.offer-card`, `.offer-card.is-*`, `.icon-blob` — site.css:338-353.
+**Found in:** index.html:218-244, "Learn / Meet / Connect" 3-up (`.offer-grid`,
 `grid-template-columns: repeat(3,1fr)`, collapses to one column ≤980px).
 
 **Accessibility:** the flower mark is `aria-hidden="true"`; card copy carries the meaning
@@ -106,10 +106,10 @@ transition (currently hardcodes the cubic-bezier literal rather than the token).
   `border-color: transparent` (border dropped, not doubled with a shadow — same rule as the
   sponsor-card feature variant). CTA (`.join-cta`) is yolk-filled, pill, `font: 600 13px/1`,
   arrow nudges `translateX(3px)` on hover. At ≤980px this card takes the full grid row
-  (`grid-column: 1 / -1`) so it stops rendering as a tall, narrow column — site.css:307-313.
+  (`grid-column: 1 / -1`) so it stops rendering as a tall, narrow column — site.css:389.
 
 **Selector/location:** `.team-card`, `.team-card.t-*`, `.team-card .av/.socials`, `.team-join`
-— site.css:306-351. **Found in:** UX Hub Barcelona.html:262-334 (six team members + join card).
+— site.css:393-430. **Found in:** index.html:281-362 (six team members + join card).
 
 **Accessibility:** each social link has an explicit `aria-label` ("Oliver on LinkedIn") since the
 icon alone carries no accessible name. As noted above, the 44px enlargement applies to every
@@ -133,10 +133,10 @@ socials (44px, already met via mobile-tweaks.css rather than a token reference).
 - **Body** (`p`): `font-size: 14px`, `color: rgba(255,255,255,0.72)` (→ `var(--uxh-text-on-dark-muted)`).
 - **Below 620px:** becomes a two-column grid per card — `grid-template-columns: auto 1fr`, numeral
   and heading share row 1 so the numeral sits inline with the heading, body copy spans both columns
-  underneath (site.css:370-377). This is exactly the spec's called-out behaviour.
+  underneath (site.css:449-455). This is exactly the spec's called-out behaviour.
 
-**Selector/location:** `.partner-card`, `.partner-card .pn` — site.css:378-382 (mobile override
-:370-377). **Found in:** UX Hub Barcelona.html:359-374 (3 cards, homepage "For partners" panel)
+**Selector/location:** `.partner-card`, `.partner-card .pn` — site.css:457-461 (mobile override
+:449-455). **Found in:** index.html:385-401 (3 cards, homepage "For partners" panel)
 and sponsors.html:274-279 (4 cards, reused verbatim on the sponsors-page CTA, numbered 01-04).
 
 **Accessibility:** on the dark `--uxh-teal-night` surface, body text at `rgba(255,255,255,0.72)`
@@ -199,18 +199,18 @@ fix worth knowing about since it means focus-ring colour is **not** uniform acro
 - **Body** (`.ef-body`): `padding: 44px` (→ 32px 24px at ≤720px), `gap: 18px`,
   `justify-content: center`. Title `font: 700 clamp(28px, 3.4vw, 40px)/1.1`, `text-wrap: balance`.
 - **Speaker tags:** `.speaker-tag`, `rgba(255,255,255,0.7)` pill, `32px` avatar,
-  hover → `#fff` background if the tag is a link (`event-feature a.speaker-tag`, site.css:253-254).
+  hover → `#fff` background if the tag is a link (`event-feature a.speaker-tag`, site.css:332-333).
 
-**Selector/location:** `.event-feature` and all `.ef-*` descendants — site.css:201-227.
-**Found in:** UX Hub Barcelona.html:127-180.
+**Selector/location:** `.event-feature` and all `.ef-*` descendants — site.css:281-305.
+**Found in:** index.html:153-206.
 
 **Accessibility:** the status chip and date-stamp are supplementary — the real event
 information (title, venue, time, price) is in visible text, not conveyed by colour or icon
 alone. The three action icons in `.ef-meta` (location pin, clock, price) are decorative (no
 `aria-hidden` in the shipped markup, but each sits beside its own text label, so no information
 is icon-only). Content is populated at runtime from `data/events.json` by inline JS
-(UX Hub Barcelona.html:718-830); the markup shown in the catalog is the as-shipped static
-fallback, used verbatim.
+(index.html:875-985, `renderEvent`/`applyEventState`); the markup shown in the catalog is the
+as-shipped static fallback, used verbatim.
 
 **Tokens to use:** `var(--uxh-radius-xl)`, `var(--uxh-shadow-md)` (already correctly referenced
 in the source CSS).

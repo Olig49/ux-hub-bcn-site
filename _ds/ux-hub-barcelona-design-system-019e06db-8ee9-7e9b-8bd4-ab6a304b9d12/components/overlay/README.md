@@ -32,13 +32,13 @@ One component: **Modal**. Open [`index.html`](./index.html) for the live-rendere
   the row from overflowing on small screens.
 
 **Selector/location:** `.modal-overlay`, `.modal-card`, `.modal-close`, `.modal-options`,
-`.modal-option`, `.mo-*` — site.css:69-100 (mobile-tweaks.css:18 for the close-button hit-target
-bump). **Found in:** UX Hub Barcelona.html:487-531 — three options: Next meetup (Meetup link),
+`.modal-option`, `.mo-*` — site.css:128-156 (mobile-tweaks.css:17 for the close-button hit-target
+bump). **Found in:** index.html:557-601 — three options: Next meetup (Meetup link),
 Next workshop (Google Form, tagged "Form"), Next leadership circle (mailto, tagged "Contact us").
 Opened from the NavBar's "Next event" CTA on both desktop and the MobileDrawer's equivalent
 button — see `nav/README.md`.
 
-**Required by spec, verified against the live script (UX Hub Barcelona.html:578-614):**
+**Required by spec, verified against the live script (index.html:704-740):**
 
 - `role="dialog"`, `aria-modal="true"`, `aria-labelledby` pointing at the title — ✅ all present
   on the shipped `#event-modal` element.

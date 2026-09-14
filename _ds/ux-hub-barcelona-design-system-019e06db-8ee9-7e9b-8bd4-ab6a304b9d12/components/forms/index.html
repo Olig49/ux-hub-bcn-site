@@ -29,30 +29,86 @@
   <a class="ds-back" href="../README.md">&larr; Component families</a>
   <p class="ds-kicker">Family · forms</p>
   <h1 class="ds-title">Forms</h1>
-  <p class="ds-desc">MailingForm and DonateForm. Markup below is copied verbatim from <code>UX Hub Barcelona.html</code>; both are homepage-only, no equivalent on sponsors.html.</p>
+  <p class="ds-desc">MailingForm and DonateForm. Markup below is copied verbatim from <code>index.html</code>; both are homepage-only, no equivalent on sponsors.html.</p>
 
   <!-- ===================================================================
        MAILINGFORM — .mail-form
   ==================================================================== -->
   <section class="ds-component">
     <h2 class="ds-label">MailingForm — <code>.mail-form</code></h2>
-    <p class="ds-label-sub">Soft-beige card, a white pill row for the actual input. Source: UX Hub Barcelona.html:429-437.</p>
+    <p class="ds-label-sub">Soft-beige card, five fields (Brevo's real requirements — see below) in white rows, radius-md not a pill. Source: index.html:452-507.</p>
 
-    <form class="mail-form" action="https://48db4b2d.sibforms.com/serve/EXAMPLE" method="post" target="_blank" rel="noopener">
-      <label for="ds-email">Your email</label>
-      <div class="mail-row">
-        <input id="ds-email" name="EMAIL" type="email" autocomplete="email" placeholder="example@nevanscott.com" required />
-        <button type="submit">Sign up</button>
+    <form class="mail-form" action="https://EXAMPLE.sibforms.com/serve/EXAMPLE" method="post" target="_blank" rel="noopener" novalidate>
+      <div class="mail-field">
+        <label for="ds-email">Email</label>
+        <div class="mail-row" id="ds-row-email">
+          <input id="ds-email" name="EMAIL" type="email" autocomplete="email" placeholder="you@example.com" required aria-describedby="ds-err-email" />
+        </div>
+        <p class="mail-error" id="ds-err-email" hidden role="alert">Please enter a valid email address.</p>
       </div>
+
+      <div class="mail-field-group">
+        <div class="mail-field">
+          <label for="ds-firstname">First name</label>
+          <div class="mail-row" id="ds-row-firstname">
+            <input id="ds-firstname" name="FIRSTNAME" type="text" autocomplete="given-name" placeholder="Jane" required maxlength="200" aria-describedby="ds-err-firstname" />
+          </div>
+          <p class="mail-error" id="ds-err-firstname" hidden role="alert">Please enter your first name.</p>
+        </div>
+        <div class="mail-field">
+          <label for="ds-lastname">Last name</label>
+          <div class="mail-row" id="ds-row-lastname">
+            <input id="ds-lastname" name="LASTNAME" type="text" autocomplete="family-name" placeholder="Doe" required maxlength="200" aria-describedby="ds-err-lastname" />
+          </div>
+          <p class="mail-error" id="ds-err-lastname" hidden role="alert">Please enter your last name.</p>
+        </div>
+      </div>
+
+      <div class="mail-field">
+        <label for="ds-linkedin">LinkedIn</label>
+        <div class="mail-row" id="ds-row-linkedin">
+          <input id="ds-linkedin" name="LINKEDIN" type="text" autocomplete="url" placeholder="linkedin.com/in/yourname" required maxlength="200" aria-describedby="ds-err-linkedin" />
+        </div>
+        <p class="mail-error" id="ds-err-linkedin" hidden role="alert">Please enter your LinkedIn profile.</p>
+      </div>
+
+      <div class="mail-field">
+        <label for="ds-jobtitle">Job title</label>
+        <div class="mail-row" id="ds-row-jobtitle">
+          <input id="ds-jobtitle" name="JOB_TITLE" type="text" autocomplete="organization-title" placeholder="Product designer" required maxlength="200" aria-describedby="ds-err-jobtitle" />
+        </div>
+        <p class="mail-error" id="ds-err-jobtitle" hidden role="alert">Please enter your job title.</p>
+      </div>
+
+      <label class="mail-optin" id="ds-row-optin" for="ds-optin">
+        <input type="checkbox" id="ds-optin" name="OPT_IN" value="1" required aria-describedby="ds-err-optin" />
+        <span>I agree to receive your newsletters and accept the <a href="https://app.getterms.io/view/QJbom/privacy/en-us" target="_blank" rel="noopener">privacy policy</a>.</span>
+      </label>
+      <p class="mail-error" id="ds-err-optin" hidden role="alert">Please check the box to subscribe.</p>
+
+      <button type="submit" class="btn btn-dark">Sign up</button>
+
       <p class="mail-ack" hidden role="status">Thanks. We&rsquo;ve opened a new tab, check your inbox to confirm your subscription.</p>
-      <p class="fineprint">By subscribing you agree to our <a href="https://app.getterms.io/view/QJbom/privacy/en-us" target="_blank" rel="noopener">privacy policy</a>. Unsubscribing is one click. We use it for events, nothing else.</p>
+      <p class="fineprint">Unsubscribing is one click. We use it for events, nothing else.</p>
+
+      <input type="text" name="email_address_check" value="" class="mail-hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
+      <input type="hidden" name="locale" value="en" />
     </form>
-    <p class="ds-note">The real form posts to Brevo (`sibforms.com`) — the <code>action</code> URL
+    <p class="ds-note">This used to be a single email field + inline "Sign up" button in a pill
+      row — an earlier version of this catalog page still showed that markup after the real form
+      was rebuilt to match Brevo's actual required fields (<code>EMAIL</code>,
+      <code>FIRSTNAME</code>, <code>LASTNAME</code>, <code>LINKEDIN</code>, <code>JOB_TITLE</code>,
+      plus GDPR consent), so the preview no longer matched what index.html actually ships. Fixed
+      to mirror the real five-field form exactly (ids prefixed <code>ds-</code> here only to avoid
+      colliding with the real page's ids, since this file loads the same site.css).
+      The real form posts to Brevo (`sibforms.com`) — the <code>action</code> URL
       above is redacted to a placeholder in this catalog so the button can't submit real signups
       from a documentation page; every class and layout attribute is otherwise verbatim.
       The <code>role="status"</code> acknowledgement (<code>.mail-ack</code>) is normally
-      <code>hidden</code> until the inline submit handler reveals it (UX Hub Barcelona.html:572-576)
-      — shown here in its default hidden state.</p>
+      <code>hidden</code> until the inline submit handler reveals it (index.html:700)
+      — shown here in its default hidden state. See `forms/README.md` for full field-by-field
+      documentation, including why `novalidate` + custom JS validation replaced the browser's
+      native validation bubble.</p>
   </section>
 
   <!-- ===================================================================
@@ -83,7 +139,7 @@
   ==================================================================== -->
   <section class="ds-component">
     <h2 class="ds-label">DonateForm — <code>.donate-card</code></h2>
-    <p class="ds-label-sub">Warm-white card on the dark Donate panel. Source: UX Hub Barcelona.html:396-415, shown here on its native dark surface.</p>
+    <p class="ds-label-sub">Warm-white card on the dark Donate panel. Source: index.html:422-438, shown here on its native dark surface.</p>
 
     <div class="ds-dark">
       <form class="donate-card">

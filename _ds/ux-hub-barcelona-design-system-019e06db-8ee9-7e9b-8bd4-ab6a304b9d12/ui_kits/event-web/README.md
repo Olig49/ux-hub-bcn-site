@@ -26,8 +26,12 @@ partial: the shared SVG sprite and the path-depth note for `index.html`.
 
 ## Source pages
 
-- `/project/UX Hub Barcelona.html` — header, hero, event card, speaker tags,
-  CTA (all five partials trace back to this one file).
+- The production `/project/index.html` (the site's actual homepage — not to be
+  confused with this kit's own `index.html` a few sections down) — header,
+  hero, event card, speaker tags, CTA (all five partials trace back to this
+  one file). It was renamed from `UX Hub Barcelona.html` partway through the
+  project; every "extracted from" citation in the partial files and below
+  now points at `index.html` and its current line numbers.
 - `/project/sponsors.html` — not lifted from directly for this kit, but its
   header/footer follow the same header.html pattern (see "Adapting" below)
   if you're wiring a new page into the existing site rather than building
@@ -71,7 +75,7 @@ same-repo demo, needed the `../../../../` prefix.
 `hero.html` and `cta.html` both draw a soft flower/blob shape via
 `<svg …><use href="#uxh-flower"/></svg>`. That relies on a `<symbol
 id="uxh-flower">` defined once, inline, near the top of `<body>` in the
-shipped page (`UX Hub Barcelona.html`, line 28 — a visually hidden 0×0
+shipped page (`index.html`, line 24 — a visually hidden 0×0
 `<svg>`). It is **not** a separate asset file, and it is **not repeated** per
 partial. If you use `hero.html` and/or `cta.html` in a new page, paste this
 once (already included at the top of `index.html`'s `<body>`, right after the
@@ -81,8 +85,9 @@ skip link):
 <svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute;overflow:hidden">
   <symbol id="uxh-flower" viewBox="0 0 200 200">
     <g transform="scale(2.53165,2.5)">
-      <!-- five <path> petals — copy verbatim from UX Hub Barcelona.html line 28,
-           or from partials/hero.html / index.html, which both already inline it -->
+      <!-- five <path> petals — copy verbatim from index.html line 24,
+           or from partials/hero.html / this kit's own index.html, which both
+           already inline it -->
     </g>
   </symbol>
 </svg>
@@ -91,21 +96,30 @@ skip link):
 ## Per-partial summary
 
 ### `header.html` — primary nav
-- **Extracted from:** `UX Hub Barcelona.html`, lines 31–62 (`<header class="site-header">`).
-- **Depends on (`styles/site.css`):** `.site-header` (L26), `.nav`, `.nav-brand`,
-  `.nav-links`, `.nav-link`, `.nav-cta` (L45), `.nav-burger`, `.mobile-drawer`
-  (L60) + `.mobile-drawer.open` (L63) + `.drawer-cta` (L66), `.sr-only` /
-  `.skip` (L18–20). Also depends on the `html[data-accent="…"]` theming rule
-  (`site.css` L12–15) — that's what colors `.nav-cta` / `.drawer-cta`; default
-  (no attribute set) renders in Yolk.
-- **JS behavior** (copy from the `<script>` block at the bottom of
-  `UX Hub Barcelona.html`, ~L540–570): mobile-drawer open/close on
+- **Extracted from:** `index.html`, lines 32–71 (`<header class="site-header">`,
+  containing `.nav-shell` > `.nav` + `.mobile-drawer`).
+- **Depends on (`styles/site.css`):** `.site-header` (L26), `.nav-shell`,
+  `.nav`, `.nav-brand` (L50), `.nav-links` (L56), `.nav-link` (L59),
+  `.nav-cta` (L61), `.nav-burger` + `.burger-bar`, `.mobile-drawer` (L106) +
+  `.mobile-drawer.open` (L114) + `.mobile-drawer-inner` + `.drawer-cta`
+  (L119), `.sr-only` (L18) / `.skip` (L19). Also depends on the
+  `html[data-accent="…"]` theming rule (`site.css` L12–15) — that's what
+  colors `.nav-cta` / `.drawer-cta`; default (no attribute set) renders in
+  Yolk.
+- **Structure note:** `.mobile-drawer` is `position: absolute` against
+  `.nav-shell` (which needs `position: relative`), not laid out in flow
+  inside it — opening it overlays the page below the header instead of
+  pushing that content down, while matching background/border/radius keeps
+  bar and drawer reading as one continuous shape. See the comment block at
+  the top of `header.html` itself for the full mechanism.
+- **JS behavior** (copy the "Mobile drawer" block from the `<script>` at the
+  bottom of `index.html`, lines 610–648): mobile-drawer open/close on
   `#nav-burger` toggling `#mobile-drawer`, `aria-expanded`/`aria-label`
   updates, a Tab/Shift+Tab focus trap while open, Escape-to-close,
-  outside-pointerdown-to-close, and a body-scroll lock. `index.html`
-  includes a trimmed copy of just the drawer logic so the demo page is
-  interactive; the full version (with the focus trap and Escape handling)
-  is what you should actually ship.
+  outside-pointerdown-to-close, and a body-scroll lock. This kit's own
+  `index.html` includes a trimmed copy of just the drawer logic so the demo
+  page is interactive; the full version (with the focus trap and Escape
+  handling) is what you should actually ship.
   The header also wires `#next-event-btn` / `#next-event-btn-mobile` to open
   `#event-modal`, a dialog that is **not** part of this kit — either build
   your own modal, or repoint those buttons to a plain link (a Meetup URL, or
@@ -115,20 +129,24 @@ skip link):
   `.nav-cta` / `.drawer-cta` at your real primary action.
 
 ### `hero.html` — home hero
-- **Extracted from:** `UX Hub Barcelona.html`, lines 66–98 (`<section id="home" class="hero">`).
-- **Depends on (`styles/site.css`):** `.hero` (L140), `.hero-grid` (L141),
-  `.hero h1` + `em` + `.underline` (L144–147), `.hero p.lead` (L149),
-  `.hero-actions` (L150), `.btn` / `.btn-primary` / `.btn-ghost` (L103–108),
-  `.hero-bg-circles` (L178–181), `.collage` / `.ph` / `.blob` (declared
-  alongside the hero rules). Also **`styles/mobile-tweaks.css`**: the hero
-  `h1` font-size floor (L8) and the "lead with one photo" collage
-  simplification under 700px (L28–34). Needs the shared `#uxh-flower` SVG
-  symbol (see above) for the background circles and collage blobs.
+- **Extracted from:** `index.html`, lines 76–107 (`<section id="home" class="hero">`).
+- **Depends on (`styles/site.css`):** `.hero` (L199), `.hero-grid` (L200),
+  `.hero h1` + `em` + `.underline` (L203–206), `.hero p.lead` (L208),
+  `.hero-actions` (L209), `.btn` (L162) / `.btn-primary` (L164) /
+  `.btn-ghost` (L167), `.hero-bg-circles` (L237–240), `.collage` / `.ph` /
+  `.blob` (L223–234, declared alongside the hero rules). Also
+  **`styles/mobile-tweaks.css`**: the hero `h1` font-size floor and, at
+  ≤700px, hiding `.collage` entirely and showing `.img-ticker` instead
+  (L26–32) — **not** a "keep one photo" simplification any more, see the
+  "Mobile note" at the top of `hero.html` itself for why that distinction
+  matters. Needs the shared `#uxh-flower` SVG symbol (see above) for the
+  background circles and collage blobs.
 - **JS behavior:** none required to render. `.reveal` / `html.reveal-on
-  .reveal.in` (site.css L496–498) is a progressive-enhancement scroll-fade —
+  .reveal.in` (site.css L613–614) is a progressive-enhancement scroll-fade —
   content is fully visible without it. To keep the fade, copy the
-  `IntersectionObserver` IIFE from the end of `UX Hub Barcelona.html`'s
-  `<script>` block (search "Reveal-on-scroll"); `index.html` includes a copy.
+  `IntersectionObserver` IIFE from `index.html`'s
+  `<script>` block (search "Reveal-on-scroll"); this kit's own `index.html`
+  includes a copy.
   The primary button's `#events` anchor assumes an on-page events section —
   optional; on the live site, JS repoints it to the public Meetup events URL
   when there's no confirmed upcoming event (`applyEventState`), but the hero
@@ -138,19 +156,19 @@ skip link):
   pattern) and their alt text.
 
 ### `event-card.html` — "next event" feature card
-- **Extracted from:** `UX Hub Barcelona.html`, lines 127–180
+- **Extracted from:** `index.html`, lines 153–206
   (`<article class="event-feature" id="event-feature">`, inside
   `<section id="events">`). On the live page that section starts `hidden`
   and is only revealed once a live event is confirmed — see JS notes below;
   the card itself renders fine standalone.
 - **Depends on (`styles/site.css`):** `.event-feature` + `.ef-media` /
-  `.ef-body` (L202–221), `.overlay`, `.label`, `.chip` / `.chip-teal`
-  (L123–128), `.date-stamp` (`.num`/`.mo`/`.yr`, L209–214), `.eyebrow` /
-  `.dot` (L117–120), `.ef-meta`, `.speakers` (L222) and `.speaker-tag`
-  (L223–226, hover state L253–254 — see `speaker-card.html`), `.ef-actions`,
-  `.btn` / `.btn-primary` / `.btn-ghost` (L103–108).
+  `.ef-body` (L281–294), `.overlay`, `.label`, `.chip` (L182) / `.chip-teal`
+  (L187), `.date-stamp` (`.num`/`.mo`/`.yr`, L288–293), `.eyebrow` / `.dot`
+  (L176–177), `.ef-meta` (L297–299), `.speakers` (L301) and `.speaker-tag`
+  (L302–305, hover state L332–333 — see `speaker-card.html`), `.ef-actions`,
+  `.btn` (L162) / `.btn-primary` (L164) / `.btn-ghost` (L167).
 - **JS behavior** (all in the inline `<script>` at the bottom of
-  `UX Hub Barcelona.html`): every element with an id inside the card
+  `index.html`): every element with an id inside the card
   (`#ef-image`, `#ef-status`, `#ef-day`, `#ef-month`, `#ef-weektime`,
   `#ef-title`, `#ef-venue`, `#ef-time`, `#ef-price`, `#ef-desc`,
   `#ef-speakers`, `#ef-rsvp`) is populated at runtime by `renderEvent(ev)`
@@ -171,13 +189,13 @@ skip link):
   place (they're inert without the script) or strip them.
 
 ### `speaker-card.html` — speaker tag chip(s)
-- **Extracted from:** `UX Hub Barcelona.html`'s inline `<script>`, function
+- **Extracted from:** `index.html`'s inline `<script>`, function
   `renderEvent()` (search "// speakers") — this file is that JS template
   pre-rendered as plain HTML, so a new event page can be hand-authored
   without touching any JS.
-- **Depends on (`styles/site.css`):** `.speakers` (L222, flex row that
-  wraps), `.speaker-tag` (L223–226) and its avatar/name/role sub-parts
-  (`.av`, `.nm`, `.ro`), plus the anchor-hover variant (L253–254). Also
+- **Depends on (`styles/site.css`):** `.speakers` (L301, flex row that
+  wraps), `.speaker-tag` (L302–305) and its avatar/name/role sub-parts
+  (`.av`, `.nm`, `.ro`), plus the anchor-hover variant (L332–333). Also
   **`styles/tokens.css`** — `--uxh-purple`, `--uxh-yolk`, `--uxh-seaturtle`,
   `--uxh-fg` custom properties, used as **inline styles** on each `.av` span
   rather than CSS classes, exactly as the live JS generates them.
@@ -192,15 +210,15 @@ skip link):
   `.av` text is the speaker's initial (first letter of their name).
 
 ### `cta.html` — "let's work together" / partners section
-- **Extracted from:** `UX Hub Barcelona.html`, lines 338–379
+- **Extracted from:** `index.html`, lines 365–405
   (`<section id="partners" class="section tight">` > `.partner-section`).
-- **Depends on (`styles/site.css`):** `.section` / `.section.tight` (L193–194),
-  `.wrap` (L22), `.partner-section` (dark teal card, L354–361),
-  `.partner-bg-circles` (L362–365), `.pgrid` (two-column layout, L357–358),
-  `.eyebrow.on-dark` (L119–120) + `.dot`, `.btn` / `.btn-primary` (L103–107),
-  `.partner-cards` / `.partner-card` (`.pn` number + `h3` + `p`, L367–382).
-  Needs the shared `#uxh-flower` SVG symbol (see above) for the two
-  background circles.
+- **Depends on (`styles/site.css`):** `.section` / `.section.tight` (L272–273),
+  `.wrap` (L22), `.partner-section` (dark teal card, L433–440),
+  `.partner-bg-circles` (L441–444), `.partner-section .pgrid` (two-column
+  layout, L436), `.eyebrow.on-dark` (L178–179) + `.dot`, `.btn` (L162) /
+  `.btn-primary` (L164), `.partner-cards` (L446) / `.partner-card` (`.pn`
+  number + `h3` + `p`, L457–461). Needs the shared `#uxh-flower` SVG symbol
+  (see above) for the two background circles.
 - **JS behavior:** none. Static markup; the `reveal` class is the same
   optional progressive-enhancement fade described under `hero.html`.
 - **Adapting:** this is the shipped "become a partner/sponsor" CTA. For a
@@ -215,18 +233,18 @@ skip link):
 ## Adapting into the live multi-page site (vs. a standalone demo)
 
 If you're wiring a new page into `project/` itself (sitting next to
-`UX Hub Barcelona.html` and `sponsors.html`), rather than keeping it inside
-this kit's own folder:
+`index.html` and `sponsors.html`), rather than keeping it inside this kit's
+own folder:
 
 - Use the partials' bare paths as-is (`styles/site.css`, `assets/…`) — no
   path rewriting needed, since the new page is at the same depth as the
   shipped pages.
 - Copy the `<link>`/`<meta>` block, the Google Fonts preconnect + stylesheet,
-  and the `#uxh-flower` SVG symbol from the top of `UX Hub Barcelona.html`
+  and the `#uxh-flower` SVG symbol from the top of `index.html`
   into the new page's `<head>`/`<body>` start.
 - Copy whichever JS blocks correspond to the partials you used (mobile
   drawer, reveal-on-scroll, event rendering, add-to-calendar) from the
-  `<script>` at the bottom of `UX Hub Barcelona.html` — each partial file
+  `<script>` at the bottom of `index.html` — each partial file
   above says exactly which behavior it needs and where to find it.
 - `sponsors.html`'s own header/footer follow the same `header.html` pattern
   (worth diffing if you want to match its nav-link set exactly).

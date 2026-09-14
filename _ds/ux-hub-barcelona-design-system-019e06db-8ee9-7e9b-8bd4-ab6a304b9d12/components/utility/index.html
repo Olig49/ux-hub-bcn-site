@@ -29,14 +29,14 @@
   <a class="ds-back" href="../README.md">&larr; Component families</a>
   <p class="ds-kicker">Family · utility</p>
   <h1 class="ds-title">Utility</h1>
-  <p class="ds-desc">Three small, cross-cutting behaviours from design-system-extraction.md §4 ("Also worth adding"): Marquee, BackToTop, and Reveal-on-scroll. Markup below is copied verbatim from <code>UX Hub Barcelona.html</code> (Marquee appears only there; BackToTop and Reveal-on-scroll appear on both pages, identically).</p>
+  <p class="ds-desc">Three small, cross-cutting behaviours from design-system-extraction.md §4 ("Also worth adding"): Marquee, BackToTop, and Reveal-on-scroll. Markup below is copied verbatim from <code>index.html</code> (Marquee appears only there; BackToTop and Reveal-on-scroll appear on both pages, identically).</p>
 
   <!-- ===================================================================
        MARQUEE — .marquee
   ==================================================================== -->
   <section class="ds-component">
     <h2 class="ds-label">Marquee — <code>.marquee</code></h2>
-    <p class="ds-label-sub">Seaturtle band, an infinitely-scrolling duplicated track. Source: UX Hub Barcelona.html:101-117.</p>
+    <p class="ds-label-sub">Seaturtle band, an infinitely-scrolling duplicated track. Source: index.html:127-143.</p>
 
     <div class="marquee" aria-hidden="true">
       <div class="marquee-track">
@@ -64,7 +64,7 @@
   ==================================================================== -->
   <section class="ds-component">
     <h2 class="ds-label">BackToTop — <code>.to-top</code></h2>
-    <p class="ds-label-sub">Fixed pill, bottom-right, appears after 600px of scroll. Source: UX Hub Barcelona.html:534-536 (markup) + :616-622 (scroll + click behaviour). Forced visible here (<code>.show</code> class added) since it's normally hidden until scrolled.</p>
+    <p class="ds-label-sub">Fixed pill, bottom-right, appears after 600px of scroll. Source: index.html:604-606 (markup) + :743-749 (scroll + click behaviour). Forced visible here (<code>.show</code> class added) since it's normally hidden until scrolled.</p>
 
     <div class="ds-frame">
       <button type="button" class="to-top show" aria-label="Back to top" style="right:24px;bottom:24px;">
@@ -86,7 +86,7 @@
   ==================================================================== -->
   <section class="ds-component">
     <h2 class="ds-label">Reveal-on-scroll — <code>.reveal</code></h2>
-    <p class="ds-label-sub">Opt-in fade+rise-in, applied to almost every top-level section block across both pages. Source (behaviour): UX Hub Barcelona.html:624-641 and sponsors.html:339-344; CSS: site.css:494-498.</p>
+    <p class="ds-label-sub">Opt-in fade+rise-in, applied to almost every top-level section block across both pages. Source (behaviour): index.html:751-768 and sponsors.html:348-358 (both include the safety-net timeout); CSS: site.css:613-614.</p>
 
     <div class="ds-reveal-demo">
       <div class="section-head reveal">
@@ -95,7 +95,7 @@
       </div>
     </div>
     <p class="ds-note">This exact <code>.section-head.reveal</code> element is the real markup
-      from UX Hub Barcelona.html:122-125 — reused here to demonstrate the structure rather than
+      from index.html:148-151 — reused here to demonstrate the structure rather than
       re-describing it abstractly. It renders fully visible in this static catalog page because
       this page intentionally carries no copy of the observer script — per the base CSS rule,
       <code>.reveal</code> alone is <code>opacity:1; transform:none</code>, and only becomes

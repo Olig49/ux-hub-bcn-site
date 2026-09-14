@@ -1,7 +1,6 @@
 <!--
   Partial: Hero
-  Extracted verbatim from: /project/UX Hub Barcelona.html, lines 66-98
-  (section#home.hero).
+  Extracted verbatim from: index.html, lines 76-107 (section#home.hero).
 
   Depends on:
     - styles/site.css     → .hero, .hero-bg-circles, .wrap, .hero-grid,
@@ -9,26 +8,41 @@
                              .hero-actions, .btn / .btn-primary / .btn-ghost,
                              .hero-visual, .collage, .ph (p1/p2/p3), .blob
     - styles/tokens.css   → color/spacing/font custom properties
-    - styles/mobile-tweaks.css → hero h1 font-size floor (L8) and the
-      "lead with one photo" collage rules under 700px (L28-34)
+    - styles/mobile-tweaks.css → hero h1 font-size floor (L8) and, at
+      ≤700px, hides .collage entirely (L31) — see "Mobile note" below,
+      this is NOT the same as it once was.
     - Shared inline SVG sprite: <symbol id="uxh-flower">…</symbol>.
       This lives once near the top of <body> in the shipped page
-      (UX Hub Barcelona.html, line 28, inside a hidden 0×0 <svg>). Every
-      <use href="#uxh-flower"/> below (background circles, collage blobs)
-      needs that symbol present once per page — see README "Shared SVG
-      sprite" section for the exact markup to paste.
+      (index.html, inside a hidden 0×0 <svg>). Every <use href="#uxh-flower"/>
+      below (background circles, collage blobs) needs that symbol present
+      once per page — see README "Shared SVG sprite" section for the exact
+      markup to paste.
     - assets/photo-meetup-1-800.webp / -1400.webp
       assets/photo-meetup-2-800.webp / -1400.webp
       assets/photo-meetup-3-800.webp / -1400.webp
 
+  Mobile note — .collage is hidden outright at ≤700px, not reduced to one
+  photo: an earlier version of this partial (and an earlier version of the
+  shipped page) kept one collage photo visible on mobile and hid the other
+  two, which silently dropped two of the three photos for mobile visitors.
+  The shipped page now replaces the collage entirely with a separate
+  continuous-scroll "image ticker" strip (`.img-ticker`, a sibling of this
+  `<section>`, immediately after it in index.html) that cycles through all
+  three photos instead of showing one statically. That ticker is its own
+  component — see utility/README.md "ImageTicker" — and is NOT included in
+  this partial; a consumer who only copies this hero section and its
+  dependencies will get a hero with **no visible image at all** below
+  700px, since .collage is display:none there and nothing replaces it.
+  Copy the ImageTicker markup/CSS too if you want a mobile hero image.
+
   JS behavior:
     - "reveal" / "reveal-on" classes are progressive-enhancement only
-      (site.css L496-498): content is visible by default; the scroll-in
-      fade/translate only activates once JS adds `reveal-on` to <html> and
-      an IntersectionObserver adds `.in` per element on first intersect.
-      Copy the IIFE at the end of the <script> block in
-      "UX Hub Barcelona.html" (search "Reveal-on-scroll") if you want the
-      animation; omit it and the section still renders correctly, just
+      (site.css: `.reveal` / `html.reveal-on .reveal`, ~L613-614): content
+      is visible by default; the scroll-in fade/translate only activates
+      once JS adds `reveal-on` to <html> and an IntersectionObserver adds
+      `.in` per element on first intersect. Copy the IIFE in index.html's
+      inline <script> (search "Reveal-on-scroll", ~L751-768) if you want
+      the animation; omit it and the section still renders correctly, just
       without the fade-in.
     - The primary button's href (#events) assumes an on-page "events"
       section exists; site JS repoints it to the public Meetup events URL

@@ -154,16 +154,15 @@ from the tab order while hidden, unlike `opacity` alone would.
   margin means an element must cross 8% short of the very bottom of the viewport before counting
   as "intersecting," giving a small pre-emptive trigger margin rather than firing the instant one
   pixel is visible at the very edge.
-- **Safety net inside the JS itself (homepage only):** 1200ms after load, anything still lacking
+- **Safety net inside the JS itself, on both pages:** 1200ms after load, anything still lacking
   `.in` whose bounding rect top is already within the viewport gets `.in` forced on
-  (UX Hub Barcelona.html:637-640) — guards against an observer that never fires for some reason
-  leaving real content permanently invisible. **Sponsors.html does not include this safety-net
-  timeout** (sponsors.html:339-344 sets up the observer only) — a smaller version of the same
-  homepage/sponsors.html parity gap noted for BackToTop above.
+  (index.html:763-767; sponsors.html:353-357, identical logic) — guards against an observer that
+  never fires for some reason leaving real content permanently invisible. (An earlier version of
+  this doc claimed sponsors.html omitted this safety net — it doesn't; both pages match.)
 
 **Selector/location:** `.reveal`, `html.reveal-on .reveal`, `html.reveal-on .reveal.in` —
-site.css:494-498. **Behaviour:** UX Hub Barcelona.html:624-641; sponsors.html:339-344 (no
-safety-net timeout). **Found in:** applied to nearly every top-level section block across both
+site.css:613-614. **Behaviour:** index.html:751-768; sponsors.html:348-358 (same logic,
+including the safety net). **Found in:** applied to nearly every top-level section block across both
 pages — hero copy/visual, section heads, event-feature, offer cards, about media/copy, team
 cards, partner-section, donate, mailing form, and (sponsors.html) sp-hero, tiers, sponsor cards,
 the CTA panel.
