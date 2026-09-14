@@ -75,12 +75,10 @@
       bottom-left corner is reserved for the third-party cookie-consent widget (GetTerms CMP,
       loaded in both pages' `&lt;head&gt;`), so BackToTop and the cookie widget never fight for the
       same corner. At ≤600px it shrinks from 48px to 44px (site.css:492) — still meeting
-      <code>--uxh-tap-min</code>. Smooth-scroll is only used when motion is welcome:
-      sponsors.html's handler explicitly checks <code>prefers-reduced-motion: reduce</code> and
-      falls back to an instant jump (sponsors.html:348-349); the homepage's handler always passes
-      <code>behavior: 'smooth'</code> without that check (UX Hub Barcelona.html:621) — a real,
-      small inconsistency between the two pages worth reconciling in favour of the sponsors.html
-      version.</p>
+      <code>--uxh-tap-min</code>. Smooth-scroll is only used when motion is welcome: both pages'
+      handlers check <code>prefers-reduced-motion: reduce</code> and fall back to an instant jump
+      (<code>behavior: reduceMotion ? 'auto' : 'smooth'</code>) — index.html and sponsors.html
+      now implement this identically.</p>
   </section>
 
   <!-- ===================================================================

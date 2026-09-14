@@ -111,21 +111,16 @@ place these photos appear with real alt text.
   overlapping in the same corner.
 
 **Selector/location:** `.to-top`, `.to-top.show` — site.css:486-492. **Found in:**
-UX Hub Barcelona.html:534-536 (markup) + :616-622 (behaviour); sponsors.html:334-336 (markup) +
-:345-349 (behaviour).
+index.html (markup near the end of `<body>`, behaviour in the inline `<script>` block) and
+sponsors.html at the equivalent locations.
 
-**Real inconsistency between the two pages — smooth-scroll and reduced motion:**
-
-| | Homepage | Sponsors page |
-|---|---|---|
-| Reads `prefers-reduced-motion` before scrolling | ❌ no | ✅ yes |
-| Click handler | `window.scrollTo({ top: 0, behavior: 'smooth' })` unconditionally (UX Hub Barcelona.html:621) | checks `matchMedia('(prefers-reduced-motion: reduce)')` first, uses `behavior: reduce ? 'auto' : 'smooth'` (sponsors.html:348-349) |
-
-The homepage's BackToTop **always** smooth-scrolls, ignoring the visitor's reduced-motion
-preference for this one interaction, even though the same page correctly respects that
-preference for the marquee and for reveal-on-scroll. Sponsors.html gets this right. Worth
-porting sponsors.html's check into the homepage's handler rather than picking either version
-as "the" spec, since they currently disagree.
+**Reduced motion — now consistent on both pages:** both click handlers check
+`matchMedia('(prefers-reduced-motion: reduce)')` before scrolling and use
+`behavior: reduceMotion ? 'auto' : 'smooth'` — an instant jump instead of an animated scroll
+when the visitor has asked for less motion, same as the marquee and reveal-on-scroll already
+did. (An earlier version of this page documented a real inconsistency here — the homepage's
+handler used to smooth-scroll unconditionally — since fixed; kept as a note here only in case
+it regresses, not because it's still true.)
 
 **Accessibility:** `aria-label="Back to top"` gives the icon-only button its accessible name.
 The visibility toggle uses both `opacity`/`visibility` (not `display`), so the button is never
