@@ -83,24 +83,40 @@ font-size).
   panel, this card is the one light surface in the section.
 - **Amount chips** (`.amount`): `flex: 1 1 60px`, `padding: 14px 0`, `border-radius: 12px` (→
   `var(--uxh-radius-md)`), `1px solid var(--uxh-line-strong)`, `font: 600 17px/1`. Active state
-  (`.is-active`): seaturtle fill, white text, matching border colour. **Four chips, not three:**
-  `€15` / `€25` / `€45` / `Any amount` — all rendered by the same `renderChips()`, no separate
-  markup or styling for the fourth one.
-- **"Any amount" — a chip, not a text field.** This replaced an earlier `<input type="number">`
-  design (`.custom-row`, now removed) that asked the visitor to type an amount on this page
-  *and then again* on Stripe's own page — Stripe Payment Links can't accept a pre-filled custom
-  price via URL (a real, confirmed Stripe limitation, not a bug in this codebase), so the typed
-  value here was never actually reaching checkout. The "Any amount" chip sets no local number at
-  all — clicking it just opens Stripe's own customer-enters-amount page
-  (`STRIPE_DONATE_ANY`), where the amount is typed exactly once, in the right place.
+  (`.is-active`): seaturtle fill, white text, matching border colour. **Three chips**, `€15` /
+  `€25` / `€45` — "Any amount" is deliberately *not* a fourth chip in this row (see below).
+- **"Any amount"** (`.amount-any`) — a separate full-width selector on its own line below the
+  three preset chips, inside the same `.amount-group` radiogroup wrapper (so it's still part of
+  one accessible group, just not visually competing for space in the flex-grow row). Two things
+  drove this shape, both from real usage:
+  - It replaced an earlier `<input type="number">` design (`.custom-row`, now removed
+    entirely) that asked the visitor to type an amount on this page *and then again* on
+    Stripe's own page — Stripe Payment Links can't accept a pre-filled custom price via URL (a
+    real, confirmed Stripe limitation, not a bug in this codebase), so the typed value here was
+    never actually reaching checkout. Clicking `.amount-any` sets no local number at all — it
+    opens Stripe's own customer-enters-amount page (`STRIPE_DONATE_ANY`) directly, so the
+    amount is typed exactly once, in the right place.
+  - It was tried as a fourth chip in the same row first (`flex: 1 1 60px` squeezed "Any amount"'s
+    longer label into ~76px with no horizontal padding). Moved to its own row —
+    `padding: 14px 20px`, `width: 100%` — specifically so the label has room to breathe rather
+    than fighting three shorter labels for space.
+  - `STRIPE_DONATE_ANY` is a **one-time-only** Payment Link — it has no recurring/subscription
+    configuration. Selecting `.amount-any` therefore force-switches `frequency` to `'once'` and
+    disables the Monthly toggle (`.freq-btn:disabled`, `opacity: 0.4`) for as long as it stays
+    selected, with a short note (`#dc-any-note`) explaining why. Picking a numeric preset again
+    re-enables Monthly and clears the note. This isn't cosmetic — without it, a visitor could
+    select Monthly + Any amount and land on a Stripe page that silently charges once instead of
+    setting up the recurring donation the UI implied.
 - **Frequency** (`.freq`): pill group container, `background: var(--uxh-warm-white)`,
   `1px solid var(--uxh-line)`, `padding: 4px`, `border-radius: 999px`. Active pill
   (`.freq-btn.is-active`): `background: var(--uxh-fg)`, white text. Switching frequency snaps
-  `amount` back to a valid preset only if the current selection isn't offered under the new
-  frequency — `Any amount` is valid under both, so it survives a frequency switch unchanged.
+  `amount` back to a valid preset only if the current numeric selection isn't offered under the
+  new frequency (`'any'` is left alone — it isn't a `PRESETS` entry, so this check doesn't apply
+  to it either way).
 - **Both groups need, and both have:** `role="radiogroup"` on the container + `role="radio"` on
   each button + `aria-checked` kept in sync by the click handler — this is the exact ARIA pattern
-  the spec calls for, correctly implemented, not just aspired to.
+  the spec calls for, correctly implemented, not just aspired to. `.amount-group` is the
+  radiogroup for amount now (wrapping both `.amounts` and `.amount-any`), not `.amounts` itself.
 - **Fine print** (`.dc-fine`): `display: flex; align-items: flex-start; flex-wrap: wrap; gap: 6px`
   — a **wrapping flex row**, deliberately, because the inline info button (`.dc-info`) that
   follows the sentence can't itself wrap; if `.dc-fine` were `display: inline`/block text instead,
@@ -112,7 +128,8 @@ font-size).
 the three numeric presets (once/monthly × €15/€25/€45 = 6 links, each a separate Stripe object);
 `amount === 'any'` never matches a key in that lookup, so it falls straight through to
 `STRIPE_DONATE_ANY` — the same fallback that used to catch unmappable typed values, now reached
-by a deliberate choice instead of a workaround.
+by a deliberate choice instead of a workaround. Because `frequency` is forced to `'once'` whenever
+`'any'` is selected, this fallback is in practice only ever reached with `frequency === 'once'`.
 
 **Selector/location:** `.donate-card` and all `.amount`/`.freq`/`.dc-*` descendants — site.css.
 **Found in:** index.html (markup + the chip/frequency state machine + Stripe Payment Link

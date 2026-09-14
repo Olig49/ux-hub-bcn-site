@@ -427,14 +427,24 @@ html[data-accent="teal"]   { --site-accent: var(--uxh-seaturtle); --site-accent-
 
 .donate-card { background: var(--uxh-warm-white); border-radius: 20px; padding: 28px; box-shadow: var(--uxh-shadow-lg); }
 .dc-label { font: 500 12px/1 var(--uxh-font-sans); letter-spacing: 0.12em; text-transform: uppercase; color: var(--uxh-fg-2); margin: 0 0 14px; }
+.amount-group { display: flex; flex-direction: column; gap: 8px; }
 .amounts { display: flex; flex-wrap: wrap; gap: 8px; }
 .amount { flex: 1 1 60px; padding: 14px 0; border-radius: 12px; border: 1px solid var(--uxh-line-strong); background: #fff;
   font: 600 17px/1 var(--uxh-font-sans); color: var(--uxh-fg); transition: border-color 160ms, background 160ms, color 160ms; }
 .amount:hover { border-color: var(--uxh-seaturtle); }
 .amount.is-active { background: var(--uxh-seaturtle); border-color: var(--uxh-seaturtle); color: #fff; }
+/* A separate full-width row below the three presets, not a fourth chip
+   squeezed into the same flex-grow row — "Any amount" is longer text and
+   reads better as its own selector than fighting for space at 76px wide. */
+.amount-any { width: 100%; padding: 14px 20px; border-radius: 12px; border: 1px solid var(--uxh-line-strong); background: #fff;
+  font: 600 15px/1 var(--uxh-font-sans); color: var(--uxh-fg); text-align: center; transition: border-color 160ms, background 160ms, color 160ms; }
+.amount-any:hover { border-color: var(--uxh-seaturtle); }
+.amount-any.is-active { background: var(--uxh-seaturtle); border-color: var(--uxh-seaturtle); color: #fff; }
+.dc-any-note { margin: 8px 0 0; font: 500 12px/1.4 var(--uxh-font-sans); color: var(--uxh-fg-2); }
 .freq { display: inline-flex; gap: 4px; margin-top: 16px; background: var(--uxh-warm-white); border: 1px solid var(--uxh-line); padding: 4px; border-radius: 999px; }
 .freq-btn { padding: 9px 18px; border-radius: 999px; font: 500 13px/1 var(--uxh-font-sans); color: var(--uxh-fg-2); transition: background 160ms, color 160ms; }
 .freq-btn.is-active { background: var(--uxh-fg); color: #fff; }
+.freq-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 .donate-submit { width: 100%; justify-content: center; margin-top: 18px; }
 .dc-fine { display: flex; align-items: flex-start; flex-wrap: wrap; gap: 6px; font-size: 12px; line-height: 1.5; color: var(--uxh-fg-2); margin: 14px 0 0; }
 .dc-info { display: inline-flex; align-items: center; justify-content: center; width: 16px; height: 16px; margin-left: 6px; padding: 0; border-radius: 999px; font-size: 13px; line-height: 1; color: var(--uxh-fg-2); vertical-align: baseline; position: relative; cursor: help; transition: color 160ms; }

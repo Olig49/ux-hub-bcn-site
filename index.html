@@ -415,11 +415,15 @@
 
           <form class="donate-card" id="donate-form">
             <p class="dc-label">Choose an amount</p>
-            <div class="amounts" id="amounts" role="radiogroup" aria-label="Donation amount"></div>
+            <div class="amount-group" role="radiogroup" aria-label="Donation amount">
+              <div class="amounts" id="amounts"></div>
+              <button type="button" role="radio" aria-checked="false" class="amount-any" id="amount-any" data-amount="any">Any amount</button>
+            </div>
             <div class="freq" id="freq" role="radiogroup" aria-label="Frequency">
               <button type="button" role="radio" aria-checked="false" class="freq-btn" data-freq="once">One-time</button>
               <button type="button" role="radio" aria-checked="true" class="freq-btn is-active" data-freq="monthly">Monthly</button>
             </div>
+            <p class="dc-any-note" id="dc-any-note" hidden>Any amount is a one-time donation only.</p>
             <button type="submit" class="btn btn-primary donate-submit" id="donate-submit">
               Donate <span id="donate-amount-label">€25</span>
               <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
@@ -760,38 +764,61 @@
     // Donate form
     (function () {
       const amounts = document.getElementById('amounts');
+      const amountAny = document.getElementById('amount-any');
+      const anyNote = document.getElementById('dc-any-note');
       const freq = document.getElementById('freq');
+      const monthlyBtn = freq?.querySelector('[data-freq="monthly"]');
       const form = document.getElementById('donate-form');
       const submit = document.getElementById('donate-submit');
       const submitHTML = submit.innerHTML;
-      // Preset amounts matching Stripe, plus 'any' — a plain chip that opens Stripe's
-      // own customer-enters-amount page, rather than a text field that made visitors
-      // type the number twice (once here, once on Stripe). Order = chip order; first
-      // entry is the default.
-      const PRESETS = { once: [15, 25, 45, 'any'], monthly: [15, 25, 45, 'any'] };
+      // Preset amounts matching Stripe. 'Any amount' lives outside this list — it's a
+      // separate selector below the presets, not a fourth chip in the same row, and
+      // it opens Stripe's own customer-enters-amount page rather than a text field
+      // that made visitors type the number twice (once here, once on Stripe).
+      const PRESETS = { once: [15, 25, 45], monthly: [15, 25, 45] };
       let frequency = 'monthly', amount = 25;
       function renderChips() {
         amounts.innerHTML = PRESETS[frequency].map((v) =>
-          '<button type="button" role="radio" aria-checked="' + (v === amount) + '" class="amount' + (v === amount ? ' is-active' : '') + '" data-amount="' + v + '">' + (v === 'any' ? 'Any amount' : ('€' + v)) + '</button>'
+          '<button type="button" role="radio" aria-checked="' + (v === amount) + '" class="amount' + (v === amount ? ' is-active' : '') + '" data-amount="' + v + '">€' + v + '</button>'
         ).join('');
       }
       let refresh = function () {
         const suffix = frequency === 'monthly' ? '/mo' : '';
         const el = document.getElementById('donate-amount-label');
         if (el) el.textContent = amount === 'any' ? '' : ('€' + amount + suffix);
+        amountAny?.classList.toggle('is-active', amount === 'any');
+        amountAny?.setAttribute('aria-checked', String(amount === 'any'));
+        if (anyNote) anyNote.hidden = amount !== 'any';
+        // Any amount only has a one-time Stripe link — lock the toggle to it while selected.
+        if (monthlyBtn) {
+          monthlyBtn.disabled = amount === 'any';
+          monthlyBtn.setAttribute('aria-disabled', String(amount === 'any'));
+        }
       };
       amounts?.addEventListener('click', (e) => {
         const b = e.target.closest('.amount'); if (!b) return;
-        amount = b.dataset.amount === 'any' ? 'any' : Number(b.dataset.amount);
+        amount = Number(b.dataset.amount);
+        renderChips(); refresh();
+      });
+      amountAny?.addEventListener('click', () => {
+        amount = 'any';
+        if (frequency !== 'once') {
+          frequency = 'once';
+          freq.querySelectorAll('.freq-btn').forEach(x => {
+            const isOnce = x.dataset.freq === 'once';
+            x.classList.toggle('is-active', isOnce);
+            x.setAttribute('aria-checked', String(isOnce));
+          });
+        }
         renderChips(); refresh();
       });
       freq?.addEventListener('click', (e) => {
-        const b = e.target.closest('.freq-btn'); if (!b) return;
+        const b = e.target.closest('.freq-btn'); if (!b || b.disabled) return;
         freq.querySelectorAll('.freq-btn').forEach(x => { x.classList.remove('is-active'); x.setAttribute('aria-checked', 'false'); });
         b.classList.add('is-active'); b.setAttribute('aria-checked', 'true');
         frequency = b.dataset.freq;
         // snap to a valid preset for this frequency (keep current if still offered)
-        if (!PRESETS[frequency].includes(amount)) amount = PRESETS[frequency][0];
+        if (amount !== 'any' && !PRESETS[frequency].includes(amount)) amount = PRESETS[frequency][0];
         renderChips(); refresh();
       });
       renderChips();
