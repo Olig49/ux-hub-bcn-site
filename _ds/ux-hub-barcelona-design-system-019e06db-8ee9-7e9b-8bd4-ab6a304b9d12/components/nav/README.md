@@ -20,8 +20,11 @@ for the live-rendered catalog.
   `.mobile-drawer.open` is present inside it (`.nav-shell:has(.mobile-drawer.open)`) — a
   999px-radius pill reads fine at bar height, but the same radius on a much taller open shell
   would just clamp to a near-circular corner on a tall box, so the corners relax to a normal
-  card radius instead. Transitions on `border-radius` alone, `var(--uxh-dur-overlay)
-  var(--uxh-ease)` (220ms), timed to match the drawer's own height transition below.
+  card radius instead. Transitions on `border-radius` alone, `var(--uxh-dur-nav)
+  var(--uxh-ease)` (360ms — its own token, deliberately slower than the 220ms
+  `--uxh-dur-overlay` used elsewhere, e.g. the event Modal: a full-menu open/close read as
+  rushed at 220ms in review, so the nav got its own, longer duration rather than everything on
+  that token slowing down with it), timed to match the drawer's own height transition below.
 - **Bar** (`.nav`): plain flex row inside the shell — `padding: 10px 12px 10px 20px`, `gap: 18px`.
   No background/border/radius of its own any more; that all moved to `.nav-shell` above.
 - **Links** (`.nav-link`): `padding: 9px 16px`, pill, `font: 500 14px/1`; hover →
@@ -39,8 +42,10 @@ for the live-rendered catalog.
   animate than swapping SVG paths), styled off `[aria-expanded]` rather than a separate JS-added
   class, so the same attribute that already drives the accessible state also drives the visual
   one — no risk of the two disagreeing. Open state: bars 1 and 3 slide to the vertical centre
-  (`top: 19px`) and rotate ±45°, bar 2 fades to `opacity: 0`. `transition: transform 240ms,
-  opacity 160ms, top 240ms`, all `var(--uxh-ease)`.
+  (`top: 19px`) and rotate ±45°, bar 2 fades to `opacity: 0`. `transition: transform
+  var(--uxh-dur-nav), opacity 240ms, top var(--uxh-dur-nav)`, all `var(--uxh-ease)` — the rotate/
+  slide runs the full 360ms alongside the shell and drawer, opacity a touch faster (240ms) so
+  the middle bar doesn't linger half-visible through the rotation.
 - **Right-alignment gotcha:** `.nav` is a plain flex row; `.nav-links` carries the
   `margin-left: auto` that pushes everything after it (CTA, burger) to the right edge. That
   margin disappears the instant `.nav-links` is `display: none` (≤880px), which used to leave
@@ -87,8 +92,9 @@ added for it.
   It's now a normal in-flow child of `.nav-shell`, directly below `.nav`, with no background/
   border/shadow of its own — it inherits the shell's.
 - **Height animation** (`.mobile-drawer`): `display: grid; grid-template-rows: 0fr` (closed) →
-  `1fr` (`.open`), `transition: grid-template-rows var(--uxh-dur-overlay) var(--uxh-ease)`
-  (220ms). This is the standard "CSS-only accordion" trick — a single-row, single-column grid
+  `1fr` (`.open`), `transition: grid-template-rows var(--uxh-dur-nav) var(--uxh-ease)`
+  (360ms — see `.nav-shell` above for why this got its own, slower token instead of reusing
+  `--uxh-dur-overlay`). This is the standard "CSS-only accordion" trick — a single-row, single-column grid
   can tween its row size in `fr` units from 0 to content-height smoothly, which a plain `height`
   or `max-height` transition can't do without either hardcoding a pixel value or overshooting.
   It only collapses all the way to a true `0px` because the actual content sits in a nested
@@ -103,7 +109,8 @@ added for it.
   of opacity/transform: on open, clear `hidden` first, then add `.open` on the next animation
   frame (`requestAnimationFrame`) so the browser has a frame to transition from; on close,
   remove `.open` first, then set `hidden = true` after a `setTimeout` matching the transition
-  duration (220ms) rather than instantly.
+  duration (360ms, kept literal in the JS rather than read from CSS — same tradeoff as the
+  Modal's equivalent `setTimeout`, see `overlay/README.md`) rather than instantly.
 - **Items** (inside `.mobile-drawer-inner`): `padding: 14px 16px`, `border-radius: 12px` (→
   `var(--uxh-radius-md)`), hover → `var(--uxh-soft-beige)`. **`.drawer-cta`:** sized to its own
   content (`display: inline-flex; align-self: flex-start`, not a full-width row like the plain
@@ -139,10 +146,10 @@ present on both pages. The drawer itself has no `role="dialog"`; that's appropri
 the event Modal) since it's inline page navigation, not a modal overlay.
 
 **Tokens to use:** `var(--uxh-radius-md)` (items), `var(--uxh-radius-pill)` (drawer-cta),
-`var(--uxh-dur-overlay)` + `var(--uxh-ease)` (open/close transition — shared with `.nav-shell`'s
-radius morph so both read as one motion), `var(--uxh-tap-min)` (drawer links/CTA already meet
-44px via the combinator rule in site.css). No radius/shadow tokens of its own any more — see
-`.nav-shell` above for those.
+`var(--uxh-dur-nav)` + `var(--uxh-ease)` (open/close transition — shared with `.nav-shell`'s
+radius morph and the burger's bar transforms, so all three read as one motion), `var(--uxh-tap-min)`
+(drawer links/CTA already meet 44px via the combinator rule in site.css). No radius/shadow
+tokens of its own any more — see `.nav-shell` above for those.
 
 ---
 

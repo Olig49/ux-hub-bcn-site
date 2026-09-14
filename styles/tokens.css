@@ -90,6 +90,7 @@
   --uxh-dur-move:    200ms;  /* arrow nudge: translateX(3px) */
   --uxh-dur-layout:  240ms;  /* card lift, modal card */
   --uxh-dur-overlay: 220ms;  /* overlay fade */
+  --uxh-dur-nav:     360ms;  /* nav-shell/drawer open+close — deliberately slower than --uxh-dur-overlay so the menu doesn't feel rushed */
   --uxh-dur-entry:   600ms;  /* reveal-on-scroll — matches the shipped .reveal transition in site.css */
 
   /* ----- Semantic aliases (on-dark surfaces) ---------------------- */

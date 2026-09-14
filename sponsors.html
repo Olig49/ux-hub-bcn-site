@@ -372,7 +372,7 @@
         requestAnimationFrame(() => drawer.classList.add('open'));
       } else {
         drawer.classList.remove('open');
-        setTimeout(() => { drawer.hidden = true; }, 220); // matches --uxh-dur-overlay
+        setTimeout(() => { drawer.hidden = true; }, 360); // matches --uxh-dur-nav
       }
       burger.setAttribute('aria-expanded', String(open));
       burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');

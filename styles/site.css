@@ -33,7 +33,7 @@ html[data-accent="teal"]   { --site-accent: var(--uxh-seaturtle); --site-accent-
   backdrop-filter: blur(16px) saturate(140%); -webkit-backdrop-filter: blur(16px) saturate(140%);
   border: 1px solid rgba(0,0,0,0.06); border-radius: 999px;
   box-shadow: 0 8px 28px rgba(15,55,58,0.06);
-  transition: border-radius var(--uxh-dur-overlay) var(--uxh-ease);
+  transition: border-radius var(--uxh-dur-nav) var(--uxh-ease);
 }
 /* Pill corners read fine at bar height; once the drawer opens the shell is much
    taller, so the corners relax to a normal card radius instead of staying an
@@ -66,7 +66,7 @@ html[data-accent="teal"]   { --site-accent: var(--uxh-seaturtle); --site-accent-
    center of rotation stays fixed as it rotates into place. */
 .burger-bar { position: absolute; left: 50%; top: 19px; width: 18px; height: 2px; margin-left: -9px;
   border-radius: 999px; background: var(--uxh-fg);
-  transition: transform 240ms var(--uxh-ease), opacity 160ms var(--uxh-ease), top 240ms var(--uxh-ease); }
+  transition: transform var(--uxh-dur-nav) var(--uxh-ease), opacity 240ms var(--uxh-ease), top var(--uxh-dur-nav) var(--uxh-ease); }
 .burger-bar:nth-child(1) { top: 14px; }
 .burger-bar:nth-child(3) { top: 24px; }
 .nav-burger[aria-expanded="true"] .burger-bar:nth-child(1) { top: 19px; transform: rotate(45deg); }
@@ -90,7 +90,7 @@ html[data-accent="teal"]   { --site-accent: var(--uxh-seaturtle); --site-accent-
    automatic minimum size is content-based unless the item's overflow is
    hidden, in which case it can shrink past that floor. */
 .mobile-drawer { display: grid; grid-template-rows: 0fr;
-  transition: grid-template-rows var(--uxh-dur-overlay) var(--uxh-ease); }
+  transition: grid-template-rows var(--uxh-dur-nav) var(--uxh-ease); }
 .mobile-drawer.open { grid-template-rows: 1fr; }
 .mobile-drawer[hidden] { display: none; }
 .mobile-drawer-inner { overflow: hidden; display: flex; flex-direction: column; gap: 4px; padding: 0 12px 12px; }
