@@ -430,14 +430,60 @@
           </div>
 
           <form class="mail-form reveal" id="join-form" action="https://48db4b2d.sibforms.com/serve/MUIFALfB0bn_p1G9zS7yYICl8fr4aT-cjBYl7Ow1DKvi6gv1FzDSE3Dt9fmIH5k78PONlJNEn2S6UnpOuo_VNIeUd69dkI5RJ0kaw7TjtxPjtwYy8KKc80BkMTozTqyRXiKCcXK9G8y-NccOB4S1Ci0SPkuWLJ5BCVWC80yGZ9bhinpCpoBKNV5cyovr3wH4BWM1_lNTf8IsVTvO" method="post" target="_blank" rel="noopener" novalidate>
-            <label for="email">Your email</label>
-            <div class="mail-row" id="mail-row">
-              <input id="email" name="EMAIL" type="email" autocomplete="email" placeholder="example@nevanscott.com" required aria-describedby="mail-error" />
-              <button type="submit">Sign up</button>
+            <div class="mail-field">
+              <label for="email">Email</label>
+              <div class="mail-row" id="row-email">
+                <input id="email" name="EMAIL" type="email" autocomplete="email" placeholder="you@example.com" required aria-describedby="err-email" />
+              </div>
+              <p class="mail-error" id="err-email" hidden role="alert">Please enter a valid email address.</p>
             </div>
-            <p class="mail-error" id="mail-error" hidden role="alert">Please enter a valid email address.</p>
+
+            <div class="mail-field-group">
+              <div class="mail-field">
+                <label for="firstname">First name</label>
+                <div class="mail-row" id="row-firstname">
+                  <input id="firstname" name="FIRSTNAME" type="text" autocomplete="given-name" placeholder="Jane" required maxlength="200" aria-describedby="err-firstname" />
+                </div>
+                <p class="mail-error" id="err-firstname" hidden role="alert">Please enter your first name.</p>
+              </div>
+              <div class="mail-field">
+                <label for="lastname">Last name</label>
+                <div class="mail-row" id="row-lastname">
+                  <input id="lastname" name="LASTNAME" type="text" autocomplete="family-name" placeholder="Doe" required maxlength="200" aria-describedby="err-lastname" />
+                </div>
+                <p class="mail-error" id="err-lastname" hidden role="alert">Please enter your last name.</p>
+              </div>
+            </div>
+
+            <div class="mail-field">
+              <label for="linkedin">LinkedIn</label>
+              <div class="mail-row" id="row-linkedin">
+                <input id="linkedin" name="LINKEDIN" type="text" autocomplete="url" placeholder="linkedin.com/in/yourname" required maxlength="200" aria-describedby="err-linkedin" />
+              </div>
+              <p class="mail-error" id="err-linkedin" hidden role="alert">Please enter your LinkedIn profile.</p>
+            </div>
+
+            <div class="mail-field">
+              <label for="jobtitle">Job title</label>
+              <div class="mail-row" id="row-jobtitle">
+                <input id="jobtitle" name="JOB_TITLE" type="text" autocomplete="organization-title" placeholder="Product designer" required maxlength="200" aria-describedby="err-jobtitle" />
+              </div>
+              <p class="mail-error" id="err-jobtitle" hidden role="alert">Please enter your job title.</p>
+            </div>
+
+            <label class="mail-optin" id="row-optin" for="optin">
+              <input type="checkbox" id="optin" name="OPT_IN" value="1" required aria-describedby="err-optin" />
+              <span>I agree to receive your newsletters and accept the <a href="https://app.getterms.io/view/QJbom/privacy/en-us" target="_blank" rel="noopener">privacy policy</a>.</span>
+            </label>
+            <p class="mail-error" id="err-optin" hidden role="alert">Please check the box to subscribe.</p>
+
+            <button type="submit" class="btn btn-dark">Sign up</button>
+
             <p class="mail-ack" id="mail-ack" hidden role="status">Thanks. We&rsquo;ve opened a new tab, check your inbox to confirm your subscription.</p>
-            <p class="fineprint">By subscribing you agree to our <a href="https://app.getterms.io/view/QJbom/privacy/en-us" target="_blank" rel="noopener">privacy policy</a>. Unsubscribing is one click. We use it for events, nothing else.</p>
+            <p class="fineprint">Unsubscribing is one click. We use it for events, nothing else.</p>
+
+            <input type="text" name="email_address_check" value="" class="mail-hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
+            <input type="hidden" name="locale" value="en" />
           </form>
         </div>
       </div>
@@ -573,31 +619,56 @@
       if (!drawer.contains(e.target) && !burger.contains(e.target)) setDrawer(false);
     });
 
-    // Brevo posts to its own tab, so confirm on this page too.
+    // Brevo posts to its own tab, so confirm on this page too. Brevo's list
+    // requires first/last name, LinkedIn and job title (not just email), so
+    // every field below is validated the same way, plus the consent checkbox.
     (function () {
       const form = document.getElementById('join-form');
-      const row = document.getElementById('mail-row');
-      const email = document.getElementById('email');
-      const error = document.getElementById('mail-error');
+      if (!form) return;
       const ack = document.getElementById('mail-ack');
-      if (!form || !row || !email || !error) return;
 
-      function setInvalid(invalid) {
-        row.classList.toggle('has-error', invalid);
-        email.setAttribute('aria-invalid', String(invalid));
-        error.hidden = !invalid;
+      const fields = ['email', 'firstname', 'lastname', 'linkedin', 'jobtitle'].map((id) => ({
+        input: document.getElementById(id),
+        row: document.getElementById('row-' + id),
+        error: document.getElementById('err-' + id),
+      })).filter((f) => f.input && f.row && f.error);
+
+      const optin = {
+        input: document.getElementById('optin'),
+        row: document.getElementById('row-optin'),
+        error: document.getElementById('err-optin'),
+      };
+
+      function setInvalid(f, invalid) {
+        f.row.classList.toggle('has-error', invalid);
+        f.input.setAttribute('aria-invalid', String(invalid));
+        f.error.hidden = !invalid;
       }
 
-      email.addEventListener('input', () => { if (row.classList.contains('has-error')) setInvalid(false); });
+      fields.forEach((f) => {
+        f.input.addEventListener('input', () => { if (f.row.classList.contains('has-error')) setInvalid(f, false); });
+      });
+      if (optin.input) {
+        optin.input.addEventListener('change', () => { if (optin.row.classList.contains('has-error')) setInvalid(optin, false); });
+      }
 
       form.addEventListener('submit', (e) => {
-        if (!email.checkValidity()) {
+        let firstInvalid = null;
+        fields.forEach((f) => {
+          const invalid = !f.input.checkValidity();
+          setInvalid(f, invalid);
+          if (invalid && !firstInvalid) firstInvalid = f.input;
+        });
+        if (optin.input) {
+          const optinInvalid = !optin.input.checked;
+          setInvalid(optin, optinInvalid);
+          if (optinInvalid && !firstInvalid) firstInvalid = optin.input;
+        }
+        if (firstInvalid) {
           e.preventDefault();
-          setInvalid(true);
-          email.focus();
+          firstInvalid.focus();
           return;
         }
-        setInvalid(false);
         if (ack) ack.hidden = false;
       });
     })();

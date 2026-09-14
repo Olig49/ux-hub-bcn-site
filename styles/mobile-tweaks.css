@@ -39,11 +39,9 @@
 }
 
 @media (max-width: 520px) {
-  /* A pill row squeezes the email field to a few characters. */
-  .mail-row { flex-direction: column; align-items: stretch;
-    border-radius: 20px; padding: 14px; gap: 10px; }
-  .mail-row input { padding: 15px 4px; }
-  .mail-row button { width: 100%; padding: 14px 22px; }
+  /* Each mail-row now wraps a single input (button lives outside it), so the
+     pill shape holds fine at any width — just tighten the side inset. */
+  .mail-row { padding: 6px 14px; }
   .mail-form label,
   .mail-form .fineprint,
   .mail-ack { padding-left: 4px; padding-right: 4px; }
