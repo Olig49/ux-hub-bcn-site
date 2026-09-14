@@ -1,0 +1,180 @@
+{
+  "plugins": [
+    "react",
+    "import"
+  ],
+  "rules": {
+    "react/forbid-elements": [
+      "warn",
+      {
+        "forbid": []
+      }
+    ],
+    "no-restricted-imports": [
+      "warn",
+      {
+        "patterns": []
+      }
+    ],
+    "no-restricted-syntax": [
+      "warn",
+      {
+        "selector": "Literal[value=/#[0-9a-fA-F]{3,8}\\b/]",
+        "message": "Raw hex color — use a design-system color token via var()."
+      },
+      {
+        "selector": "Literal[value=/\\b\\d+px\\b/]",
+        "message": "Raw px value — use a design-system spacing token via var()."
+      },
+      {
+        "selector": "Literal[value=/font-family\\s*:\\s*(?!['\\\"]?(?:Work Sans|Lora))/i]",
+        "message": "Font not provided by the design system. Available: Work Sans, Lora."
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": [
+        "**/index.js"
+      ],
+      "rules": {
+        "no-restricted-imports": "off"
+      }
+    }
+  ],
+  "x-omelette": {
+    "components": {},
+    "tokens": [
+      "--uxh-accent",
+      "--uxh-bg",
+      "--uxh-bg-alt",
+      "--uxh-bg-card",
+      "--uxh-bg-inverse",
+      "--uxh-body",
+      "--uxh-body-lg",
+      "--uxh-body-lg-lh",
+      "--uxh-body-lh",
+      "--uxh-ceramic",
+      "--uxh-fg",
+      "--uxh-fg-2",
+      "--uxh-fg-3",
+      "--uxh-fg-on-dark",
+      "--uxh-font-mono",
+      "--uxh-font-sans",
+      "--uxh-font-serif",
+      "--uxh-gradient-sunrise-cold",
+      "--uxh-gradient-sunset-cozy",
+      "--uxh-gradient-teal-cold",
+      "--uxh-gradient-teal-cozy",
+      "--uxh-h1-lh",
+      "--uxh-h1-size",
+      "--uxh-h1-tracking",
+      "--uxh-h2-lh",
+      "--uxh-h2-size",
+      "--uxh-h2-tracking",
+      "--uxh-h3-lh",
+      "--uxh-h3-size",
+      "--uxh-h3-tracking",
+      "--uxh-lime",
+      "--uxh-line",
+      "--uxh-line-strong",
+      "--uxh-link",
+      "--uxh-meta",
+      "--uxh-meta-lh",
+      "--uxh-purple",
+      "--uxh-radius-lg",
+      "--uxh-radius-md",
+      "--uxh-radius-pill",
+      "--uxh-radius-sm",
+      "--uxh-seaturtle",
+      "--uxh-shadow-lg",
+      "--uxh-shadow-md",
+      "--uxh-shadow-sm",
+      "--uxh-small",
+      "--uxh-small-lh",
+      "--uxh-soft-beige",
+      "--uxh-space-1",
+      "--uxh-space-2",
+      "--uxh-space-3",
+      "--uxh-space-4",
+      "--uxh-space-5",
+      "--uxh-space-6",
+      "--uxh-space-7",
+      "--uxh-space-8",
+      "--uxh-space-9",
+      "--uxh-teal-night",
+      "--uxh-warm-sand",
+      "--uxh-warm-white",
+      "--uxh-white",
+      "--uxh-yolk"
+    ],
+    "tokenKinds": {
+      "--uxh-seaturtle": "color",
+      "--uxh-yolk": "color",
+      "--uxh-lime": "color",
+      "--uxh-purple": "color",
+      "--uxh-ceramic": "color",
+      "--uxh-white": "color",
+      "--uxh-warm-white": "color",
+      "--uxh-soft-beige": "color",
+      "--uxh-teal-night": "color",
+      "--uxh-warm-sand": "color",
+      "--uxh-fg": "color",
+      "--uxh-fg-2": "color",
+      "--uxh-fg-3": "color",
+      "--uxh-fg-on-dark": "color",
+      "--uxh-line": "color",
+      "--uxh-line-strong": "color",
+      "--uxh-bg": "color",
+      "--uxh-bg-alt": "color",
+      "--uxh-bg-card": "color",
+      "--uxh-bg-inverse": "color",
+      "--uxh-accent": "color",
+      "--uxh-link": "color",
+      "--uxh-gradient-teal-cold": "other",
+      "--uxh-gradient-teal-cozy": "other",
+      "--uxh-gradient-sunrise-cold": "other",
+      "--uxh-gradient-sunset-cozy": "other",
+      "--uxh-font-sans": "font",
+      "--uxh-font-serif": "font",
+      "--uxh-font-mono": "font",
+      "--uxh-h1-size": "spacing",
+      "--uxh-h1-lh": "other",
+      "--uxh-h1-tracking": "font",
+      "--uxh-h2-size": "spacing",
+      "--uxh-h2-lh": "other",
+      "--uxh-h2-tracking": "font",
+      "--uxh-h3-size": "spacing",
+      "--uxh-h3-lh": "other",
+      "--uxh-h3-tracking": "font",
+      "--uxh-body-lg": "spacing",
+      "--uxh-body-lg-lh": "other",
+      "--uxh-body": "spacing",
+      "--uxh-body-lh": "other",
+      "--uxh-small": "spacing",
+      "--uxh-small-lh": "other",
+      "--uxh-meta": "spacing",
+      "--uxh-meta-lh": "other",
+      "--uxh-space-1": "spacing",
+      "--uxh-space-2": "spacing",
+      "--uxh-space-3": "spacing",
+      "--uxh-space-4": "spacing",
+      "--uxh-space-5": "spacing",
+      "--uxh-space-6": "spacing",
+      "--uxh-space-7": "spacing",
+      "--uxh-space-8": "spacing",
+      "--uxh-space-9": "spacing",
+      "--uxh-radius-sm": "radius",
+      "--uxh-radius-md": "radius",
+      "--uxh-radius-lg": "radius",
+      "--uxh-radius-pill": "radius",
+      "--uxh-shadow-sm": "shadow",
+      "--uxh-shadow-md": "shadow",
+      "--uxh-shadow-lg": "shadow"
+    },
+    "fontFamilies": [
+      "Lora",
+      "Work Sans"
+    ]
+  }
+}

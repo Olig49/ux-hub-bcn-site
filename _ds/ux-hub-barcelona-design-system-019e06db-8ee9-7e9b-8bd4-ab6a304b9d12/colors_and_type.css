@@ -1,0 +1,142 @@
+/* UX HUB Barcelona — colors & type tokens
+   Source: Figma "Branding.fig" / Brand Guidelines (node 12:101)
+*/
+
+/* Webfonts ------------------------------------------------------ */
+@import url("https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap");
+
+:root {
+  /* ----- Primary palette --------------------------------------- */
+  --uxh-seaturtle: #2A99A0;   /* primary teal — supporting shapes, icons, accents */
+  --uxh-yolk:      #F3A632;   /* CTA buttons, event highlights, emphasis */
+  --uxh-lime:      #C7B85D;   /* secondary highlights, tags, subtle details */
+  --uxh-purple:    #D5B3F7;   /* expressive moments, headers, accents */
+  --uxh-ceramic:   #F3E7D8;   /* soft warm bg on slides, posts, print */
+  --uxh-white:     #FFFFFF;
+
+  /* ----- Secondary palette ------------------------------------- */
+  --uxh-warm-white: #F9F5EE;  /* alt background to pure white */
+  --uxh-soft-beige: #E7DAC7;  /* panels, cards, highlight boxes */
+  --uxh-teal-night: #185E63;  /* deep teal, used in cozy gradient */
+  --uxh-warm-sand:  #D9C5A3;  /* warm neutral surface */
+
+  /* ----- Foreground / text ------------------------------------- */
+  --uxh-fg:        #323232;   /* primary text — rgb(50,50,50) */
+  --uxh-fg-2:      #6a6a6a;   /* secondary text — AA fix: #777777 measured 4.48:1 on white, fails AA */
+  --uxh-fg-3:      #B4B4B4;   /* muted text */
+  --uxh-fg-on-dark: #FFFFFF;
+  --uxh-line:      rgba(0,0,0,0.10);   /* hairline divider */
+  --uxh-line-strong: rgba(0,0,0,0.30);
+  --uxh-amber-on-dark: #F7C77E;  /* Yolk on Teal Night is only 3.7:1 — use this instead for on-dark text/icons */
+
+  /* ----- Semantic surfaces ------------------------------------- */
+  --uxh-bg:         var(--uxh-warm-white);
+  --uxh-bg-alt:     var(--uxh-ceramic);
+  --uxh-bg-card:    var(--uxh-white);
+  --uxh-bg-inverse: var(--uxh-seaturtle);
+  --uxh-accent:     var(--uxh-yolk);  /* numbers, CTAs */
+  --uxh-link:       var(--uxh-teal-night);
+
+  /* ----- Gradients --------------------------------------------- */
+  --uxh-gradient-teal-cold:    linear-gradient(180deg, #2A99A0 31%, #F9F5EE 77%);
+  --uxh-gradient-teal-cozy:    linear-gradient(180deg, #2A99A0 0%, #185E63 100%);
+  --uxh-gradient-sunrise-cold: linear-gradient(180deg, #F3A732 0%, #F9F5EE 100%);
+  --uxh-gradient-sunset-cozy:  linear-gradient(180deg, #F3A732 0%, #D5B3F7 100%);
+
+  /* ----- Type families ----------------------------------------- */
+  --uxh-font-sans:  "Work Sans", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  --uxh-font-serif: "Lora", Georgia, "Times New Roman", serif;
+  --uxh-font-mono:  ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  /* ----- Type scale (web) --------------------------------------
+     Slides scale up — see slides spec below. */
+  --uxh-h1-size: 64px;  --uxh-h1-lh: 1.10; --uxh-h1-tracking: -0.02em;
+  --uxh-h2-size: 44px;  --uxh-h2-lh: 1.15; --uxh-h2-tracking: -0.02em;
+  --uxh-h3-size: 30px;  --uxh-h3-lh: 1.25; --uxh-h3-tracking: -0.02em;
+  --uxh-body-lg: 18px;  --uxh-body-lg-lh: 1.50;
+  --uxh-body:    16px;  --uxh-body-lh:    1.45;
+  --uxh-small:   14px;  --uxh-small-lh:   1.35;
+  --uxh-meta:    13px;  --uxh-meta-lh:    1.30;
+
+  /* ----- Spacing & radius -------------------------------------- */
+  --uxh-space-1: 4px;
+  --uxh-space-2: 8px;
+  --uxh-space-3: 12px;
+  --uxh-space-4: 16px;
+  --uxh-space-5: 24px;
+  --uxh-space-6: 32px;
+  --uxh-space-7: 48px;
+  --uxh-space-8: 64px;
+  --uxh-space-9: 88px;
+
+  --uxh-radius-sm: 8px;
+  --uxh-radius-md: 12px;
+  --uxh-radius-lg: 20px;     /* primary card / image radius — the brand's signature radius */
+  --uxh-radius-xl: 24px;     /* modal card, event feature, offer card, mail form, tier card */
+  --uxh-radius-2xl: 28px;    /* full-width dark panels: partner section, donate, volunteer */
+  --uxh-radius-pill: 999px;  /* CTA buttons + chips */
+
+  /* ----- Elevation --------------------------------------------- */
+  --uxh-shadow-sm: 0 1px 2px rgba(0,0,0,0.06);
+  --uxh-shadow-md: 0 6px 18px rgba(0,0,0,0.08);
+  --uxh-shadow-lg: 0 18px 40px rgba(15,55,58,0.12);
+
+  /* ----- Motion -------------------------------------------------- */
+  --uxh-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --uxh-dur-hover:   160ms;  /* colour + background changes */
+  --uxh-dur-press:    80ms;  /* scale(0.98) on :active */
+  --uxh-dur-move:    200ms;  /* arrow nudge: translateX(3px) */
+  --uxh-dur-layout:  240ms;  /* card lift, modal card */
+  --uxh-dur-overlay: 220ms;  /* overlay fade */
+  --uxh-dur-entry:   600ms;  /* reveal-on-scroll — matches the shipped .reveal transition in site.css */
+
+  /* ----- Semantic aliases (on-dark surfaces) ---------------------- */
+  --uxh-surface-panel-dark: var(--uxh-teal-night);
+  --uxh-surface-sunken:     var(--uxh-soft-beige);
+  --uxh-text-on-dark:       rgba(255,255,255,0.88);
+  --uxh-text-on-dark-muted: rgba(255,255,255,0.72);
+  --uxh-border-on-dark:     rgba(255,255,255,0.12);
+  --uxh-chip-on-dark:       rgba(255,255,255,0.16);
+  --uxh-overlay-scrim:      rgba(15,55,58,0.55);  /* pair with backdrop-filter: blur(4px) */
+  --uxh-protection-gradient: linear-gradient(rgba(15,55,58,0.32), rgba(42,153,160,0.4));
+
+  /* ----- Mobile rules ---------------------------------------------- */
+  --uxh-tap-min:    44px;  /* minimum touch target — every interactive element */
+  --uxh-input-font: 16px;  /* below this, iOS zooms the page on focus */
+}
+
+/* ----- Breakpoints (reference only — the real queries are literals,
+   not custom properties, since media query values can't read var()) --
+     980px  — event/card grids collapse to a single column
+     880px  — nav collapses to the burger menu
+     820px  — two-up layouts become one column
+     780px  — footer grid stacks
+     720px  — page wrap padding steps 32px → 20px
+     620px  — mobile chrome adjustments (drawer, partner-card grid)
+     540px  — modal padding steps down
+     520px  — form rows stack
+     480px  — smallest-screen adjustments
+------------------------------------------------------------------- */
+
+/* Slide-scale overrides — apply on .uxh-slides root */
+.uxh-slides {
+  --uxh-h1-size: 72px;
+  --uxh-h2-size: 48px;
+  --uxh-h3-size: 32px;
+  --uxh-body-lg: 24px;
+  --uxh-body:    20px;
+}
+
+/* ----- Semantic element styles -------------------------------- */
+html, body { background: var(--uxh-bg); color: var(--uxh-fg); }
+body { font-family: var(--uxh-font-sans); font-size: var(--uxh-body); line-height: var(--uxh-body-lh); -webkit-font-smoothing: antialiased; }
+
+h1, .uxh-h1 { font: 700 var(--uxh-h1-size)/var(--uxh-h1-lh) var(--uxh-font-sans); letter-spacing: var(--uxh-h1-tracking); margin: 0; color: var(--uxh-fg); }
+h2, .uxh-h2 { font: 700 var(--uxh-h2-size)/var(--uxh-h2-lh) var(--uxh-font-sans); letter-spacing: var(--uxh-h2-tracking); margin: 0; color: var(--uxh-fg); }
+h3, .uxh-h3 { font: 600 var(--uxh-h3-size)/var(--uxh-h3-lh) var(--uxh-font-sans); letter-spacing: var(--uxh-h3-tracking); margin: 0; color: var(--uxh-fg); }
+p,  .uxh-p  { font-size: var(--uxh-body); line-height: var(--uxh-body-lh); margin: 0; color: var(--uxh-fg); text-wrap: pretty; }
+
+.uxh-quote { font-family: var(--uxh-font-serif); font-style: italic; font-size: var(--uxh-h3-size); line-height: 1.3; color: var(--uxh-fg); }
+.uxh-eyebrow { font: 500 14px/1.3 var(--uxh-font-sans); letter-spacing: 0.08em; text-transform: uppercase; color: var(--uxh-seaturtle); }
+.uxh-meta { font: 500 var(--uxh-meta)/var(--uxh-meta-lh) var(--uxh-font-sans); color: var(--uxh-fg-2); }
+.uxh-number { font: 500 var(--uxh-h1-size)/1.05 var(--uxh-font-sans); color: var(--uxh-accent); letter-spacing: -0.01em; } /* big section numbers like "01" */

@@ -1,0 +1,60 @@
+<!--
+  Partial: Speaker tag (chip)
+  Extracted from: /project/UX Hub Barcelona.html, inline <script> block,
+  function renderEvent() (search "// speakers"), which builds this exact
+  markup client-side and injects it into #ef-speakers inside the event
+  card (see event-card.html). This file is that template pre-rendered as
+  plain HTML, so it can be hand-authored for a new event without touching
+  any JS:
+
+    const palette = ['var(--uxh-purple)','var(--uxh-yolk)','var(--uxh-seaturtle)'];
+    sp.innerHTML = ev.speakers.map((s, i) => {
+      const dark = i === 2 ? '#fff' : 'var(--uxh-fg)';
+      const tag = '<span class="av" style="background:' + palette[i % 3] + ';color:' + dark + ';">'
+                  + (s.initial || (s.name || '?')[0]) + '</span>'
+                + '<span><span class="nm">' + (s.name || '') + '</span>'
+                + '<span class="ro">' + (s.role || '') + '</span></span>';
+      return s.url
+        ? '<a class="speaker-tag" href="' + s.url + '" target="_blank" rel="noopener">' + tag + '</a>'
+        : '<span class="speaker-tag">' + tag + '</span>';
+    }).join('');
+
+  Depends on:
+    - styles/site.css → .speakers (flex row, wraps — declared alongside
+      .event-feature, ~L222), .speaker-tag (pill chip, ~L223-226 + hover
+      state on the anchor variant, ~L253-254), .speaker-tag .av (circular
+      initial avatar), .speaker-tag .nm / .ro (name / role text)
+    - styles/tokens.css → --uxh-purple, --uxh-yolk, --uxh-seaturtle,
+      --uxh-fg custom properties used in the inline background/color
+      styles above (this component uses inline styles rather than CSS
+      classes for the per-speaker accent color, exactly as shipped)
+
+  JS behavior: none required to render — this is JS-generated markup
+  written out as static HTML. The live page only needs JS because the
+  speaker list comes from data/events.json at runtime; a hand-built event
+  page can skip that entirely and just edit the HTML below.
+
+  Adapting for a new event page:
+    - One <a class="speaker-tag"> (linked, e.g. to a LinkedIn profile) or
+      <span class="speaker-tag"> (unlinked) per speaker.
+    - Cycle the three accent colors in order (purple → yolk → seaturtle)
+      as shown below; if a 4th speaker is added the pattern repeats
+      (i % 3), and the text stays var(--uxh-fg) except on the seaturtle
+      (3rd/6th/…) tag, which flips to white (#fff) for contrast.
+    - .av text is the speaker's initial (first letter of name, unless an
+      explicit `initial` is supplied).
+-->
+<div class="speakers" aria-label="Speakers">
+  <a class="speaker-tag" href="https://www.linkedin.com/in/irenepereyra/" target="_blank" rel="noopener">
+    <span class="av" style="background:var(--uxh-purple);color:var(--uxh-fg);">I</span>
+    <span><span class="nm">Irene Pereyra</span><span class="ro">Founder, Anton &amp; Irene</span></span>
+  </a>
+  <span class="speaker-tag">
+    <span class="av" style="background:var(--uxh-yolk);color:var(--uxh-fg);">M</span>
+    <span><span class="nm">Marc Puig</span><span class="ro">Head of Design, Studio Marc</span></span>
+  </span>
+  <a class="speaker-tag" href="https://www.linkedin.com/" target="_blank" rel="noopener">
+    <span class="av" style="background:var(--uxh-seaturtle);color:#fff;">L</span>
+    <span><span class="nm">Laia Ferrer</span><span class="ro">Researcher, Elisava</span></span>
+  </a>
+</div>

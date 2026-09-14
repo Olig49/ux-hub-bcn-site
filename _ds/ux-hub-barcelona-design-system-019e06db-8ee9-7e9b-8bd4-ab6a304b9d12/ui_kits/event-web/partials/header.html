@@ -1,0 +1,63 @@
+<!--
+  Partial: Header / primary nav
+  Extracted verbatim from: /project/UX Hub Barcelona.html, lines 31-62
+  (the sponsors.html header is the same pattern with root-relative link
+  swaps — see README "Adapting" notes).
+
+  Depends on:
+    - styles/site.css      → .site-header, .nav, .nav-brand, .nav-logo,
+                              .nav-links, .nav-link, .nav-cta, .nav-burger,
+                              .mobile-drawer, .drawer-cta, .skip, .sr-only
+    - styles/tokens.css    → color/spacing/font custom properties used above
+    - html[data-accent="…"] on <html> (site.css L12-15) sets which brand
+      color .nav-cta / .drawer-cta render in — default (no attribute) is
+      Yolk. Set <html data-accent="yolk|purple|lime|teal"> on the page
+      that hosts this partial.
+
+  JS behavior required (copy from the <script> block at the bottom of
+  "UX Hub Barcelona.html", ~lines 540-570):
+    - Mobile drawer open/close: toggles #mobile-drawer via #nav-burger,
+      manages aria-expanded/aria-label, focus trap (Tab/Shift+Tab loop),
+      Escape to close, outside-pointerdown to close, body scroll lock.
+    - "Next event" button (#next-event-btn / #next-event-btn-mobile) opens
+      a modal dialog (#event-modal) that is NOT part of this kit — either
+      wire it to your own event modal, or repoint it to a plain link
+      (e.g. a Meetup URL or "#events" anchor) if you don't build a modal.
+
+  Adapting for a new event page:
+    - Swap the logo asset/alt if using a different lockup.
+    - Update nav-links hrefs/labels to your page's real section ids.
+    - Point .nav-cta / .drawer-cta at whatever your primary action is
+      (RSVP link, modal trigger, mailing list anchor, etc).
+-->
+<header class="site-header" data-comment-anchor="site-header">
+  <nav class="nav" aria-label="Primary">
+    <a href="#home" class="nav-brand" aria-label="UX Hub Barcelona, home">
+      <img class="nav-logo" src="assets/logo-horizontal-seaturtle.svg" alt="UX Hub Barcelona" width="453" height="95" />
+    </a>
+
+    <div class="nav-links" id="nav-links">
+      <a href="https://www.meetup.com/ux-hub-barcelona/events/" target="_blank" rel="noopener" class="nav-link">Events<span class="sr-only"> (opens in a new tab)</span><svg class="ext" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M9 7h8v8"/></svg></a>
+      <a href="#partners" class="nav-link">For partners</a>
+      <a href="#donate" class="nav-link">Donate</a>
+      <a href="#join" class="nav-link">Mailing list</a>
+    </div>
+
+    <button type="button" class="nav-cta" id="next-event-btn" aria-haspopup="dialog" aria-controls="event-modal">
+      Next event
+      <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+    </button>
+
+    <button type="button" class="nav-burger" id="nav-burger" aria-label="Open menu" aria-controls="mobile-drawer" aria-expanded="false">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16"/><path d="M4 12h16"/><path d="M4 17h16"/></svg>
+    </button>
+  </nav>
+
+  <div class="mobile-drawer" id="mobile-drawer" hidden>
+    <a href="https://www.meetup.com/ux-hub-barcelona/events/" target="_blank" rel="noopener">Events</a>
+    <a href="#partners">For partners</a>
+    <a href="#donate">Donate</a>
+    <a href="#join">Mailing list</a>
+    <button type="button" id="next-event-btn-mobile" class="drawer-cta">Next event</button>
+  </div>
+</header>

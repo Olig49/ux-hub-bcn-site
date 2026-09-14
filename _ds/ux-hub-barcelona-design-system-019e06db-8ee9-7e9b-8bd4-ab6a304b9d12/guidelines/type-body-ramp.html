@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Type — Body ramp</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  :root{color-scheme:light;}
+  *{box-sizing:border-box;}
+  body{max-width:960px;margin:0 auto;padding:56px 24px 88px;}
+  a.back{display:inline-flex;align-items:center;gap:6px;font:500 13px/1 var(--uxh-font-sans);color:var(--uxh-fg-2);text-decoration:none;margin-bottom:32px;}
+  a.back:hover{color:var(--uxh-seaturtle);}
+  .card-head{margin-bottom:48px;}
+  .card-head h1{margin:8px 0 0;}
+  .card-desc{color:var(--uxh-fg-2);max-width:640px;margin:12px 0 0;font-size:15px;line-height:1.55;}
+  .row{border-top:1px solid var(--uxh-line);padding:28px 0;max-width:640px;}
+  .row:first-of-type{border-top:none;}
+  .spec{font:500 13px/1 var(--uxh-font-mono);color:var(--uxh-fg-2);margin:0 0 12px;}
+  .spec b{color:var(--uxh-fg);font-family:var(--uxh-font-sans);font-weight:600;}
+  .sample{margin:0;color:var(--uxh-fg);}
+</style>
+</head>
+<body>
+  <a class="back" href="index.html">&larr; Guidelines</a>
+  <header class="card-head">
+    <p class="uxh-eyebrow">Foundations &middot; Type</p>
+    <h1>Body ramp</h1>
+    <p class="card-desc">Body-lg through meta. Body copy carries 0% tracking &mdash; only headings track tight.</p>
+  </header>
+
+  <div class="row">
+    <p class="spec"><b>Body &mdash; lg</b> &mdash; 400 / 18px / 1.50</p>
+    <p class="sample" style="font-size:var(--uxh-body-lg);line-height:var(--uxh-body-lg-lh)">You do not need a fancy role to join us. Whether you are a student, a career switcher, or a senior lead, your perspective matters.</p>
+  </div>
+
+  <div class="row">
+    <p class="spec"><b>Body</b> &mdash; 400 / 16px / 1.45</p>
+    <p class="sample" style="font-size:var(--uxh-body);line-height:var(--uxh-body-lh)">A single event can start a new collaboration, friendship, or career step. Say hello to the person next to you, share what you're working on, and see where the conversation leads.</p>
+  </div>
+
+  <div class="row">
+    <p class="spec"><b>Small</b> &mdash; 400 / 14px / 1.35</p>
+    <p class="sample" style="font-size:var(--uxh-small);line-height:var(--uxh-small-lh)">No generic buzzwords. Our speakers share practical case studies and honest reflections from the Barcelona product scene.</p>
+  </div>
+
+  <div class="row">
+    <p class="spec"><b>Meta</b> &mdash; 500 / 13px / 1.30 &mdash; <code>.uxh-meta</code>, color <code>fg-2</code></p>
+    <p class="sample uxh-meta">18:30 &middot; Free &middot; Barcelona</p>
+  </div>
+</body>
+</html>

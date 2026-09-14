@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tags</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  :root{color-scheme:light;}
+  *{box-sizing:border-box;}
+  body{max-width:960px;margin:0 auto;padding:56px 24px 88px;}
+  a.back{display:inline-flex;align-items:center;gap:6px;font:500 13px/1 var(--uxh-font-sans);color:var(--uxh-fg-2);text-decoration:none;margin-bottom:32px;}
+  a.back:hover{color:var(--uxh-seaturtle);}
+  .card-head{margin-bottom:48px;}
+  .card-head h1{margin:8px 0 0;}
+  .card-desc{color:var(--uxh-fg-2);max-width:640px;margin:12px 0 0;font-size:15px;line-height:1.55;}
+  section{border-top:1px solid var(--uxh-line);padding:28px 0;}
+  section:first-of-type{border-top:none;}
+  .spec{font:500 13px/1.5 var(--uxh-font-mono);color:var(--uxh-fg-2);margin:0 0 16px;}
+  .spec b{color:var(--uxh-fg);font-family:var(--uxh-font-sans);font-weight:600;}
+  .row{display:flex;flex-wrap:wrap;gap:14px;align-items:center;padding:20px;border-radius:var(--uxh-radius-lg);background:var(--uxh-warm-white);}
+  .row.on-dark{background:var(--uxh-teal-night);}
+
+  .tag{display:inline-flex;align-items:center;}
+  .tag-badge{padding:6px 12px;border-radius:var(--uxh-radius-pill);font:600 12px/1 var(--uxh-font-sans);letter-spacing:0.06em;text-transform:uppercase;background:rgba(243,167,50,0.16);border:1.5px solid rgba(243,167,50,0.75);color:var(--uxh-fg);}
+  .tag-badge.on-dark{background:rgba(255,255,255,0.16);border-color:rgba(255,255,255,0.6);color:#fff;}
+
+  .tag-promo{padding:8px 14px;border-radius:var(--uxh-radius-pill);font:600 13px/1 var(--uxh-font-sans);min-height:40px;background:rgba(42,153,160,0.12);border:1.5px solid var(--uxh-seaturtle);color:var(--uxh-teal-night);gap:8px;}
+  .tag-promo code{background:#fff;padding:3px 7px;border-radius:6px;font:600 12px/1 var(--uxh-font-mono);color:var(--uxh-teal-night);}
+
+  .tag-soon{padding:8px 14px;border-radius:var(--uxh-radius-pill);font:600 13px/1 var(--uxh-font-sans);background:rgba(0,0,0,0.035);border:1.5px dashed rgba(0,0,0,0.28);color:#5E5E5E;}
+
+  .tag-numeral{padding:6px 12px;border-radius:var(--uxh-radius-pill);font:600 12px/1 var(--uxh-font-sans);letter-spacing:0.06em;text-transform:uppercase;background:rgba(255,255,255,0.16);border:1.5px solid rgba(255,255,255,0.6);color:#fff;}
+
+  .note{font-size:13px;line-height:1.6;background:var(--uxh-ceramic);border-radius:var(--uxh-radius-md);padding:14px 16px;color:var(--uxh-fg);margin-top:36px;}
+  .note code{font-family:var(--uxh-font-mono);}
+</style>
+</head>
+<body>
+  <a class="back" href="index.html">&larr; Guidelines</a>
+  <header class="card-head">
+    <p class="uxh-eyebrow">Foundations &middot; Components</p>
+    <h1>Tags</h1>
+    <p class="card-desc">Outline-only chips &mdash; solid fills are reserved for buttons. Four variants, all pill-shaped.</p>
+  </header>
+
+  <section>
+    <p class="spec"><b>badge</b> &mdash; <code>padding: 6px 12px</code>, pill, <code>font: 600 12px/1</code>, <code>0.06em</code>, uppercase</p>
+    <div class="row">
+      <span class="tag tag-badge">New speaker</span>
+      <span class="tag tag-badge">Free</span>
+    </div>
+  </section>
+
+  <section>
+    <p class="spec"><b>badge</b> on dark &mdash; <code>rgba(255,255,255,0.16)</code> fill, <code>rgba(255,255,255,0.6)</code> border, white text</p>
+    <div class="row on-dark">
+      <span class="tag tag-badge on-dark">Sold out</span>
+    </div>
+  </section>
+
+  <section>
+    <p class="spec"><b>promo</b> &mdash; <code>padding: 8px 14px</code>, pill, <code>font: 600 13px/1</code>, <code>min-height: 40px</code>. Inner <code>&lt;code&gt;</code> sits in its own white pill.</p>
+    <div class="row">
+      <span class="tag tag-promo">Use code <code>UXHUB10</code></span>
+    </div>
+  </section>
+
+  <section>
+    <p class="spec"><b>promoSoon</b> &mdash; dashed border, muted fill &mdash; for a promo that hasn't opened yet</p>
+    <div class="row">
+      <span class="tag tag-soon">Registration opens soon</span>
+    </div>
+  </section>
+
+  <section>
+    <p class="spec"><b>numeral</b> (dark panels) &mdash; the <code>.pn</code> pill, same geometry as <code>badge</code> on dark</p>
+    <div class="row on-dark">
+      <span class="tag tag-numeral">Partner 01</span>
+    </div>
+  </section>
+
+  <p class="note">Tags never carry a solid fill &mdash; only a tinted background at low opacity plus a 1.5px border. That distinction is what separates a tag (informational) from a button (actionable) at a glance.</p>
+</body>
+</html>

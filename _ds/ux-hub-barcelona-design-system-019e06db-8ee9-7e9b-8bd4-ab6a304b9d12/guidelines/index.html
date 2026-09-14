@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guidelines</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  :root{color-scheme:light;}
+  *{box-sizing:border-box;}
+  body{max-width:960px;margin:0 auto;padding:56px 24px 88px;}
+  .card-head{margin-bottom:48px;}
+  .card-head h1{margin:8px 0 0;}
+  .card-desc{color:var(--uxh-fg-2);max-width:640px;margin:12px 0 0;font-size:15px;line-height:1.55;}
+  .grp{margin-bottom:44px;}
+  .grp-label{font:600 13px/1.2 var(--uxh-font-sans);letter-spacing:.04em;text-transform:uppercase;color:var(--uxh-fg-2);margin:0 0 16px;}
+  .grp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;}
+  .item{display:block;padding:18px 20px;background:#fff;border:1px solid var(--uxh-line);border-radius:var(--uxh-radius-md);text-decoration:none;transition:border-color 160ms ease, transform 160ms ease;}
+  .item:hover{border-color:var(--uxh-seaturtle);transform:translateY(-2px);}
+  .item .name{font:600 14px/1.3 var(--uxh-font-sans);color:var(--uxh-fg);margin:0 0 4px;}
+  .item .desc{font-size:12.5px;line-height:1.5;color:var(--uxh-fg-2);margin:0;}
+</style>
+</head>
+<body>
+  <header class="card-head">
+    <p class="uxh-eyebrow">UX HUB Barcelona &middot; Design system</p>
+    <h1>Guidelines</h1>
+    <p class="card-desc">Eighteen standalone foundation cards, each linking <code>../colors_and_type.css</code> so they render with the real, live tokens &mdash; never a hand-typed hex or px value.</p>
+  </header>
+
+  <div class="grp">
+    <p class="grp-label">Color</p>
+    <div class="grp-grid">
+      <a class="item" href="colors-primary.html"><p class="name">Primary palette</p><p class="desc">Seaturtle, Yolk, Lime, Purple, Ceramic, Pure White.</p></a>
+      <a class="item" href="colors-secondary.html"><p class="name">Secondary palette</p><p class="desc">Warm White, Soft Beige, Teal Night, Warm Sand.</p></a>
+      <a class="item" href="colors-foreground-lines.html"><p class="name">Foreground &amp; lines</p><p class="desc">Text tiers, hairlines, and the AA / amber-on-dark corrections.</p></a>
+      <a class="item" href="colors-gradients.html"><p class="name">Gradients</p><p class="desc">The four brand gradients, rendered live.</p></a>
+    </div>
+  </div>
+
+  <div class="grp">
+    <p class="grp-label">Type</p>
+    <div class="grp-grid">
+      <a class="item" href="type-display-ramp.html"><p class="name">Display ramp</p><p class="desc">H1&ndash;H3 at real size, weight, tracking, line-height.</p></a>
+      <a class="item" href="type-body-ramp.html"><p class="name">Body ramp</p><p class="desc">Body-lg, body, small, meta.</p></a>
+      <a class="item" href="type-lora-in-use.html"><p class="name">Lora in use</p><p class="desc">The secondary serif &mdash; quotes and emphasis words only.</p></a>
+      <a class="item" href="type-numeral-motif.html"><p class="name">Numeral motif</p><p class="desc">Big Yolk section numerals &mdash; "01", "02"&hellip;</p></a>
+    </div>
+  </div>
+
+  <div class="grp">
+    <p class="grp-label">Spacing &amp; layout</p>
+    <div class="grp-grid">
+      <a class="item" href="spacing-scale.html"><p class="name">Spacing scale</p><p class="desc">The nine-step scale as measured bars.</p></a>
+      <a class="item" href="spacing-in-use.html"><p class="name">Spacing in use</p><p class="desc">Real gap / padding values from shipped layout.</p></a>
+      <a class="item" href="radii.html"><p class="name">Corner radius</p><p class="desc">sm through pill, with which component uses each.</p></a>
+      <a class="item" href="breakpoints.html"><p class="name">Breakpoints</p><p class="desc">The nine documented widths and what changes at each.</p></a>
+    </div>
+  </div>
+
+  <div class="grp">
+    <p class="grp-label">Elevation &amp; motion</p>
+    <div class="grp-grid">
+      <a class="item" href="shadows.html"><p class="name">Shadows</p><p class="desc">sm / md / lg, tinted warm at the deepest step.</p></a>
+      <a class="item" href="motion.html"><p class="name">Motion</p><p class="desc">The ease curve, six durations, live hover demos.</p></a>
+    </div>
+  </div>
+
+  <div class="grp">
+    <p class="grp-label">Components</p>
+    <div class="grp-grid">
+      <a class="item" href="buttons.html"><p class="name">Buttons</p><p class="desc">primary / ghost / dark / onDark &mdash; rest, hover, active.</p></a>
+      <a class="item" href="tags.html"><p class="name">Tags</p><p class="desc">badge / promo / promoSoon / numeral.</p></a>
+      <a class="item" href="cards.html"><p class="name">Cards</p><p class="desc">The four card shapes and the border-or-shadow rule.</p></a>
+    </div>
+  </div>
+
+  <div class="grp">
+    <p class="grp-label">Accessibility</p>
+    <div class="grp-grid">
+      <a class="item" href="accessibility-notes.html"><p class="name">Accessibility notes</p><p class="desc">Every correction and rule, as a checklist.</p></a>
+    </div>
+  </div>
+</body>
+</html>

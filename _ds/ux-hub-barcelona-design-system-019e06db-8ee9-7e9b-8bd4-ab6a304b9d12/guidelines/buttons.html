@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Buttons</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  :root{color-scheme:light;}
+  *{box-sizing:border-box;}
+  body{max-width:960px;margin:0 auto;padding:56px 24px 88px;}
+  a.back{display:inline-flex;align-items:center;gap:6px;font:500 13px/1 var(--uxh-font-sans);color:var(--uxh-fg-2);text-decoration:none;margin-bottom:32px;}
+  a.back:hover{color:var(--uxh-seaturtle);}
+  .card-head{margin-bottom:48px;}
+  .card-head h1{margin:8px 0 0;}
+  .card-desc{color:var(--uxh-fg-2);max-width:640px;margin:12px 0 0;font-size:15px;line-height:1.55;}
+  section{border-top:1px solid var(--uxh-line);padding:32px 0;}
+  section:first-of-type{border-top:none;}
+  .spec{font:500 13px/1.5 var(--uxh-font-mono);color:var(--uxh-fg-2);margin:0 0 20px;}
+  .spec b{color:var(--uxh-fg);font-family:var(--uxh-font-sans);font-weight:600;}
+  .variant-row{display:flex;flex-wrap:wrap;gap:16px;align-items:center;padding:24px;border-radius:var(--uxh-radius-lg);}
+  .variant-row.on-light{background:var(--uxh-warm-white);}
+  .variant-row.on-dark{background:var(--uxh-teal-night);}
+  .state-label{font:500 11px/1 var(--uxh-font-mono);color:var(--uxh-fg-2);margin-top:8px;text-align:center;}
+  .state{display:flex;flex-direction:column;align-items:center;}
+
+  .btn{appearance:none;border:none;cursor:pointer;font:600 15px/1 var(--uxh-font-sans);padding:14px 26px;border-radius:var(--uxh-radius-pill);min-height:44px;display:inline-flex;align-items:center;gap:10px;transition:filter var(--uxh-dur-hover) var(--uxh-ease), transform var(--uxh-dur-press) var(--uxh-ease), background var(--uxh-dur-hover) var(--uxh-ease), color var(--uxh-dur-hover) var(--uxh-ease), border-color var(--uxh-dur-hover) var(--uxh-ease);}
+  .btn:active{transform:scale(0.98);}
+
+  .btn-primary{background:var(--uxh-yolk);color:var(--uxh-fg);}
+  .btn-primary:hover{filter:brightness(0.95);}
+
+  .btn-ghost{background:transparent;color:var(--uxh-fg);border:1px solid rgba(0,0,0,0.16);}
+  .btn-ghost:hover{background:rgba(42,153,160,0.08);border-color:var(--uxh-seaturtle);color:var(--uxh-seaturtle);}
+
+  .btn-dark{background:var(--uxh-fg);color:#fff;}
+  .btn-dark:hover{background:var(--uxh-teal-night);}
+
+  .btn-ondark{background:#fff;color:var(--uxh-fg);}
+  .btn-ondark:hover{background:var(--uxh-ceramic);}
+
+  .note{font-size:13px;line-height:1.6;background:var(--uxh-ceramic);border-radius:var(--uxh-radius-md);padding:14px 16px;color:var(--uxh-fg);margin-top:12px;}
+  .note code{font-family:var(--uxh-font-mono);}
+  @media (prefers-reduced-motion: reduce){ .btn{transition:none;} .btn:active{transform:none;} }
+</style>
+</head>
+<body>
+  <a class="back" href="index.html">&larr; Guidelines</a>
+  <header class="card-head">
+    <p class="uxh-eyebrow">Foundations &middot; Components</p>
+    <h1>Buttons</h1>
+    <p class="card-desc">Four variants, one shared geometry: <code>padding: 14px 26px</code>, full pill, <code>font: 600 15px/1</code>, <code>gap: 10px</code>, <code>min-height: 44px</code> (the 44px tap-min floor). Real buttons below &mdash; hover and click them.</p>
+  </header>
+
+  <section>
+    <p class="spec"><b>primary</b> &mdash; rest: <code>--site-accent</code> bg (shown here as Yolk, the default) + dark fg text &middot; hover: <code>filter: brightness(0.95)</code> &middot; active: <code>scale(0.98)</code></p>
+    <div class="variant-row on-light">
+      <button class="btn btn-primary" type="button">Get tickets</button>
+    </div>
+    <p class="note"><code>--site-accent</code> is themable per page via <code>html[data-accent="yolk|purple|lime|teal"]</code> &mdash; this card shows the yolk default. Text stays dark (<code>--uxh-fg</code>) since every accent option is a light/mid tone.</p>
+  </section>
+
+  <section>
+    <p class="spec"><b>ghost</b> &mdash; rest: transparent, <code>1px solid rgba(0,0,0,0.16)</code> &middot; hover: <code>rgba(42,153,160,0.08)</code> bg, seaturtle border + text</p>
+    <div class="variant-row on-light">
+      <button class="btn btn-ghost" type="button">See all events</button>
+    </div>
+  </section>
+
+  <section>
+    <p class="spec"><b>dark</b> &mdash; rest: <code>--uxh-fg</code> bg, white text &middot; hover: <code>--uxh-teal-night</code> bg</p>
+    <div class="variant-row on-light">
+      <button class="btn btn-dark" type="button">Become a partner</button>
+    </div>
+  </section>
+
+  <section>
+    <p class="spec"><b>onDark</b> &mdash; rest: white bg, <code>--uxh-fg</code> text &middot; hover: <code>--uxh-ceramic</code> bg &mdash; for use on Teal Night / Seaturtle panels</p>
+    <div class="variant-row on-dark">
+      <button class="btn btn-ondark" type="button">Join the mailing list</button>
+    </div>
+  </section>
+
+  <p class="note">An optional trailing arrow icon nudges <code>translateX(3px)</code> on hover over <code>--uxh-dur-move</code> (200ms) &mdash; see <a href="motion.html" style="color:var(--uxh-seaturtle)">motion.html</a>. Every state above respects <code>prefers-reduced-motion</code>.</p>
+</body>
+</html>

@@ -1,0 +1,32 @@
+name: Refresh Meetup data
+
+# Fixes the "nothing ever runs" problem: this is the job scripts/refresh-events.md describes.
+on:
+  schedule:
+    - cron: "17 5 * * *"        # 05:17 UTC daily, ~every 24h
+  workflow_dispatch:            # lets you run it by hand from the Actions tab
+
+permissions:
+  contents: write               # needed to commit data/events.json
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - run: npm install node-ical@0.20.1
+      - run: node scripts/refresh-events.mjs
+      - name: Commit if anything changed
+        run: |
+          git config user.name  "uxhub-bot"
+          git config user.email "actions@github.com"
+          git add data/events.json sponsors.html index.html assets/event-cover-*.jpg 2>/dev/null || true
+          if git diff --staged --quiet; then
+            echo "No change."
+          else
+            git commit -m "chore: refresh Meetup event + stats"
+            git push
+          fi

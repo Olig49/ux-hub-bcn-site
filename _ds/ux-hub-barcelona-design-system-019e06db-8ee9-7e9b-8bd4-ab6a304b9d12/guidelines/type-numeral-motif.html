@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Numeral motif</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  :root{color-scheme:light;}
+  *{box-sizing:border-box;}
+  body{max-width:960px;margin:0 auto;padding:56px 24px 88px;}
+  a.back{display:inline-flex;align-items:center;gap:6px;font:500 13px/1 var(--uxh-font-sans);color:var(--uxh-fg-2);text-decoration:none;margin-bottom:32px;}
+  a.back:hover{color:var(--uxh-seaturtle);}
+  .card-head{margin-bottom:48px;}
+  .card-head h1{margin:8px 0 0;}
+  .card-desc{color:var(--uxh-fg-2);max-width:640px;margin:12px 0 0;font-size:15px;line-height:1.55;}
+  section+section{margin-top:48px;}
+  .spec{font:500 13px/1 var(--uxh-font-mono);color:var(--uxh-fg-2);margin:0 0 20px;}
+  .section-number{font:500 96px/1 var(--uxh-font-sans);color:var(--uxh-yolk);letter-spacing:-0.04em;display:inline-block;}
+  .demo-head{display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:end;}
+  .demo-head h2{font:700 clamp(32px,4vw,44px)/1.05 var(--uxh-font-sans);letter-spacing:-0.025em;margin:0 0 8px;}
+  .demo-head p{color:var(--uxh-fg-2);font-size:15px;margin:0;max-width:420px;}
+  @media (max-width:600px){ .section-number{font-size:72px;} .demo-head{grid-template-columns:1fr;gap:12px;} }
+  .token-num{font:500 var(--uxh-h1-size)/1.05 var(--uxh-font-sans);color:var(--uxh-accent);letter-spacing:-0.01em;}
+</style>
+</head>
+<body>
+  <a class="back" href="index.html">&larr; Guidelines</a>
+  <header class="card-head">
+    <p class="uxh-eyebrow">Foundations &middot; Type</p>
+    <h1>The numeral motif</h1>
+    <p class="card-desc">Big Yolk numerals beside section titles are a signature mark of the brand &mdash; "01 Learn", "02 Meet"&hellip; Two live variants ship on the site.</p>
+  </header>
+
+  <section>
+    <p class="spec">.section-number &mdash; 500 / 96px / 1 / &minus;0.04em (72px &le;720px) &mdash; as used beside every section heading on the live site</p>
+    <div class="demo-head">
+      <span class="section-number">01</span>
+      <div>
+        <h2>Our next <em>event</em></h2>
+        <p>Section title sits beside the numeral, bottom-aligned, 28px gap.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <p class="spec">.uxh-number token &mdash; 500 / 64px (H1 size) / 1.05 / &minus;0.01em &mdash; the design-system utility class for the same motif at smaller scale</p>
+    <span class="token-num uxh-number">02</span>
+  </section>
+</body>
+</html>

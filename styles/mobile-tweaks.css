@@ -1,0 +1,50 @@
+/* Mobile refinements. These were chosen through the Tweaks panel; the panel has
+   been removed for production, so the selected values are baked in here.
+   Values as picked: collage "one", nav CTA in drawer, stacked mailing row,
+   16px inputs, section numbers on, sticky header on, reduced-motion marquee,
+   44px tap targets, hero title floor 40px. */
+
+/* Hero title floor — base rule is a `font:` shorthand, so restate font-size. */
+.hero h1 { font-size: clamp(40px, 6.6vw, 84px); }
+
+/* iOS zooms the page when a focused input is under 16px. */
+.mail-row input,
+.custom-row input { font-size: 16px; }
+
+/* The marquee is decorative, so stop it when the visitor asks for less motion. */
+@media (prefers-reduced-motion: reduce) { .marquee-track { animation: none; } }
+
+/* 44px tap targets wherever the default fell short. */
+.modal-close { width: 44px; height: 44px; }
+.fb-socials a { min-width: 44px; min-height: 44px; }
+.footer-nav a { padding: 11px 0; }
+.dc-info { min-width: 44px; min-height: 44px; }
+.team-card .socials a { width: 44px; height: 44px; }
+.team-card .socials { gap: 2px; margin-left: -8px; }
+.fb-line-1 .fb-link { display: inline-block; padding: 12px 0; }
+.freq-btn { padding-top: 16px; padding-bottom: 16px; }
+.mail-row input { padding-top: 16px; padding-bottom: 16px; }
+
+@media (max-width: 700px) {
+  /* Three overlapping photos get cramped on a phone — lead with one. */
+  .collage { aspect-ratio: auto; max-width: none; }
+  .collage .ph { position: static; }
+  .collage .p2, .collage .p3, .collage .blob { display: none; }
+  .collage .p1 { width: 100%; aspect-ratio: 4/3; }
+}
+
+@media (max-width: 620px) {
+  /* The top bar holds brand + CTA + burger; the drawer carries the CTA instead. */
+  .site-header .nav-cta { display: none; }
+}
+
+@media (max-width: 520px) {
+  /* A pill row squeezes the email field to a few characters. */
+  .mail-row { flex-direction: column; align-items: stretch;
+    border-radius: 20px; padding: 14px; gap: 10px; }
+  .mail-row input { padding: 15px 4px; }
+  .mail-row button { width: 100%; padding: 14px 22px; }
+  .mail-form label,
+  .mail-form .fineprint,
+  .mail-ack { padding-left: 4px; padding-right: 4px; }
+}

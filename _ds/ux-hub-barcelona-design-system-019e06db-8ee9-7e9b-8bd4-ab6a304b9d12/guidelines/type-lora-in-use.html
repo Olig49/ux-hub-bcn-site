@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lora in use</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  :root{color-scheme:light;}
+  *{box-sizing:border-box;}
+  body{max-width:960px;margin:0 auto;padding:56px 24px 88px;}
+  a.back{display:inline-flex;align-items:center;gap:6px;font:500 13px/1 var(--uxh-font-sans);color:var(--uxh-fg-2);text-decoration:none;margin-bottom:32px;}
+  a.back:hover{color:var(--uxh-seaturtle);}
+  .card-head{margin-bottom:48px;}
+  .card-head h1{margin:8px 0 0;}
+  .card-desc{color:var(--uxh-fg-2);max-width:640px;margin:12px 0 0;font-size:15px;line-height:1.55;}
+  section+section{margin-top:44px;}
+  .spec{font:500 13px/1 var(--uxh-font-mono);color:var(--uxh-fg-2);margin:0 0 14px;}
+  .quote-block{background:var(--uxh-ceramic);border-radius:var(--uxh-radius-lg);padding:36px 40px;max-width:640px;}
+  .heading-em h2{font:700 clamp(32px,4.2vw,44px)/1.15 var(--uxh-font-sans);letter-spacing:-0.02em;margin:0;max-width:600px;}
+  .heading-em h2 em{font-family:var(--uxh-font-serif);font-style:italic;font-weight:500;color:var(--uxh-seaturtle);}
+</style>
+</head>
+<body>
+  <a class="back" href="index.html">&larr; Guidelines</a>
+  <header class="card-head">
+    <p class="uxh-eyebrow">Foundations &middot; Type</p>
+    <h1>Lora in use</h1>
+    <p class="card-desc">The secondary serif is used <em>sparingly</em> &mdash; quotes, callouts, and single emphasis words inside a sans heading. Never for full paragraphs or UI text.</p>
+  </header>
+
+  <section>
+    <p class="spec">.uxh-quote &mdash; italic / 30px / 1.3</p>
+    <div class="quote-block">
+      <p class="uxh-quote">&ldquo;We celebrate curiosity, experimentation, and the human side of design.&rdquo;</p>
+    </div>
+  </section>
+
+  <section>
+    <p class="spec">Emphasis word inside a Work Sans heading &mdash; Lora italic 500, Seaturtle</p>
+    <div class="heading-em">
+      <h2>Our next <em>event</em></h2>
+    </div>
+  </section>
+</body>
+</html>

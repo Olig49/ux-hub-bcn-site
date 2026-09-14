@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" data-accent="yolk">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Forms — UX Hub Barcelona component catalog</title>
+<link rel="stylesheet" href="../../../../styles/tokens.css" />
+<link rel="stylesheet" href="../../../../styles/site.css" />
+<link rel="stylesheet" href="../../../../styles/mobile-tweaks.css" />
+<style>
+  /* ---- Catalog scaffolding only — none of this is shipped-site CSS ---- */
+  body.ds-catalog { padding: 40px 24px 140px; max-width: 1040px; margin: 0 auto; }
+  .ds-kicker { font: 700 12px/1 var(--uxh-font-sans); letter-spacing: 0.1em; text-transform: uppercase; color: var(--uxh-seaturtle); margin: 0 0 8px; }
+  .ds-title { font: 700 34px/1.15 var(--uxh-font-sans); margin: 0 0 10px; }
+  .ds-desc { font-size: 15px; line-height: 1.55; color: var(--uxh-fg-2); max-width: 680px; margin: 0 0 8px; }
+  .ds-back { display: inline-block; margin-bottom: 28px; font: 500 13px/1 var(--uxh-font-sans); color: var(--uxh-teal-night); }
+  .ds-component { margin: 0 0 68px; padding-top: 40px; border-top: 1px solid var(--uxh-line); }
+  .ds-component:first-of-type { border-top: 0; padding-top: 0; }
+  h2.ds-label { font: 700 20px/1.3 var(--uxh-font-sans); margin: 0 0 6px; color: var(--uxh-fg); }
+  .ds-label-sub { font-size: 13px; color: var(--uxh-fg-2); margin: 0 0 24px; max-width: 640px; }
+  .ds-variant { font: 600 11px/1 var(--uxh-font-sans); letter-spacing: 0.08em; text-transform: uppercase; color: var(--uxh-fg-2); margin: 28px 0 12px; }
+  .ds-variant:first-of-type { margin-top: 0; }
+  .ds-note { font-size: 12px; color: var(--uxh-teal-night); background: var(--uxh-ceramic); border-radius: 8px; padding: 8px 12px; margin: 12px 0 0; display: inline-block; }
+  .ds-dark { background: var(--uxh-teal-night); border-radius: 16px; padding: 24px; }
+</style>
+</head>
+<body class="ds-catalog">
+
+  <a class="ds-back" href="../README.md">&larr; Component families</a>
+  <p class="ds-kicker">Family · forms</p>
+  <h1 class="ds-title">Forms</h1>
+  <p class="ds-desc">MailingForm and DonateForm. Markup below is copied verbatim from <code>UX Hub Barcelona.html</code>; both are homepage-only, no equivalent on sponsors.html.</p>
+
+  <!-- ===================================================================
+       MAILINGFORM — .mail-form
+  ==================================================================== -->
+  <section class="ds-component">
+    <h2 class="ds-label">MailingForm — <code>.mail-form</code></h2>
+    <p class="ds-label-sub">Soft-beige card, a white pill row for the actual input. Source: UX Hub Barcelona.html:429-437.</p>
+
+    <form class="mail-form" action="https://48db4b2d.sibforms.com/serve/EXAMPLE" method="post" target="_blank" rel="noopener">
+      <label for="ds-email">Your email</label>
+      <div class="mail-row">
+        <input id="ds-email" name="EMAIL" type="email" autocomplete="email" placeholder="example@nevanscott.com" required />
+        <button type="submit">Sign up</button>
+      </div>
+      <p class="mail-ack" hidden role="status">Thanks. We&rsquo;ve opened a new tab, check your inbox to confirm your subscription.</p>
+      <p class="fineprint">By subscribing you agree to our <a href="https://app.getterms.io/view/QJbom/privacy/en-us" target="_blank" rel="noopener">privacy policy</a>. Unsubscribing is one click. We use it for events, nothing else.</p>
+    </form>
+    <p class="ds-note">The real form posts to Brevo (`sibforms.com`) — the <code>action</code> URL
+      above is redacted to a placeholder in this catalog so the button can't submit real signups
+      from a documentation page; every class and layout attribute is otherwise verbatim.
+      The <code>role="status"</code> acknowledgement (<code>.mail-ack</code>) is normally
+      <code>hidden</code> until the inline submit handler reveals it (UX Hub Barcelona.html:572-576)
+      — shown here in its default hidden state.</p>
+  </section>
+
+  <!-- ===================================================================
+       DONATEFORM — .donate-card
+  ==================================================================== -->
+  <section class="ds-component">
+    <h2 class="ds-label">DonateForm — <code>.donate-card</code></h2>
+    <p class="ds-label-sub">Warm-white card on the dark Donate panel. Source: UX Hub Barcelona.html:396-415, shown here on its native dark surface.</p>
+
+    <div class="ds-dark">
+      <form class="donate-card">
+        <p class="dc-label">Choose an amount</p>
+        <div class="amounts" role="radiogroup" aria-label="Donation amount">
+          <button type="button" role="radio" aria-checked="false" class="amount" data-amount="15">€15</button>
+          <button type="button" role="radio" aria-checked="true" class="amount is-active" data-amount="25">€25</button>
+          <button type="button" role="radio" aria-checked="false" class="amount" data-amount="45">€45</button>
+        </div>
+        <label class="dc-custom" for="ds-custom-amount">
+          <span>Or a custom amount</span>
+          <div class="custom-row">
+            <span class="cur">€</span>
+            <input type="number" id="ds-custom-amount" min="1" step="1" inputmode="numeric" placeholder="Custom" />
+          </div>
+        </label>
+        <div class="freq" role="radiogroup" aria-label="Frequency">
+          <button type="button" role="radio" aria-checked="false" class="freq-btn" data-freq="once">One-time</button>
+          <button type="button" role="radio" aria-checked="true" class="freq-btn is-active" data-freq="monthly">Monthly</button>
+        </div>
+        <button type="submit" class="btn btn-primary donate-submit">
+          Donate <span>€25</span>
+          <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+        </button>
+        <p class="dc-fine">You&rsquo;ll be taken to Stripe for secure one-off or recurring payment.<button type="button" class="dc-info" aria-label="More about donations" data-tip="We&rsquo;re a registered non-profit, ID G-75534479. Donations may be tax-deductible in Spain.">&#9432;</button></p>
+      </form>
+    </div>
+    <p class="ds-note">Amount chips and frequency pills are populated/kept in sync by inline JS
+      (UX Hub Barcelona.html:644-716), which also maps the selection to one of six pre-built Stripe
+      Payment Links (three amounts × two frequencies) or a fallback any-amount link for custom
+      values. Hover the info icon (or focus it) to see the fine-print tooltip driven by
+      <code>data-tip</code> + <code>::after</code> (site.css:425-431).</p>
+  </section>
+
+</body>
+</html>

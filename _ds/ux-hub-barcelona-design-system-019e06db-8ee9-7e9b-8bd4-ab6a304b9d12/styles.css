@@ -1,0 +1,18 @@
+/* UX HUB Barcelona — design system entry point
+   Import this single file from any page; it pulls in tokens/type and
+   nothing else. Component-level CSS lives with the target codebase's
+   own stylesheet (see components/<family>/README.md for where each
+   class is defined in production) — this file only ever grows with
+   new tokens and semantic element styles, never one-off component
+   rules, so it stays safe to import everywhere.
+
+   Usage:
+     <link rel="stylesheet" href="_ds/ux-hub-barcelona-design-system-019e06db-8ee9-7e9b-8bd4-ab6a304b9d12/styles.css">
+
+   For slide-size type, wrap content in: <body class="uxh-slides">
+   Reach for tokens (var(--uxh-yolk)) rather than raw hex — see
+   _adherence.oxlintrc.json, which flags raw hex/px literals and
+   non-brand font-family values in JS/JSX.
+*/
+
+@import url("./colors_and_type.css");

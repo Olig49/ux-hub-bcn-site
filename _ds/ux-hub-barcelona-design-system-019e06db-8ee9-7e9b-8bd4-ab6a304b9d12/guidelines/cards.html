@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cards</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  :root{color-scheme:light;}
+  *{box-sizing:border-box;}
+  body{max-width:960px;margin:0 auto;padding:56px 24px 88px;}
+  a.back{display:inline-flex;align-items:center;gap:6px;font:500 13px/1 var(--uxh-font-sans);color:var(--uxh-fg-2);text-decoration:none;margin-bottom:32px;}
+  a.back:hover{color:var(--uxh-seaturtle);}
+  .card-head{margin-bottom:48px;}
+  .card-head h1{margin:8px 0 0;}
+  .card-desc{color:var(--uxh-fg-2);max-width:640px;margin:12px 0 0;font-size:15px;line-height:1.55;}
+  .rule-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px;margin-bottom:48px;}
+  .demo-card{background:#fff;border-radius:var(--uxh-radius-lg);padding:24px;height:130px;display:flex;flex-direction:column;justify-content:space-between;}
+  .demo-card.border-only{border:1px solid var(--uxh-line);}
+  .demo-card.shadow-only{box-shadow:var(--uxh-shadow-md);}
+  .demo-card.both{border:1px solid var(--uxh-line);box-shadow:var(--uxh-shadow-md);}
+  .demo-card .ok{color:var(--uxh-seaturtle);font:600 13px/1 var(--uxh-font-sans);}
+  .demo-card .bad{color:#B23A3A;font:600 13px/1 var(--uxh-font-sans);}
+  .demo-card p{margin:0;font-size:13px;color:var(--uxh-fg-2);}
+  .demo-card .title{font:600 15px/1.2 var(--uxh-font-sans);color:var(--uxh-fg);margin:0;}
+
+  .grp-label{font:600 13px/1.2 var(--uxh-font-sans);letter-spacing:.04em;text-transform:uppercase;color:var(--uxh-fg-2);margin:0 0 16px;}
+  section{border-top:1px solid var(--uxh-line);padding:32px 0;}
+  section:first-of-type{border-top:none;padding-top:0;}
+  .family-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:20px;}
+  .fam-card{border-radius:var(--uxh-radius-lg);padding:22px;display:flex;flex-direction:column;gap:8px;}
+  .fam-card h3{font:700 16px/1.2 var(--uxh-font-sans);margin:0;letter-spacing:-0.01em;}
+  .fam-card p{font-size:12.5px;line-height:1.5;color:var(--uxh-fg-2);margin:0;}
+  .fam-sponsor{background:#fff;border:1px solid var(--uxh-line);}
+  .fam-offer{background:var(--uxh-ceramic);border-radius:var(--uxh-radius-xl);}
+  .fam-team{background:var(--uxh-warm-white);border:1px solid var(--uxh-line);}
+  .fam-partner{background:var(--uxh-teal-night);}
+  .fam-partner h3, .fam-partner p{color:var(--uxh-text-on-dark);}
+
+  .note{font-size:13px;line-height:1.6;background:var(--uxh-ceramic);border-radius:var(--uxh-radius-md);padding:14px 16px;color:var(--uxh-fg);margin-top:12px;}
+  .note code{font-family:var(--uxh-font-mono);}
+</style>
+</head>
+<body>
+  <a class="back" href="index.html">&larr; Guidelines</a>
+  <header class="card-head">
+    <p class="uxh-eyebrow">Foundations &middot; Components</p>
+    <h1>Cards</h1>
+    <p class="card-desc">One family, four shapes &mdash; sponsor, offer, team, partner. The one hard rule that applies to all of them: a card carries a hairline border <em>or</em> <code>--uxh-shadow-md</code>, never both.</p>
+  </header>
+
+  <div class="rule-grid">
+    <div class="demo-card border-only">
+      <p class="ok">&#10003; border only</p>
+      <p class="title">1px solid --uxh-line</p>
+    </div>
+    <div class="demo-card shadow-only">
+      <p class="ok">&#10003; shadow only</p>
+      <p class="title">--uxh-shadow-md</p>
+    </div>
+    <div class="demo-card both">
+      <p class="bad">&#10005; never both</p>
+      <p class="title">border + shadow = too heavy</p>
+    </div>
+  </div>
+
+  <section>
+    <p class="grp-label">The four shapes</p>
+    <div class="family-grid">
+      <div class="fam-card fam-sponsor">
+        <h3>sponsor</h3>
+        <p>White &middot; 1px border &middot; radius 20 &middot; padding 28px &middot; gap 12px.</p>
+      </div>
+      <div class="fam-card fam-offer">
+        <h3>offer</h3>
+        <p>Radius 24 &middot; padding 32px &middot; min-height 380px &middot; hover lift -4px / 240ms.</p>
+      </div>
+      <div class="fam-card fam-team">
+        <h3>team</h3>
+        <p>Warm White &middot; 1px border &middot; radius 20 &middot; padding 14px. Social links 44px min.</p>
+      </div>
+      <div class="fam-card fam-partner">
+        <h3>partner</h3>
+        <p>On dark &middot; rgba white 6% fill &middot; radius 20 &middot; padding 22px. Two-column &le;620px.</p>
+      </div>
+    </div>
+  </section>
+
+  <p class="note">Radii differ by shape (20 vs 24) &mdash; see <a href="radii.html" style="color:var(--uxh-seaturtle)">radii.html</a> for the full scale and which component uses which step.</p>
+</body>
+</html>

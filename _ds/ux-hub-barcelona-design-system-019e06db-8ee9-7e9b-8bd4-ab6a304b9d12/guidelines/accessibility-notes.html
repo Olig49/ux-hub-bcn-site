@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Accessibility notes</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  :root{color-scheme:light;}
+  *{box-sizing:border-box;}
+  body{max-width:960px;margin:0 auto;padding:56px 24px 88px;}
+  a.back{display:inline-flex;align-items:center;gap:6px;font:500 13px/1 var(--uxh-font-sans);color:var(--uxh-fg-2);text-decoration:none;margin-bottom:32px;}
+  a.back:hover{color:var(--uxh-seaturtle);}
+  .card-head{margin-bottom:48px;}
+  .card-head h1{margin:8px 0 0;}
+  .card-desc{color:var(--uxh-fg-2);max-width:640px;margin:12px 0 0;font-size:15px;line-height:1.55;}
+  .checklist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:16px;}
+  .checklist li{display:flex;gap:14px;padding:18px 20px;background:#fff;border:1px solid var(--uxh-line);border-radius:var(--uxh-radius-lg);}
+  .checklist .mark{flex:none;width:26px;height:26px;border-radius:50%;background:var(--uxh-seaturtle);color:#fff;display:flex;align-items:center;justify-content:center;font:600 13px/1 var(--uxh-font-sans);}
+  .checklist .body h3{font:600 15px/1.3 var(--uxh-font-sans);margin:0 0 4px;}
+  .checklist .body p{font-size:13.5px;line-height:1.55;color:var(--uxh-fg-2);margin:0;}
+  .checklist .body code{font-family:var(--uxh-font-mono);color:var(--uxh-fg);background:var(--uxh-ceramic);padding:1px 5px;border-radius:4px;}
+  .demo{display:inline-flex;align-items:center;gap:10px;margin-top:8px;}
+  .swatch-pair{display:flex;gap:8px;align-items:center;margin-top:8px;}
+  .swatch-pair .chip{width:32px;height:32px;border-radius:8px;flex:none;}
+  .focus-demo{margin-top:8px;}
+  .focus-demo button{font:500 13px/1 var(--uxh-font-sans);padding:8px 14px;border-radius:var(--uxh-radius-pill);border:1px solid rgba(0,0,0,0.16);background:#fff;cursor:pointer;}
+  .focus-demo button:focus-visible{outline:2px solid var(--uxh-seaturtle);outline-offset:2px;}
+</style>
+</head>
+<body>
+  <a class="back" href="index.html">&larr; Guidelines</a>
+  <header class="card-head">
+    <p class="uxh-eyebrow">Foundations &middot; Accessibility</p>
+    <h1>Accessibility notes</h1>
+    <p class="card-desc">The corrections and rules the site carries over the raw brand guidelines. Treat every item here as a requirement, not a suggestion.</p>
+  </header>
+
+  <ul class="checklist" role="list">
+    <li>
+      <span class="mark">1</span>
+      <div class="body">
+        <h3>AA-corrected secondary text</h3>
+        <p>The brand's raw <code>#777777</code> measures 4.48:1 on white and fails WCAG AA for normal text. <code>--uxh-fg-2</code> ships as <code>#6a6a6a</code> instead, which passes. Always reach for the token &mdash; never hand-type <code>#777</code>.</p>
+        <div class="swatch-pair">
+          <div class="chip" style="background:#777777"></div>
+          <div class="chip" style="background:#6a6a6a"></div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <span class="mark">2</span>
+      <div class="body">
+        <h3>Amber-on-dark substitution</h3>
+        <p>Yolk (<code>#F3A632</code>) on Teal Night measures only 3.7:1 and fails AA. Use <code>--uxh-amber-on-dark</code> (<code>#F7C77E</code>) for any accent-coloured text or icon on a dark surface &mdash; e.g. the tier-card price on the Teal Night pricing tier.</p>
+        <div class="swatch-pair">
+          <div class="chip" style="background:var(--uxh-teal-night);display:flex;align-items:center;justify-content:center;font:600 13px var(--uxh-font-sans);color:var(--uxh-yolk);width:auto;padding:0 10px;">Aa &mdash; fails</div>
+          <div class="chip" style="background:var(--uxh-teal-night);display:flex;align-items:center;justify-content:center;font:600 13px var(--uxh-font-sans);color:var(--uxh-amber-on-dark);width:auto;padding:0 10px;">Aa &mdash; passes</div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <span class="mark">3</span>
+      <div class="body">
+        <h3>Teal text on warm surfaces</h3>
+        <p>Seaturtle body-size text on Ceramic or Soft Beige also fails at small sizes. Use <code>--uxh-teal-night</code> instead of <code>--uxh-seaturtle</code> whenever teal text sits on a warm background at body size or smaller.</p>
+      </div>
+    </li>
+    <li>
+      <span class="mark">4</span>
+      <div class="body">
+        <h3>44px tap targets, everywhere</h3>
+        <p><code>--uxh-tap-min: 44px</code> is a floor, not a target size to round down from &mdash; every button, link-as-button, icon button and social link must clear it, including footer socials (34px desktop &rarr; 44px on touch) and team-card social links (28px &rarr; 44px).</p>
+        <div class="focus-demo"><button type="button">44px min-height</button></div>
+      </div>
+    </li>
+    <li>
+      <span class="mark">5</span>
+      <div class="body">
+        <h3>16px minimum input font (iOS zoom)</h3>
+        <p><code>--uxh-input-font: 16px</code>. Any text input set smaller than this triggers an automatic zoom on focus in iOS Safari, which is jarring and hard to undo one-handed. Applies to the mailing form and donate form inputs.</p>
+      </div>
+    </li>
+    <li>
+      <span class="mark">6</span>
+      <div class="body">
+        <h3><code>role="list"</code> on styled <code>&lt;ul&gt;</code></h3>
+        <p>VoiceOver and other screen readers stop announcing list semantics once <code>list-style: none</code> is applied. Any <code>&lt;ul&gt;</code> that needs its bullets removed (tier-card checklists, this very checklist) must carry <code>role="list"</code> to restore them.</p>
+      </div>
+    </li>
+    <li>
+      <span class="mark">7</span>
+      <div class="body">
+        <h3>Focus-visible states</h3>
+        <p>Every interactive element needs a visible keyboard-focus ring &mdash; <code>:focus-visible { outline: 2px solid var(--uxh-seaturtle); outline-offset: 2px; }</code> is the default. Tab to the button below to see it.</p>
+      </div>
+    </li>
+    <li>
+      <span class="mark">8</span>
+      <div class="body">
+        <h3>Reduced-motion handling</h3>
+        <p>All non-essential motion &mdash; the marquee strip, reveal-on-scroll, hover lifts, the arrow nudge &mdash; must stop or become instant under <code>@media (prefers-reduced-motion: reduce)</code>. Reveal-on-scroll content is visible by default; the transition is added only when JS and motion are both available, so a reduced-motion visitor never loses content, only the animation.</p>
+      </div>
+    </li>
+  </ul>
+</body>
+</html>

@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en" data-accent="yolk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Event-web kit — assembled example</title>
+  <meta name="description" content="Header, hero, event card (with speaker tags) and CTA partials from ui_kits/event-web composed into one example event page." />
+
+  <!--
+    This file demonstrates all five partials/ composed in order:
+    header → hero → event card (incl. speaker tags) → CTA.
+    It is 2 directories below the design-system folder root
+    (…/_ds/<id>/ui_kits/event-web/index.html), which itself is 2 more
+    levels below the live site root (…/_ds/<id>/), so stylesheet and
+    asset paths below go up FOUR levels (../../../../) to reach the real
+    project/styles/ and project/assets/ — verified with `ls` against this
+    exact file location before writing these paths; do not assume 1-level
+    depth like a page at the design-system root would use.
+  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+  <link rel="stylesheet" href="../../../../styles/tokens.css" />
+  <link rel="stylesheet" href="../../../../styles/site.css" />
+  <link rel="stylesheet" href="../../../../styles/mobile-tweaks.css" />
+  <link rel="icon" type="image/svg+xml" href="../../../../assets/logo-mark-seaturtle.svg" />
+
+  <style>
+    /* Demo-only affordance so the lifted asset paths are obvious at a glance
+       when this file is opened directly — not part of any shipped page. */
+    .kit-note { background: var(--uxh-ceramic); border-bottom: 1px solid rgba(0,0,0,0.1); font: 500 13px/1.5 var(--uxh-font-sans); padding: 10px 20px; text-align: center; }
+    .kit-note code { background: rgba(0,0,0,0.06); padding: 1px 5px; border-radius: 4px; }
+  </style>
+</head>
+<body>
+
+  <div class="kit-note">event-web starter kit — assembled from <code>partials/header.html</code>, <code>hero.html</code>, <code>event-card.html</code> (+ <code>speaker-card.html</code>), <code>cta.html</code>. See <code>README.md</code> for what to swap per partial.</div>
+
+  <a href="#main" class="skip">Skip to content</a>
+
+  <!-- Shared inline SVG sprite that hero.html and cta.html both draw from
+       via <use href="#uxh-flower"/>. Source: UX Hub Barcelona.html, line 28.
+       Paste this once per page, near the top of <body>, whenever you reuse
+       either of those partials. -->
+  <svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute;overflow:hidden"><symbol id="uxh-flower" viewBox="0 0 200 200"><g transform="scale(2.53165,2.5)"><path d="M37.2168 18.7115C41.5509 18.3034 45.6666 19.0411 49.502 21.0768C55.0348 24.0135 58.6332 28.4755 60.3271 34.442C60.9062 36.4818 61.1353 38.5828 61.04 40.7067C60.8001 46.0545 58.8476 50.6896 55.1221 54.5826C51.664 58.1962 47.415 60.3376 42.4395 61.0504C38.5583 61.6064 34.7866 61.1198 31.1211 59.611C26.8148 57.7954 23.4511 54.9575 21.0137 51.0553C19.4499 48.5518 18.4684 45.8449 18.0605 42.9205C17.4617 38.6262 18.072 34.529 19.9785 30.6481C22.009 26.515 25.0954 23.3537 29.2002 21.1549C31.7126 19.8091 34.3864 18.9781 37.2168 18.7115ZM54.3867 32.8258C51.2458 26.4623 44.5963 22.8627 37.4521 23.6783C34.0201 24.0703 30.9421 25.4024 28.3848 27.735C24.0182 31.7179 22.1552 36.7213 23.1006 42.5358C24.0542 48.3995 27.4766 52.5557 32.916 54.9772C35.5463 56.148 38.3309 56.494 41.248 56.194L41.2637 56.192C41.4846 56.1639 41.7571 56.1357 42.0098 56.0963C45.2031 55.599 48.0525 54.3154 50.46 52.1569C53.9871 48.9942 55.8721 45.0354 56.0039 40.2965C56.0767 37.6768 55.5476 35.1777 54.3867 32.8258Z" fill="currentColor" stroke="currentColor" stroke-width="1.31492"></path>
+<path d="M15.9531 1.63379C23.2645 -0.480964 29.9459 0.856105 35.9395 5.49609C38.7081 7.6395 40.7364 10.3745 42.1338 13.5693C41.9873 13.548 41.8236 13.5262 41.6719 13.5166C39.9591 13.4085 38.2333 13.401 36.5049 13.5889C35.302 11.6034 33.743 9.93552 31.8193 8.60547C29.4942 6.99792 26.9155 6.03364 24.0889 5.74902C19.6397 5.30113 15.5829 6.38774 12.0498 9.13281C8.59447 11.8176 6.49878 15.3522 5.89355 19.6797C5.18987 24.7119 6.59241 29.1583 9.96484 32.9658C10.8295 33.942 11.823 34.7738 12.8965 35.4893C12.9245 35.5079 12.9444 35.5243 12.96 35.5361C12.9586 35.5472 12.9577 35.5602 12.9551 35.5752C12.63 37.4065 12.5662 39.2455 12.6309 41.0703C8.5341 39.0233 5.40746 36.0359 3.24316 32.0605C1.84444 29.4913 0.995897 26.7608 0.750977 23.8545C0.324104 18.7885 1.56329 14.1544 4.45117 9.96484C7.28477 5.85412 11.1341 3.0277 15.9531 1.63379Z" fill="currentColor" stroke="currentColor" stroke-width="1.31492"></path>
+<path d="M6.41797 43.3508C7.80576 44.3788 9.28539 45.2681 10.8711 45.9846C8.13249 48.5589 6.43662 51.7129 5.89746 55.4563C5.22661 60.1147 6.35533 64.3502 9.31348 68.0461C11.8043 71.1582 15.061 73.1473 19.0107 73.8928C23.8012 74.797 28.2375 73.8437 32.1953 70.9729C33.9533 69.6977 35.3846 68.1216 36.4951 66.2708C38.3593 66.4433 40.2428 66.4901 42.1348 66.2874C41.6192 67.5183 40.9556 68.6844 40.1807 69.8049C37.315 73.9484 33.4283 76.725 28.5527 78.262C23.2484 79.7916 18.1174 79.4709 13.1641 77.1614C7.21632 74.3881 3.35208 69.8317 1.47949 63.6096C0.678718 60.9488 0.478529 58.2223 0.811523 55.4475C1.36665 50.8218 3.26603 46.8158 6.41797 43.3508Z" fill="currentColor" stroke="currentColor" stroke-width="1.31492"></path>
+<path d="M54.8594 0.751465C57.6613 0.547827 60.3616 0.824449 62.9951 1.64404C67.7431 3.12172 71.5471 5.86888 74.3848 9.89209C76.4207 12.7787 77.6514 15.9837 78.0615 19.4897C78.6537 24.5532 77.5433 29.2283 74.7812 33.5181C72.6527 36.8238 69.7859 39.3274 66.2471 41.0728C66.2488 41.0482 66.2526 41.0235 66.2539 40.9985C66.3512 39.1603 66.2283 37.3385 65.9258 35.5356C65.9307 35.5322 65.9366 35.5288 65.9424 35.5249C68.6356 33.6971 70.6431 31.2901 71.9082 28.3062C72.987 25.7616 73.3604 23.1075 73.0898 20.3657C72.7111 16.5289 71.1242 13.2318 68.415 10.5063C65.888 7.96428 62.7982 6.37833 59.2148 5.8501C54.367 5.13558 49.9792 6.28793 46.1221 9.29834C46.0484 9.35583 45.9826 9.41616 45.9268 9.46924C45.1352 7.99651 44.2022 6.61645 43.1299 5.32959C45.8704 3.2003 48.9456 1.78724 52.3682 1.09229C53.1714 0.929191 53.9901 0.82392 54.8604 0.752441L54.8594 0.751465Z" fill="currentColor" stroke="currentColor" stroke-width="1.31492"></path>
+<path d="M72.4619 43.3564C75.0432 46.158 76.8146 49.377 77.6562 53.0605C78.9594 58.764 78.0808 64.134 74.9541 69.0859C71.5376 74.4969 66.5808 77.7835 60.2314 78.8623C53.9093 79.9364 48.2046 78.398 43.1309 74.5225C44.1988 73.2356 45.1293 71.858 45.9248 70.3926C49.0779 72.9596 52.7688 74.2935 57.0176 74.2021H57.0254L57.0332 74.2012C63.122 73.9249 67.753 71.1939 70.9131 66.1123C72.1779 64.0783 72.8556 61.8463 73.0869 59.4941C73.4204 56.1021 72.7861 52.8923 71.1025 49.9072C70.2828 48.4539 69.2743 47.1211 68.0176 45.9775C69.5903 45.2551 71.0699 44.3774 72.4619 43.3564Z" fill="currentColor" stroke="currentColor" stroke-width="1.31492"></path></g></symbol></svg>
+
+  <!-- ============== Header (partials/header.html) ============== -->
+  <header class="site-header" data-comment-anchor="site-header">
+    <nav class="nav" aria-label="Primary">
+      <a href="#home" class="nav-brand" aria-label="UX Hub Barcelona, home">
+        <img class="nav-logo" src="../../../../assets/logo-horizontal-seaturtle.svg" alt="UX Hub Barcelona" width="453" height="95" />
+      </a>
+
+      <div class="nav-links" id="nav-links">
+        <a href="https://www.meetup.com/ux-hub-barcelona/events/" target="_blank" rel="noopener" class="nav-link">Events<span class="sr-only"> (opens in a new tab)</span><svg class="ext" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M9 7h8v8"/></svg></a>
+        <a href="#partners" class="nav-link">For partners</a>
+        <a href="#donate" class="nav-link">Donate</a>
+        <a href="#join" class="nav-link">Mailing list</a>
+      </div>
+
+      <button type="button" class="nav-cta" id="next-event-btn" aria-haspopup="dialog" aria-controls="event-modal">
+        Next event
+        <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+      </button>
+
+      <button type="button" class="nav-burger" id="nav-burger" aria-label="Open menu" aria-controls="mobile-drawer" aria-expanded="false">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16"/><path d="M4 12h16"/><path d="M4 17h16"/></svg>
+      </button>
+    </nav>
+
+    <div class="mobile-drawer" id="mobile-drawer" hidden>
+      <a href="https://www.meetup.com/ux-hub-barcelona/events/" target="_blank" rel="noopener">Events</a>
+      <a href="#partners">For partners</a>
+      <a href="#donate">Donate</a>
+      <a href="#join">Mailing list</a>
+      <button type="button" id="next-event-btn-mobile" class="drawer-cta">Next event</button>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <!-- ============== Hero (partials/hero.html) ============== -->
+    <section id="home" class="hero" data-screen-label="01 Hero">
+      <div class="hero-bg-circles" aria-hidden="true">
+        <svg class="c-a" viewBox="0 0 200 200" fill="none"><use href="#uxh-flower"/></svg>
+        <svg class="c-b" viewBox="0 0 200 200" fill="none"><use href="#uxh-flower"/></svg>
+      </div>
+
+      <div class="wrap">
+        <div class="hero-grid">
+          <div class="hero-copy reveal">
+            <h1>Meet fellow UX <em>professionals</em> in <span class="underline">Barcelona</span></h1>
+            <p class="lead">Meetups, talks and hands-on workshops where you swap ideas and learn from people building real products.</p>
+            <div class="hero-actions">
+              <a href="#events" class="btn btn-primary">
+                See the next event
+                <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+              </a>
+              <a href="#about" class="btn btn-ghost">What&rsquo;s a hub?</a>
+            </div>
+          </div>
+
+          <div class="hero-visual reveal">
+            <div class="collage">
+              <svg class="blob b1" viewBox="0 0 200 200" fill="none" aria-hidden="true"><use href="#uxh-flower"/></svg>
+              <div class="ph p1"><img src="../../../../assets/photo-meetup-1-800.webp" srcset="../../../../assets/photo-meetup-1-800.webp 800w, ../../../../assets/photo-meetup-1-1400.webp 1400w" sizes="(max-width: 900px) 90vw, 420px" width="600" height="800" alt="Designers gathered at a UX Hub Barcelona meetup" loading="lazy" decoding="async"/></div>
+              <div class="ph p2"><img src="../../../../assets/photo-meetup-2-800.webp" srcset="../../../../assets/photo-meetup-2-800.webp 800w, ../../../../assets/photo-meetup-2-1400.webp 1400w" sizes="(max-width: 900px) 90vw, 420px" width="600" height="400" alt="Speaker presenting at a UX Hub Barcelona meetup" loading="lazy" decoding="async"/></div>
+              <div class="ph p3"><img src="../../../../assets/photo-meetup-3-800.webp" srcset="../../../../assets/photo-meetup-3-800.webp 800w, ../../../../assets/photo-meetup-3-1400.webp 1400w" sizes="(max-width: 900px) 90vw, 420px" width="600" height="400" alt="Small group conversation at a UX Hub Barcelona event" loading="lazy" decoding="async"/></div>
+              <svg class="blob b2" viewBox="0 0 200 200" fill="none" aria-hidden="true"><use href="#uxh-flower"/></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============== Event card (partials/event-card.html + speaker-card.html) ============== -->
+    <section id="events" class="section" data-screen-label="02 Events">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <span class="section-number">01</span>
+          <h2>Our next <em>event</em></h2>
+        </div>
+
+        <article class="event-feature reveal" id="event-feature">
+          <div class="ef-media">
+            <img id="ef-image" src="../../../../assets/photo-meetup-4-900.webp" srcset="../../../../assets/photo-meetup-4-900.webp 900w, ../../../../assets/photo-meetup-4-1600.webp 1600w" sizes="(max-width: 980px) 100vw, 560px" width="900" height="675" alt="A UX Hub Barcelona meetup in a warm, lived-in venue" decoding="async"/>
+            <div class="overlay"></div>
+            <div class="label">
+              <span class="chip chip-teal" id="ef-status">Talk &middot; free</span>
+            </div>
+            <div class="date-stamp" aria-label="Event date">
+              <div>
+                <div class="num" id="ef-day">19</div>
+              </div>
+              <div>
+                <div class="mo" id="ef-month">March</div>
+                <div class="yr" id="ef-weektime">Thu &middot; 18:30 CET</div>
+              </div>
+            </div>
+          </div>
+          <div class="ef-body">
+            <div>
+              <span class="eyebrow"><span class="dot"></span>Upcoming event</span>
+            </div>
+            <h3 id="ef-title">Integrating accessibility into the product lifecycle</h3>
+            <div class="ef-meta">
+              <span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 22s-7-5.5-7-12a7 7 0 1 1 14 0c0 6.5-7 12-7 12Z"/><circle cx="12" cy="10" r="2.5"/></svg>
+                <span id="ef-venue">Elisava · Barcelona</span>
+              </span>
+              <span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+                <span id="ef-time">18:30 to 21:00</span>
+              </span>
+              <span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 12h18"/><path d="M3 6h18"/><path d="M3 18h12"/></svg>
+                <span id="ef-price">Free · drinks &amp; snacks included</span>
+              </span>
+            </div>
+            <p id="ef-desc">Join UX Hub Barcelona at the beautiful Elisava for an evening with Irene Pereyra, founder of Anton &amp; Irene, on weaving accessibility into every stage of the product lifecycle, not bolting it on at the end.</p>
+
+            <!-- speaker-card.html, pre-rendered rather than built by JS -->
+            <div class="speakers" id="ef-speakers" aria-label="Speakers">
+              <a class="speaker-tag" href="https://www.linkedin.com/in/irenepereyra/" target="_blank" rel="noopener">
+                <span class="av" style="background:var(--uxh-purple);color:var(--uxh-fg);">I</span>
+                <span><span class="nm">Irene Pereyra</span><span class="ro">Founder, Anton &amp; Irene</span></span>
+              </a>
+              <span class="speaker-tag">
+                <span class="av" style="background:var(--uxh-yolk);color:var(--uxh-fg);">M</span>
+                <span><span class="nm">Marc Puig</span><span class="ro">Head of Design, Studio Marc</span></span>
+              </span>
+              <a class="speaker-tag" href="https://www.linkedin.com/" target="_blank" rel="noopener">
+                <span class="av" style="background:var(--uxh-seaturtle);color:#fff;">L</span>
+                <span><span class="nm">Laia Ferrer</span><span class="ro">Researcher, Elisava</span></span>
+              </a>
+            </div>
+
+            <div class="ef-actions">
+              <a href="https://www.meetup.com/ux-hub-barcelona/" target="_blank" rel="noopener" class="btn btn-primary" id="ef-rsvp">
+                RSVP on Meetup
+                <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+              </a>
+              <button type="button" class="btn btn-ghost" id="add-to-calendar">
+                Add to calendar
+                <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4"/><path d="M16 3v4"/><path d="M3 11h18"/></svg>
+              </button>
+              <a href="https://www.meetup.com/ux-hub-barcelona/" target="_blank" rel="noopener" class="btn btn-ghost">
+                See all events on Meetup
+                <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
+              </a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ============== CTA (partials/cta.html) ============== -->
+    <section id="partners" class="section tight" data-screen-label="06 Partners">
+      <div class="wrap" style="padding:0;">
+        <div class="partner-section reveal">
+          <div class="partner-bg-circles" aria-hidden="true">
+            <svg class="l" viewBox="0 0 200 200" fill="none"><use href="#uxh-flower"/></svg>
+            <svg class="r" viewBox="0 0 200 200" fill="none"><use href="#uxh-flower"/></svg>
+          </div>
+          <div class="pgrid">
+            <div>
+              <span class="eyebrow on-dark"><span class="dot"></span>For partners &amp; companies</span>
+              <h2>Let&rsquo;s <em>work together</em></h2>
+              <p>Space and speakers are what keep our meetups free. If you run a product team in Barcelona, there are a few ways we can collaborate, and we&rsquo;re grateful to the sponsors and backers who make every night possible.</p>
+              <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:24px;">
+                <a href="mailto:hello@uxhubbcn.com?subject=Sponsorship%20%2F%20Partnership%20opportunity" class="btn btn-primary">Start a conversation
+                  <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+                </a>
+                <a href="../../../../sponsors.html" class="btn" style="background:transparent;color:#fff;border:1px solid rgba(255,255,255,0.25);">See our sponsors</a>
+              </div>
+            </div>
+
+            <div class="partner-cards">
+              <article class="partner-card">
+                <span class="pn">01</span>
+                <h3>Speak at an event</h3>
+                <p>Share a real case study or an honest lesson from your team. Our crowd values practical stories over polished pitches.</p>
+              </article>
+              <article class="partner-card">
+                <span class="pn">02</span>
+                <h3>Offer your space</h3>
+                <p>Open your studio or office for an evening. We bring the speakers, the MC, and the community.</p>
+              </article>
+              <article class="partner-card">
+                <span class="pn">03</span>
+                <h3>Be the next sponsor</h3>
+                <p>Connect with a passionate design community, share what you have to offer, and boost your brand visibility, while keeping our meetups free and open to all.</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    // Mobile drawer toggle — copied from "UX Hub Barcelona.html" so the
+    // header partial is interactive in this demo. See partials/header.html
+    // for the full behavior notes (focus trap, Escape, outside click).
+    const burger = document.getElementById('nav-burger');
+    const drawer = document.getElementById('mobile-drawer');
+    function setDrawer(open) {
+      if (!drawer || !burger) return;
+      drawer.classList.toggle('open', open);
+      drawer.hidden = !open;
+      burger.setAttribute('aria-expanded', String(open));
+      burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+      document.body.style.overflow = open ? 'hidden' : '';
+      if (open) drawer.querySelector('a, button')?.focus();
+      else burger.focus();
+    }
+    burger?.addEventListener('click', () => setDrawer(drawer.hidden));
+    drawer?.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setDrawer(false)));
+    document.addEventListener('pointerdown', (e) => {
+      if (!drawer || drawer.hidden) return;
+      if (!drawer.contains(e.target) && !burger.contains(e.target)) setDrawer(false);
+    });
+
+    // Reveal-on-scroll — same progressive enhancement as the live site.
+    // Content stays visible without this; see hero.html JS notes.
+    (function () {
+      const motionOK = !window.matchMedia || window.matchMedia('(prefers-reduced-motion: no-preference)').matches;
+      if (!motionOK || !('IntersectionObserver' in window)) return;
+      document.documentElement.classList.add('reveal-on');
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+      }, { threshold: 0, rootMargin: '0px 0px -8% 0px' });
+      document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+    })();
+  </script>
+</body>
+</html>

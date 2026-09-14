@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Colors — Secondary</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  :root{color-scheme:light;}
+  *{box-sizing:border-box;}
+  body{max-width:960px;margin:0 auto;padding:56px 24px 88px;}
+  a.back{display:inline-flex;align-items:center;gap:6px;font:500 13px/1 var(--uxh-font-sans);color:var(--uxh-fg-2);text-decoration:none;margin-bottom:32px;}
+  a.back:hover{color:var(--uxh-seaturtle);}
+  .card-head{margin-bottom:48px;}
+  .card-head h1{margin:8px 0 0;}
+  .card-desc{color:var(--uxh-fg-2);max-width:640px;margin:12px 0 0;font-size:15px;line-height:1.55;}
+  .swatch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px;}
+  .swatch{border:1px solid var(--uxh-line);border-radius:var(--uxh-radius-lg);overflow:hidden;background:#fff;}
+  .swatch .fill{height:120px;}
+  .swatch .info{padding:16px;}
+  .swatch .name{font:600 15px/1.2 var(--uxh-font-sans);margin:0 0 2px;}
+  .swatch .hex{font:500 13px/1 var(--uxh-font-mono);color:var(--uxh-fg-2);margin:0 0 8px;}
+  .swatch .use{font-size:13px;line-height:1.5;color:var(--uxh-fg-2);margin:0;}
+</style>
+</head>
+<body>
+  <a class="back" href="index.html">&larr; Guidelines</a>
+  <header class="card-head">
+    <p class="uxh-eyebrow">Foundations &middot; Color</p>
+    <h1>Secondary palette</h1>
+    <p class="card-desc">Use as surfaces and depth — panels, page backgrounds and the "cozy" dark surface. Foreground for body text is <code>--uxh-fg</code> (<code>#323232</code>); white on teal / teal-night surfaces.</p>
+  </header>
+
+  <div class="swatch-grid">
+    <div class="swatch">
+      <div class="fill" style="background:var(--uxh-warm-white);border-bottom:1px solid var(--uxh-line)"></div>
+      <div class="info">
+        <p class="name">Warm White</p>
+        <p class="hex">#F9F5EE</p>
+        <p class="use">Default page background — alt to pure white. <code>--uxh-bg</code>.</p>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="fill" style="background:var(--uxh-soft-beige)"></div>
+      <div class="info">
+        <p class="name">Soft Beige</p>
+        <p class="hex">#E7DAC7</p>
+        <p class="use">Panels, cards, highlight boxes. <code>--uxh-surface-sunken</code>.</p>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="fill" style="background:var(--uxh-teal-night)"></div>
+      <div class="info">
+        <p class="name">Teal Night</p>
+        <p class="hex">#185E63</p>
+        <p class="use">Deep teal — cozy gradient stop, protection overlays, dark panels. <code>--uxh-surface-panel-dark</code>.</p>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="fill" style="background:var(--uxh-warm-sand)"></div>
+      <div class="info">
+        <p class="name">Warm Sand</p>
+        <p class="hex">#D9C5A3</p>
+        <p class="use">Warm neutral surface — offer card background, avatar tint.</p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

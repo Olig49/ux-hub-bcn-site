@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gradients</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  :root{color-scheme:light;}
+  *{box-sizing:border-box;}
+  body{max-width:960px;margin:0 auto;padding:56px 24px 88px;}
+  a.back{display:inline-flex;align-items:center;gap:6px;font:500 13px/1 var(--uxh-font-sans);color:var(--uxh-fg-2);text-decoration:none;margin-bottom:32px;}
+  a.back:hover{color:var(--uxh-seaturtle);}
+  .card-head{margin-bottom:48px;}
+  .card-head h1{margin:8px 0 0;}
+  .card-desc{color:var(--uxh-fg-2);max-width:640px;margin:12px 0 0;font-size:15px;line-height:1.55;}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;}
+  .g-card{border-radius:var(--uxh-radius-lg);overflow:hidden;box-shadow:var(--uxh-shadow-md);}
+  .g-card .fill{height:180px;}
+  .g-card .info{padding:16px 18px;background:#fff;}
+  .g-card .name{font:600 15px/1.2 var(--uxh-font-sans);margin:0 0 4px;}
+  .g-card .stops{font:500 12px/1 var(--uxh-font-mono);color:var(--uxh-fg-2);margin:0 0 8px;}
+  .g-card .use{font-size:13px;line-height:1.5;color:var(--uxh-fg-2);margin:0;}
+</style>
+</head>
+<body>
+  <a class="back" href="index.html">&larr; Guidelines</a>
+  <header class="card-head">
+    <p class="uxh-eyebrow">Foundations &middot; Color</p>
+    <h1>Gradients</h1>
+    <p class="card-desc">Four brand gradients, always top-to-bottom (<code>180deg</code>). Rendered here directly from the <code>--uxh-gradient-*</code> tokens.</p>
+  </header>
+
+  <div class="grid">
+    <div class="g-card">
+      <div class="fill" style="background:var(--uxh-gradient-teal-cold)"></div>
+      <div class="info">
+        <p class="name">Matcha Teal Cold</p>
+        <p class="stops">Seaturtle &rarr; Warm White</p>
+        <p class="use">Cool, airy hero panels and section backgrounds.</p>
+      </div>
+    </div>
+    <div class="g-card">
+      <div class="fill" style="background:var(--uxh-gradient-teal-cozy)"></div>
+      <div class="info">
+        <p class="name">Matcha Teal Cozy</p>
+        <p class="stops">Seaturtle &rarr; Teal Night</p>
+        <p class="use">Deep, cozy panels &mdash; footer, dark feature blocks, protection overlays over photography.</p>
+      </div>
+    </div>
+    <div class="g-card">
+      <div class="fill" style="background:var(--uxh-gradient-sunrise-cold)"></div>
+      <div class="info">
+        <p class="name">Sunrise Cold</p>
+        <p class="stops">Yolk &rarr; Warm White</p>
+        <p class="use">Warm, light accent panels &mdash; highlight boxes, CTA surrounds.</p>
+      </div>
+    </div>
+    <div class="g-card">
+      <div class="fill" style="background:var(--uxh-gradient-sunset-cozy)"></div>
+      <div class="info">
+        <p class="name">Sunset Cozy</p>
+        <p class="stops">Yolk &rarr; Purple</p>
+        <p class="use">Expressive, playful moments &mdash; hero accents, event highlight cards.</p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

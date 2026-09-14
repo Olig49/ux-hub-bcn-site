@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Motion</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  :root{color-scheme:light;}
+  *{box-sizing:border-box;}
+  body{max-width:960px;margin:0 auto;padding:56px 24px 88px;}
+  a.back{display:inline-flex;align-items:center;gap:6px;font:500 13px/1 var(--uxh-font-sans);color:var(--uxh-fg-2);text-decoration:none;margin-bottom:32px;}
+  a.back:hover{color:var(--uxh-seaturtle);}
+  .card-head{margin-bottom:48px;}
+  .card-head h1{margin:8px 0 0;}
+  .card-desc{color:var(--uxh-fg-2);max-width:640px;margin:12px 0 0;font-size:15px;line-height:1.55;}
+  section+section{margin-top:48px;}
+  .grp-label{font:600 13px/1.2 var(--uxh-font-sans);letter-spacing:.04em;text-transform:uppercase;color:var(--uxh-fg-2);margin:0 0 16px;}
+  table{border-collapse:collapse;width:100%;}
+  th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--uxh-line);font-size:14px;}
+  th{font:600 12px/1.2 var(--uxh-font-sans);letter-spacing:.04em;text-transform:uppercase;color:var(--uxh-fg-2);}
+  td code, th code{font-family:var(--uxh-font-mono);font-size:13px;color:var(--uxh-fg);}
+  .demo-row{display:flex;flex-wrap:wrap;gap:28px;align-items:center;margin-top:20px;}
+  .demo{display:flex;flex-direction:column;align-items:center;gap:12px;}
+  .demo .label{font:500 12px/1 var(--uxh-font-mono);color:var(--uxh-fg-2);}
+  .hover-card{background:#fff;border:1px solid var(--uxh-line);border-radius:var(--uxh-radius-lg);width:150px;height:90px;transition:transform var(--uxh-dur-layout) var(--uxh-ease), box-shadow var(--uxh-dur-layout) var(--uxh-ease);}
+  .hover-card:hover{transform:translateY(-4px);box-shadow:var(--uxh-shadow-md);}
+  .hover-btn{font:600 14px/1 var(--uxh-font-sans);padding:12px 22px;border-radius:var(--uxh-radius-pill);background:var(--uxh-yolk);color:var(--uxh-fg);border:none;cursor:pointer;transition:filter var(--uxh-dur-hover) var(--uxh-ease), transform var(--uxh-dur-press) var(--uxh-ease);}
+  .hover-btn:hover{filter:brightness(0.95);}
+  .hover-btn:active{transform:scale(0.98);}
+  .hover-arrow{display:inline-flex;align-items:center;gap:8px;font:500 14px/1 var(--uxh-font-sans);color:var(--uxh-seaturtle);text-decoration:none;}
+  .hover-arrow svg{transition:transform var(--uxh-dur-move) var(--uxh-ease);}
+  .hover-arrow:hover svg{transform:translateX(3px);}
+  .note{font-size:13px;line-height:1.6;background:var(--uxh-ceramic);border-radius:var(--uxh-radius-md);padding:14px 16px;color:var(--uxh-fg);margin-top:28px;}
+  @media (prefers-reduced-motion: reduce){
+    .hover-card, .hover-btn, .hover-arrow svg{transition:none;}
+    .hover-card:hover{transform:none;}
+    .hover-btn:active{transform:none;}
+    .hover-arrow:hover svg{transform:none;}
+  }
+</style>
+</head>
+<body>
+  <a class="back" href="index.html">&larr; Guidelines</a>
+  <header class="card-head">
+    <p class="uxh-eyebrow">Foundations &middot; Motion</p>
+    <h1>Motion</h1>
+    <p class="card-desc">Calm and conversational, never bouncy. One easing curve, six durations tuned to what's moving. Hover the demos below &mdash; they honour <code>prefers-reduced-motion</code>.</p>
+  </header>
+
+  <section>
+    <p class="grp-label">Easing</p>
+    <table>
+      <tr><th>Token</th><th>Value</th><th>Use</th></tr>
+      <tr><td><code>--uxh-ease</code></td><td><code>cubic-bezier(0.2, 0.8, 0.2, 1)</code></td><td>Every transition &mdash; a smooth ease-out, nothing linear or bouncy.</td></tr>
+    </table>
+  </section>
+
+  <section>
+    <p class="grp-label">Durations</p>
+    <table>
+      <tr><th>Token</th><th>ms</th><th>Use</th></tr>
+      <tr><td><code>--uxh-dur-press</code></td><td>80ms</td><td><code>transform: scale(0.98)</code> on <code>:active</code>, every button.</td></tr>
+      <tr><td><code>--uxh-dur-hover</code></td><td>160ms</td><td>Colour + background changes &mdash; button fills, link colour.</td></tr>
+      <tr><td><code>--uxh-dur-move</code></td><td>200ms</td><td>Small positional nudges &mdash; trailing arrow icon, <code>translateX(3px)</code>.</td></tr>
+      <tr><td><code>--uxh-dur-layout</code></td><td>240ms</td><td>Card lift on hover, modal card entrance.</td></tr>
+      <tr><td><code>--uxh-dur-overlay</code></td><td>220ms</td><td>Modal / drawer overlay fade.</td></tr>
+      <tr><td><code>--uxh-dur-entry</code></td><td>400ms</td><td>Reveal-on-scroll (opt-in, JS + motion only).</td></tr>
+    </table>
+  </section>
+
+  <section>
+    <p class="grp-label">Live demos &mdash; hover each</p>
+    <div class="demo-row">
+      <div class="demo">
+        <div class="hover-card"></div>
+        <span class="label">card lift &mdash; 240ms</span>
+      </div>
+      <div class="demo">
+        <button class="hover-btn" type="button">Get tickets</button>
+        <span class="label">button hover + press</span>
+      </div>
+      <div class="demo">
+        <a class="hover-arrow" href="#" onclick="return false"
+           >See all events
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <span class="label">arrow nudge &mdash; 200ms</span>
+      </div>
+    </div>
+  </section>
+
+  <p class="note">Press states never use <code>--uxh-ease</code> as anything but an ease-out; press is a quick 80ms <code>scale(0.98)</code> only. Page transitions (not shown here) are a soft fade + 8px upward translate &mdash; no bounce, no dramatic motion. Any auto-playing motion (marquee, reveal-on-scroll) must stop entirely under <code>prefers-reduced-motion: reduce</code>.</p>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Type — Display ramp</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  :root{color-scheme:light;}
+  *{box-sizing:border-box;}
+  body{max-width:960px;margin:0 auto;padding:56px 24px 88px;}
+  a.back{display:inline-flex;align-items:center;gap:6px;font:500 13px/1 var(--uxh-font-sans);color:var(--uxh-fg-2);text-decoration:none;margin-bottom:32px;}
+  a.back:hover{color:var(--uxh-seaturtle);}
+  .card-head{margin-bottom:48px;}
+  .card-head h1{margin:8px 0 0;}
+  .card-desc{color:var(--uxh-fg-2);max-width:640px;margin:12px 0 0;font-size:15px;line-height:1.55;}
+  .row{border-top:1px solid var(--uxh-line);padding:32px 0;}
+  .row:first-of-type{border-top:none;}
+  .spec{font:500 13px/1 var(--uxh-font-mono);color:var(--uxh-fg-2);margin:0 0 14px;}
+  .spec b{color:var(--uxh-fg);font-family:var(--uxh-font-sans);font-weight:600;}
+  .sample{margin:0;}
+</style>
+</head>
+<body>
+  <a class="back" href="index.html">&larr; Guidelines</a>
+  <header class="card-head">
+    <p class="uxh-eyebrow">Foundations &middot; Type</p>
+    <h1>Display ramp</h1>
+    <p class="card-desc">H1&ndash;H3, rendered at real size, weight, tracking and line-height from the live tokens. All headings carry &minus;2% tracking.</p>
+  </header>
+
+  <div class="row">
+    <p class="spec"><b>H1</b> &mdash; 700 / 64px / 1.10 / &minus;0.02em</p>
+    <h1 class="sample">Before-sunset conversations</h1>
+  </div>
+
+  <div class="row">
+    <p class="spec"><b>H2</b> &mdash; 700 / 44px / 1.15 / &minus;0.02em</p>
+    <h2 class="sample">Bring your work, not just your title.</h2>
+  </div>
+
+  <div class="row">
+    <p class="spec"><b>H3</b> &mdash; 600 / 30px / 1.25 / &minus;0.02em</p>
+    <h3 class="sample">Learning that feels local and real.</h3>
+  </div>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!--
+  Partial: Hero
+  Extracted verbatim from: /project/UX Hub Barcelona.html, lines 66-98
+  (section#home.hero).
+
+  Depends on:
+    - styles/site.css     → .hero, .hero-bg-circles, .wrap, .hero-grid,
+                             .hero-copy, .hero .lead, .underline, em styling,
+                             .hero-actions, .btn / .btn-primary / .btn-ghost,
+                             .hero-visual, .collage, .ph (p1/p2/p3), .blob
+    - styles/tokens.css   → color/spacing/font custom properties
+    - styles/mobile-tweaks.css → hero h1 font-size floor (L8) and the
+      "lead with one photo" collage rules under 700px (L28-34)
+    - Shared inline SVG sprite: <symbol id="uxh-flower">…</symbol>.
+      This lives once near the top of <body> in the shipped page
+      (UX Hub Barcelona.html, line 28, inside a hidden 0×0 <svg>). Every
+      <use href="#uxh-flower"/> below (background circles, collage blobs)
+      needs that symbol present once per page — see README "Shared SVG
+      sprite" section for the exact markup to paste.
+    - assets/photo-meetup-1-800.webp / -1400.webp
+      assets/photo-meetup-2-800.webp / -1400.webp
+      assets/photo-meetup-3-800.webp / -1400.webp
+
+  JS behavior:
+    - "reveal" / "reveal-on" classes are progressive-enhancement only
+      (site.css L496-498): content is visible by default; the scroll-in
+      fade/translate only activates once JS adds `reveal-on` to <html> and
+      an IntersectionObserver adds `.in` per element on first intersect.
+      Copy the IIFE at the end of the <script> block in
+      "UX Hub Barcelona.html" (search "Reveal-on-scroll") if you want the
+      animation; omit it and the section still renders correctly, just
+      without the fade-in.
+    - The primary button's href (#events) assumes an on-page "events"
+      section exists; site JS repoints it to the public Meetup events URL
+      when there's no live upcoming event (see "applyEventState" in the
+      main page's script) — optional, not required for this hero to work.
+
+  Adapting for a new event page:
+    - Swap h1 copy, .lead copy, and the two hero-actions labels/links.
+    - Swap the three collage photos (keep the srcset/sizes pattern for
+      responsive images) and their alt text.
+-->
+<section id="home" class="hero" data-screen-label="01 Hero">
+  <div class="hero-bg-circles" aria-hidden="true">
+    <svg class="c-a" viewBox="0 0 200 200" fill="none"><use href="#uxh-flower"/></svg>
+    <svg class="c-b" viewBox="0 0 200 200" fill="none"><use href="#uxh-flower"/></svg>
+  </div>
+
+  <div class="wrap">
+    <div class="hero-grid">
+      <div class="hero-copy reveal">
+        <h1>Meet fellow UX <em>professionals</em> in <span class="underline">Barcelona</span></h1>
+        <p class="lead">Meetups, talks and hands-on workshops where you swap ideas and learn from people building real products.</p>
+        <div class="hero-actions">
+          <a href="#events" class="btn btn-primary">
+            See the next event
+            <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+          </a>
+          <a href="#about" class="btn btn-ghost">What&rsquo;s a hub?</a>
+        </div>
+      </div>
+
+      <div class="hero-visual reveal">
+        <div class="collage">
+          <svg class="blob b1" viewBox="0 0 200 200" fill="none" aria-hidden="true"><use href="#uxh-flower"/></svg>
+          <div class="ph p1"><img src="assets/photo-meetup-1-800.webp" srcset="assets/photo-meetup-1-800.webp 800w, assets/photo-meetup-1-1400.webp 1400w" sizes="(max-width: 900px) 90vw, 420px" width="600" height="800" alt="Designers gathered at a UX Hub Barcelona meetup" loading="lazy" decoding="async"/></div>
+          <div class="ph p2"><img src="assets/photo-meetup-2-800.webp" srcset="assets/photo-meetup-2-800.webp 800w, assets/photo-meetup-2-1400.webp 1400w" sizes="(max-width: 900px) 90vw, 420px" width="600" height="400" alt="Speaker presenting at a UX Hub Barcelona meetup" loading="lazy" decoding="async"/></div>
+          <div class="ph p3"><img src="assets/photo-meetup-3-800.webp" srcset="assets/photo-meetup-3-800.webp 800w, assets/photo-meetup-3-1400.webp 1400w" sizes="(max-width: 900px) 90vw, 420px" width="600" height="400" alt="Small group conversation at a UX Hub Barcelona event" loading="lazy" decoding="async"/></div>
+          <svg class="blob b2" viewBox="0 0 200 200" fill="none" aria-hidden="true"><use href="#uxh-flower"/></svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

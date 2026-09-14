@@ -1,0 +1,126 @@
+# Utility
+
+Three cross-cutting behaviours from design-system-extraction.md §4 ("Also worth adding"):
+**Marquee**, **BackToTop**, **Reveal-on-scroll**. Open [`index.html`](./index.html) for the
+live-rendered catalog.
+
+---
+
+## Marquee — `.marquee`
+
+- **Band:** `background: var(--uxh-seaturtle)`, white text, `padding: 18px 0`, hairline top/bottom
+  borders (`rgba(255,255,255,0.12)`), `overflow: hidden`.
+- **Track** (`.marquee-track`): `display: flex; gap: 56px; white-space: nowrap`,
+  `animation: marquee 28s linear infinite`. The keyframe (`@keyframes marquee`) only translates
+  from `0` to `-50%` — this works because the **markup itself duplicates every item once**
+  (12 spans = 6 unique items × 2), so at the `-50%` mark the track has scrolled exactly one full
+  set of unique items and the loop point is seamless. This is a markup-level trick, not something
+  the CSS alone accomplishes — removing the duplicate spans would break the loop.
+- **Item** (`.marquee-item`): `font: 500 18px/1`, `letter-spacing: -0.01em`; alternating items
+  lead with a yolk-coloured `✦` (`.star`); each item ends in a Lora-italic `·` (`em`) in ceramic.
+- **Reduced motion:** `@media (prefers-reduced-motion: reduce) { .marquee-track { animation:
+  none; } }` — mobile-tweaks.css:15. This is the **only** animation in the system gated by
+  `prefers-reduced-motion` at the CSS level (contrast with the Eyebrow dot-pulse, which isn't —
+  see `core/README.md`).
+
+**Selector/location:** `.marquee`, `.marquee-track`, `.marquee-item`, `@keyframes marquee` —
+site.css:183-190; reduced-motion override at mobile-tweaks.css:15. **Found in:**
+UX Hub Barcelona.html:101-117 only — sponsors.html has no marquee.
+
+**Accessibility:** the whole strip is `aria-hidden="true"` — it's treated as decorative ambient
+copy repeating things already said elsewhere on the page (free, drinks included, etc.), not as
+unique content a screen reader user would need. This is the correct call *given* the content is
+purely repetitive; it would not be correct if the marquee were the only place some fact appeared.
+
+**Tokens to use:** `var(--uxh-dur-entry)` doesn't apply here (marquee has its own explicit 28s
+duration, unrelated to the 400ms entry-animation token); no radius/shadow involved.
+
+---
+
+## BackToTop — `.to-top`
+
+- **Geometry:** `position: fixed; right: 24px; bottom: 24px; z-index: 60`, `48px` circle,
+  `background: var(--uxh-fg)`, white icon, `box-shadow: var(--uxh-shadow-lg)`. Shrinks to `44px`
+  at ≤600px (site.css:492) — still meets `--uxh-tap-min` at the smallest size.
+- **Show/hide:** `opacity: 0; visibility: hidden; transform: translateY(10px)` at rest, `.show`
+  → `opacity: 1; visibility: visible; transform: none`. `transition: opacity 240ms
+  cubic-bezier(.2,.8,.2,1), transform 240ms cubic-bezier(.2,.8,.2,1), background 160ms` (→
+  `var(--uxh-dur-layout)` for the first two legs, `var(--uxh-dur-hover)` for the background leg).
+  `.show` is toggled by a scroll listener once `window.scrollY > 600`.
+- **Position, deliberately bottom-right:** the spec calls out that bottom-left is reserved for
+  the third-party cookie-consent widget (GetTerms CMP, loaded via `<script>` in both pages'
+  `<head>`) — putting BackToTop on the right avoids the two fixed-position widgets ever
+  overlapping in the same corner.
+
+**Selector/location:** `.to-top`, `.to-top.show` — site.css:486-492. **Found in:**
+UX Hub Barcelona.html:534-536 (markup) + :616-622 (behaviour); sponsors.html:334-336 (markup) +
+:345-349 (behaviour).
+
+**Real inconsistency between the two pages — smooth-scroll and reduced motion:**
+
+| | Homepage | Sponsors page |
+|---|---|---|
+| Reads `prefers-reduced-motion` before scrolling | ❌ no | ✅ yes |
+| Click handler | `window.scrollTo({ top: 0, behavior: 'smooth' })` unconditionally (UX Hub Barcelona.html:621) | checks `matchMedia('(prefers-reduced-motion: reduce)')` first, uses `behavior: reduce ? 'auto' : 'smooth'` (sponsors.html:348-349) |
+
+The homepage's BackToTop **always** smooth-scrolls, ignoring the visitor's reduced-motion
+preference for this one interaction, even though the same page correctly respects that
+preference for the marquee and for reveal-on-scroll. Sponsors.html gets this right. Worth
+porting sponsors.html's check into the homepage's handler rather than picking either version
+as "the" spec, since they currently disagree.
+
+**Accessibility:** `aria-label="Back to top"` gives the icon-only button its accessible name.
+The visibility toggle uses both `opacity`/`visibility` (not `display`), so the button is never
+mid-transition-invisible-but-still-tabbable in a confusing way — `visibility: hidden` removes it
+from the tab order while hidden, unlike `opacity` alone would.
+
+**Tokens to use:** `var(--uxh-dur-layout)`, `var(--uxh-dur-hover)`, `var(--uxh-ease)`,
+`var(--uxh-shadow-lg)`, `var(--uxh-tap-min)` (44px floor, already met).
+
+---
+
+## Reveal-on-scroll — `.reveal`
+
+- **Base rule (always applied, JS or not):** `.reveal { opacity: 1; transform: none; }` — content
+  is visible by default, full stop. This is the safety net: print, PDF export, JS-disabled, and
+  reduced-motion visitors all just see the content, with zero extra logic needed to unhide it.
+- **Opt-in animated state:** only when `document.documentElement` gets `.reveal-on` (added by JS,
+  only if both `IntersectionObserver` exists **and** `prefers-reduced-motion: no-preference`
+  matches) does the hidden→shown transition activate: `html.reveal-on .reveal { opacity: 0;
+  transform: translateY(16px); transition: opacity 600ms cubic-bezier(.2,.8,.2,1), transform
+  600ms cubic-bezier(.2,.8,.2,1); }`, and `html.reveal-on .reveal.in { opacity: 1; transform:
+  translateY(0); }`.
+
+  **Note the discrepancy between the CSS and the spec's documented token:** the spec (§2) names
+  `--uxh-dur-entry: 400ms` for this exact purpose, but the actual CSS rule uses a `600ms`
+  duration (site.css:497-498) — the token and the shipped value disagree. Either the token should
+  read 600ms or the CSS should be changed to 400ms; don't assume the token is already wired in.
+
+- **Observer config:** `threshold: 0, rootMargin: '0px 0px -8% 0px'` — `threshold: 0` so a
+  section taller than the viewport still triggers as soon as any part enters; the `-8%` bottom
+  margin means an element must cross 8% short of the very bottom of the viewport before counting
+  as "intersecting," giving a small pre-emptive trigger margin rather than firing the instant one
+  pixel is visible at the very edge.
+- **Safety net inside the JS itself (homepage only):** 1200ms after load, anything still lacking
+  `.in` whose bounding rect top is already within the viewport gets `.in` forced on
+  (UX Hub Barcelona.html:637-640) — guards against an observer that never fires for some reason
+  leaving real content permanently invisible. **Sponsors.html does not include this safety-net
+  timeout** (sponsors.html:339-344 sets up the observer only) — a smaller version of the same
+  homepage/sponsors.html parity gap noted for BackToTop above.
+
+**Selector/location:** `.reveal`, `html.reveal-on .reveal`, `html.reveal-on .reveal.in` —
+site.css:494-498. **Behaviour:** UX Hub Barcelona.html:624-641; sponsors.html:339-344 (no
+safety-net timeout). **Found in:** applied to nearly every top-level section block across both
+pages — hero copy/visual, section heads, event-feature, offer cards, about media/copy, team
+cards, partner-section, donate, mailing form, and (sponsors.html) sp-hero, tiers, sponsor cards,
+the CTA panel.
+
+**Accessibility:** this is the progressive-enhancement pattern the spec explicitly asks for —
+content is never gated behind JS or motion being available, only *decorated* by an entrance
+animation when both are present. Respecting `prefers-reduced-motion: no-preference` as a
+precondition (rather than only gating the CSS transition) means reduced-motion users never even
+get the `.reveal-on` class added, so they see fully-settled content from the first paint with no
+flash of hidden-then-shown.
+
+**Tokens to use:** `var(--uxh-dur-entry)` — but fix the token/CSS mismatch (400ms vs. 600ms,
+see above) before wiring it in, so the token names the value that's actually shipped.

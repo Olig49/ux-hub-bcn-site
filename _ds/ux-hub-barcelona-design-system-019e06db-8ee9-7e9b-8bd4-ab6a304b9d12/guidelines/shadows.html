@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shadows</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  :root{color-scheme:light;}
+  *{box-sizing:border-box;}
+  body{max-width:960px;margin:0 auto;padding:56px 24px 88px;}
+  a.back{display:inline-flex;align-items:center;gap:6px;font:500 13px/1 var(--uxh-font-sans);color:var(--uxh-fg-2);text-decoration:none;margin-bottom:32px;}
+  a.back:hover{color:var(--uxh-seaturtle);}
+  .card-head{margin-bottom:48px;}
+  .card-head h1{margin:8px 0 0;}
+  .card-desc{color:var(--uxh-fg-2);max-width:640px;margin:12px 0 0;font-size:15px;line-height:1.55;}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:40px;}
+  .box{background:#fff;border-radius:var(--uxh-radius-lg);height:120px;display:flex;align-items:center;justify-content:center;}
+  .name{font:600 15px/1.2 var(--uxh-font-sans);margin:0 0 2px;text-align:center;}
+  .spec{font:500 12px/1 var(--uxh-font-mono);color:var(--uxh-fg-2);margin:0 0 6px;text-align:center;}
+  .use{font-size:13px;line-height:1.5;color:var(--uxh-fg-2);margin:0;text-align:center;max-width:200px;}
+  .cell{display:flex;flex-direction:column;align-items:center;gap:14px;}
+  .note{font-size:13px;line-height:1.6;background:var(--uxh-ceramic);border-radius:var(--uxh-radius-md);padding:14px 16px;color:var(--uxh-fg);margin-top:44px;}
+  .note code{font-family:var(--uxh-font-mono);}
+</style>
+</head>
+<body>
+  <a class="back" href="index.html">&larr; Guidelines</a>
+  <header class="card-head">
+    <p class="uxh-eyebrow">Foundations &middot; Elevation</p>
+    <h1>Shadows</h1>
+    <p class="card-desc">Three soft, warm-tinted shadows &mdash; used to lift cards off the page instead of a hard drop shadow. A card takes a hairline border <em>or</em> a shadow, never both (see <a href="cards.html" style="color:var(--uxh-seaturtle)">cards.html</a>).</p>
+  </header>
+
+  <div class="grid">
+    <div class="cell">
+      <div class="box" style="box-shadow:var(--uxh-shadow-sm)"></div>
+      <div>
+        <p class="name">sm</p>
+        <p class="spec">0 1px 2px rgba(0,0,0,0.06)</p>
+        <p class="use">Barely-there lift &mdash; the mailing-form input row.</p>
+      </div>
+    </div>
+    <div class="cell">
+      <div class="box" style="box-shadow:var(--uxh-shadow-md)"></div>
+      <div>
+        <p class="name">md</p>
+        <p class="spec">0 6px 18px rgba(0,0,0,0.08)</p>
+        <p class="use">Default card elevation &mdash; event feature, nav drawer.</p>
+      </div>
+    </div>
+    <div class="cell">
+      <div class="box" style="box-shadow:var(--uxh-shadow-lg)"></div>
+      <div>
+        <p class="name">lg</p>
+        <p class="spec">0 18px 40px rgba(15,55,58,0.12)</p>
+        <p class="use">Highest layer &mdash; modal card, donate form. Tinted teal, not black.</p>
+      </div>
+    </div>
+  </div>
+
+  <p class="note">All three shadows are tinted &mdash; <code>sm</code>/<code>md</code> use neutral black at low opacity, <code>lg</code> shifts to <code>rgba(15,55,58,…)</code> (teal-night) so the deepest shadow reads warm, not muddy grey.</p>
+</body>
+</html>

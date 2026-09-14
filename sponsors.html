@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en" data-accent="yolk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sponsors, UX Hub Barcelona</title>
+  <!-- GetTerms CMP. The blocker must load synchronously, before any tracking script. -->
+  <link rel="preload" href="https://gettermscmp.com/cookie-consent/blocker/8cbd2299-cf79-4ce0-bee2-357c07bfb361/en-us?auto=true" as="script">
+  <script type="text/javascript" src="https://gettermscmp.com/cookie-consent/blocker/8cbd2299-cf79-4ce0-bee2-357c07bfb361/en-us?auto=true"></script>
+  <script async type="text/javascript" src="https://gettermscmp.com/cookie-consent/widget/8cbd2299-cf79-4ce0-bee2-357c07bfb361/en-us?auto=true"></script>
+  <!-- End GetTerms CMP -->
+  <meta name="description" content="Sponsors and partners keep UX Hub Barcelona free and open to all. Here's how to support the community, and the people who already do." />
+  <meta property="og:title" content="Sponsors, UX Hub Barcelona" />
+  <meta property="og:description" content="Sponsors and partners keep UX Hub Barcelona free and open to all. Here's how to support the community, and the people who already do." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="assets/photo-community-1-1600.webp" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+  <link rel="stylesheet" href="styles/tokens.css" />
+  <link rel="stylesheet" href="styles/site.css" />
+  <link rel="stylesheet" href="styles/mobile-tweaks.css" />
+  <link rel="icon" type="image/svg+xml" href="assets/logo-mark-seaturtle.svg" />
+  <style>
+    /* Page-specific: sponsors */
+    :focus-visible { outline: 3px solid var(--uxh-seaturtle); outline-offset: 3px; border-radius: 4px; }
+    .tier.is-teal a:focus-visible, .site-footer a:focus-visible, .site-footer button:focus-visible { outline-color: var(--uxh-yolk); }
+    .site-header .nav-link { padding-top: 15px; padding-bottom: 15px; }
+    .sponsor-card p, .sponsor-note, .sponsor-slot { color: var(--uxh-fg-2); }
+    .sp-hero { padding: 72px 0 56px; }
+    .sp-hero-grid { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 56px; align-items: center; }
+    @media (max-width: 900px) { .sp-hero-grid { grid-template-columns: 1fr; gap: 36px; } }
+    .sp-hero-media { position: relative; }
+    .sp-hero-media img { width: 100%; aspect-ratio: 4/3; object-fit: cover; border-radius: 20px; box-shadow: var(--uxh-shadow-md); }
+    .sp-hero-media .flourish { position: absolute; right: -18px; bottom: -18px; width: 96px; color: var(--uxh-yolk); opacity: 0.9; z-index: -1; }
+    .sp-hero h1 { font: 700 clamp(40px, 6vw, 72px)/1.04 var(--uxh-font-sans); letter-spacing: -0.035em; margin: 16px 0 20px; max-width: 900px; text-wrap: balance; }
+    .sp-hero h1 em { font-family: var(--uxh-font-serif); font-style: italic; font-weight: 500; color: var(--uxh-seaturtle); }
+    .sp-hero p.lead { font-size: 19px; line-height: 1.55; color: var(--uxh-fg); max-width: 620px; text-wrap: pretty; }
+    .sp-tiers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    @media (max-width: 900px) { .sp-tiers { grid-template-columns: 1fr; } }
+    .tier { border-radius: 24px; padding: 32px; display: flex; flex-direction: column; gap: 14px; min-height: 320px; }
+    .tier.is-beige { background: var(--uxh-soft-beige); }
+    .tier.is-ceramic { background: var(--uxh-ceramic); }
+    .tier.is-teal { background: var(--uxh-teal-night); color: #fff; }
+    .tier .badge { align-self: flex-start; padding: 6px 12px; border-radius: 999px; font: 600 12px/1 var(--uxh-font-sans); letter-spacing: 0.06em; text-transform: uppercase; background: rgba(243,167,50,0.16); border: 1.5px solid rgba(243,167,50,0.75); color: var(--uxh-fg); }
+    .tier.is-teal .badge { background: rgba(255,255,255,0.16); border-color: rgba(255,255,255,0.6); color: #fff; }
+    .tier h3 { font: 700 26px/1.1 var(--uxh-font-sans); letter-spacing: -0.02em; margin: 4px 0 0; }
+    .tier .price { font: 600 15px/1 var(--uxh-font-sans); color: var(--uxh-teal-night); }
+    .tier.is-teal h3 { color: #fff; }
+    .tier.is-teal .price { color: #F7C77E; }
+    .tier ul { list-style: none; margin: 8px 0 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+    .tier li { display: flex; gap: 10px; font-size: 15px; line-height: 1.45; }
+    .tier.is-teal li { color: rgba(255,255,255,0.94); }
+    .tier li svg { flex: none; width: 18px; height: 18px; color: var(--uxh-teal-night); margin-top: 1px; }
+    .tier.is-teal li svg { color: #F7C77E; }
+    .tier .tier-cta { margin-top: auto; align-self: stretch; justify-content: center; padding: 13px 22px; font-size: 14px; }
+    .sponsor-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    @media (max-width: 900px) { .sponsor-grid { grid-template-columns: repeat(2, 1fr); } }
+    .sponsor-slot { aspect-ratio: 3/2; border-radius: 20px; background: var(--uxh-white); border: 1px solid var(--uxh-line);
+      display: grid; place-items: center; padding: 20px; color: var(--uxh-fg-2); font: 600 15px/1.2 var(--uxh-font-sans); text-align: center; }
+    .sponsor-note { font-size: 14px; color: var(--uxh-fg-2); margin-top: 16px; }
+    .sp-class { margin-top: 40px; }
+    .sp-class:first-of-type { margin-top: 8px; }
+    .sp-class-label { margin: 0 0 18px; font-weight: 500; display: inline-flex; align-items: center; gap: 10px; font: 500 12px/1 var(--uxh-font-sans); letter-spacing: 0.14em; text-transform: uppercase; color: var(--uxh-teal-night); }
+    .sp-class-label::after { content: ""; height: 1px; flex: 1; min-width: 40px; background: var(--uxh-line); }
+    .sponsor-cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+    @media (max-width: 820px) { .sponsor-cards { grid-template-columns: 1fr; } }
+    .sponsor-card { background: var(--uxh-white); border: 1px solid var(--uxh-line); border-radius: 20px; padding: 28px; display: flex; flex-direction: column; gap: 12px; }
+    .sponsor-card .logo { align-self: flex-start; padding: 10px 16px; border-radius: 12px; background: var(--uxh-ceramic); font: 700 20px/1 var(--uxh-font-sans); letter-spacing: -0.02em; color: var(--uxh-fg); }
+    .sponsor-card h4 { font: 700 22px/1.15 var(--uxh-font-sans); letter-spacing: -0.02em; margin: 2px 0 0; }
+    .sponsor-card p { font-size: 15px; line-height: 1.55; color: var(--uxh-fg-2); margin: 0; }
+    .sponsor-card .promo { min-height: 40px; box-sizing: border-box; display: inline-flex; align-items: center; gap: 8px; align-self: flex-start; padding: 8px 14px; border-radius: 999px; background: rgba(42,153,160,0.12); border: 1.5px solid var(--uxh-seaturtle); color: var(--uxh-teal-night); font: 600 13px/1 var(--uxh-font-sans); }
+    .sponsor-card .promo code { font-family: var(--uxh-font-mono); letter-spacing: 0.02em; padding: 3px 7px; border-radius: 6px; background: var(--uxh-white); border: 1px solid rgba(42,153,160,0.35); }
+    .sponsor-card .promo.promo-soon { align-self: flex-start; background: rgba(0,0,0,0.035); border: 1.5px dashed rgba(0,0,0,0.28); color: #5E5E5E; }
+    .sponsor-card .visit { white-space: nowrap; min-height: 44px; margin-top: auto; display: inline-flex; align-items: center; gap: 8px; align-self: flex-start; font: 600 14px/1 var(--uxh-font-sans); color: var(--uxh-teal-night); padding-top: 6px; }
+    .sponsor-card .visit svg { width: 15px; height: 15px; transition: transform 200ms; }
+    .sponsor-card .visit:hover svg { transform: translate(2px,-2px); }
+    .sponsor-card.feature { grid-column: 1 / -1; flex-direction: row; gap: 28px; align-items: flex-start; background: var(--uxh-soft-beige); border-color: transparent; }
+    @media (max-width: 820px) { .sponsor-card.feature { flex-direction: column; } }
+    .sponsor-card.feature .logo { font-size: 26px; padding: 14px 20px; background: var(--uxh-white); }
+    .sp-cover { width: 100%; border-radius: 14px; background: var(--uxh-white); border: 1px solid var(--uxh-line); display: block; }
+    .site-footer .fb-line-1 .fb-link { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; text-decoration-color: rgba(255,255,255,0.45); }
+    .site-footer .fb-line-1 .fb-link:hover { text-decoration-color: currentColor; }
+    /* One line is a desktop-only nicety: holding it at phone widths shrank the
+       heading to ~17px. Below 900px it wraps and scales like every other h2. */
+    .section-head h2.sp-h2-oneline { max-width: none; font-size: clamp(30px, 6.2vw, 56px); }
+    @media (min-width: 900px) { .section-head h2.sp-h2-oneline { white-space: nowrap; text-wrap: nowrap; font-size: clamp(32px, 4.3vw, 56px); } }
+    @media (max-width: 620px) { .site-header .nav-cta { display: none; } }
+    .sp-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin: 0 0 44px; padding: 0; border: 1px solid var(--uxh-line); border-radius: 18px; overflow: hidden; background: var(--uxh-line); }
+    .sp-stats > div { display: flex; flex-direction: column; gap: 8px; padding: 26px 28px; background: var(--uxh-white); }
+    .sp-stats dt { font: 500 13px/1.2 var(--uxh-font-sans); letter-spacing: 0.04em; text-transform: uppercase; color: var(--uxh-fg-2); }
+    .sp-stats dd { margin: 0; font: 500 34px/1 var(--uxh-font-serif); color: var(--uxh-teal-night); display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+    .sp-stat-sub { font: 400 14px/1.3 var(--uxh-font-sans); color: var(--uxh-fg-2); }
+    @media (max-width: 720px) { .sp-stats { grid-template-columns: 1fr; } .sp-stats dd { font-size: 30px; } }
+    .sp-logo-img { align-self: flex-start; height: 52px; width: auto; object-fit: contain; }
+    .sponsor-card.feature .sp-logo-img { flex: none; width: 260px; height: auto; align-self: stretch; object-fit: contain; background: var(--uxh-white); border: 1px solid var(--uxh-line); border-radius: 16px; padding: 32px 28px; }
+    @media (max-width: 820px) { .sponsor-card.feature .sp-logo-img { width: 100%; align-self: auto; padding: 28px; } }
+  </style>
+</head>
+<body>
+  <a href="#main" class="skip">Skip to content</a>
+
+  <header class="site-header">
+    <nav class="nav" aria-label="Primary">
+      <a href="index.html#home" class="nav-brand" aria-label="UX Hub Barcelona, home">
+        <img class="nav-logo" src="assets/logo-horizontal-seaturtle.svg" alt="UX Hub Barcelona" width="453" height="95" />
+      </a>
+      <div class="nav-links">
+        <a href="https://www.meetup.com/ux-hub-barcelona/events/" target="_blank" rel="noopener" class="nav-link">Events<span class="sr-only"> (opens in a new tab)</span><svg class="ext" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M9 7h8v8"/></svg></a>
+        <a href="index.html#partners" class="nav-link">For partners</a>
+        <a href="index.html#donate" class="nav-link">Donate</a>
+        <a href="index.html#join" class="nav-link">Mailing list</a>
+      </div>
+      <a href="#become" class="nav-cta">
+        Become a sponsor
+        <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+      </a>
+      <button type="button" class="nav-burger" id="nav-burger" aria-label="Open menu" aria-controls="mobile-drawer" aria-expanded="false">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16"/><path d="M4 12h16"/><path d="M4 17h16"/></svg>
+      </button>
+    </nav>
+
+    <div class="mobile-drawer" id="mobile-drawer" hidden>
+      <a href="https://www.meetup.com/ux-hub-barcelona/events/" target="_blank" rel="noopener">Events</a>
+      <a href="index.html#partners">For partners</a>
+      <a href="index.html#donate">Donate</a>
+      <a href="index.html#join">Mailing list</a>
+      <a href="#become" class="drawer-cta">
+        Become a sponsor
+        <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+      </a>
+    </div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <section class="sp-hero" data-screen-label="Sponsors hero">
+      <div class="wrap">
+        <div class="sp-hero-grid">
+          <div class="reveal">
+            <span class="eyebrow"><span class="dot"></span>Sponsors &amp; partners</span>
+            <h1>Our meetups stay free because <em>people like you</em> pitch in</h1>
+            <p class="lead">Every UX Hub Barcelona meetup is free and open to all. That only works thanks to the companies and people who cover our venues, drinks and operational costs.</p>
+            <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:28px;">
+              <a href="#become" class="btn btn-primary">See sponsorship options
+                <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+              </a>
+            </div>
+          </div>
+          <div class="sp-hero-media reveal">
+            <img src="assets/photo-community-1-900.webp" srcset="assets/photo-community-1-900.webp 900w, assets/photo-community-1-1600.webp 1600w" sizes="(max-width: 980px) 100vw, 480px" width="900" height="1350" alt="People talking and connecting at a UX Hub Barcelona event" decoding="async" />
+            <svg class="flourish" viewBox="0 0 79 80" fill="none" aria-hidden="true"><use href="#uxh-flower"/></svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section tight" data-screen-label="Tiers" id="become">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <span class="section-number">01</span>
+          <h2>Ways to <em>support us</em></h2>
+        </div>
+        <dl class="sp-stats reveal">
+          <div><dt>Members on Meetup</dt><dd id="stat-members">2,816</dd></div>
+          <div><dt>Group rating</dt><dd id="stat-rating">4.7 <span class="sp-stat-sub" id="stat-rating-sub">from 310 ratings</span></dd></div>
+          <div><dt>Cost to attend</dt><dd>Free <span class="sp-stat-sub">every meetup, always</span></dd></div>
+        </dl>
+        <div class="sp-tiers">
+          <article class="tier is-ceramic reveal" aria-labelledby="tier-friend">
+            <span class="badge">Friend</span>
+            <h3 id="tier-friend">Offer your space</h3>
+            <span class="price">In kind</span>
+            <ul role="list">
+              <li><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Host an evening at your studio or office</li>
+              <li><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>A warm thank-you from the stage</li>
+              <li><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Your logo on the event page</li>
+            </ul>
+            <a href="mailto:hello@uxhubbcn.com?subject=Offering a space to UX Hub Barcelona" class="btn btn-ghost tier-cta">Offer a space<span class="sr-only"> (opens your email app)</span><svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
+          </article>
+
+          <article class="tier is-beige reveal" aria-labelledby="tier-supporter">
+            <span class="badge">Supporter</span>
+            <h3 id="tier-supporter">Cover a meetup</h3>
+            <span class="price">From €500 / event</span>
+            <ul role="list">
+              <li><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Drinks and snacks for everyone</li>
+              <li><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Logo on event page and slides</li>
+              <li><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>A shout-out in the newsletter</li>
+            </ul>
+            <a href="mailto:hello@uxhubbcn.com?subject=Sponsoring a UX Hub Barcelona meetup" class="btn btn-primary tier-cta">Sponsor a meetup<span class="sr-only"> (opens your email app)</span><svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
+          </article>
+
+          <article class="tier is-teal reveal" aria-labelledby="tier-season">
+            <span class="badge">Season partner</span>
+            <h3 id="tier-season">Back a whole season</h3>
+            <span class="price">Let's talk</span>
+            <ul role="list">
+              <li><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Logo across every event for the season</li>
+              <li><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>First pick of speaking slots</li>
+              <li><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Customize to your needs</li>
+            </ul>
+            <a href="mailto:hello@uxhubbcn.com?subject=Becoming a UX Hub Barcelona season partner" class="btn btn-on-dark tier-cta">Start a conversation<span class="sr-only"> (opens your email app)</span><svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section tight" data-screen-label="Current sponsors">
+      <div class="wrap">
+        <div class="section-head reveal" style="width:100%;">
+          <span class="section-number">02</span>
+          <h2 class="sp-h2-oneline" style="align-self:auto;width:100%;">Meet our <em>sponsors &amp; partners</em></h2>
+        </div>
+
+        <div class="sp-class reveal">
+          <h3 class="sp-class-label">Sponsor</h3>
+          <div class="sponsor-cards">
+            <article class="sponsor-card feature">
+              <img class="sp-logo-img" src="assets/sponsor-uxia.webp" width="816" height="278" alt="Uxia" loading="lazy" decoding="async" />
+              <div style="display:flex;flex-direction:column;gap:12px;">
+                <h4>Uxia helps our members test designs faster</h4>
+                <p>A user testing platform that mimics real users with AI, so our community can spot UX issues and get actionable insights in minutes. Their support helps keep our meetups free.</p>
+                <span class="promo promo-soon">Member perk coming soon</span>
+                <a href="https://www.uxia.app/" target="_blank" rel="noopener" class="visit"><span>Visit Uxia</span><span class="sr-only"> (opens in a new tab)</span>
+                  <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
+                </a>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <div class="sp-class reveal">
+          <h3 class="sp-class-label">Educational sponsors</h3>
+          <div class="sponsor-cards">
+            <article class="sponsor-card">
+              <img class="sp-cover" src="assets/sponsor-idf.webp" width="900" height="454" alt="Interaction Design Foundation" loading="lazy" decoding="async" />
+              <h4>Interaction Design Foundation</h4>
+              <p>A leading online platform offering high-quality, affordable education in UX and design. IxDF gives our community access to industry-recognised courses taught by experts from around the world.</p>
+              <span class="promo promo-soon">Member perk coming soon</span>
+              <a href="https://www.interaction-design.org/turn-passion-into-paycheck?ep=ux-salon-bcn" target="_blank" rel="noopener" class="visit"><span>Visit IxDF</span><span class="sr-only"> (opens in a new tab)</span>
+                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
+              </a>
+            </article>
+            <article class="sponsor-card">
+              <img class="sp-cover" src="assets/sponsor-uxcel-banner.webp" width="900" height="454" alt="Uxcel, the best way to learn UX, PM and AI skills online" loading="lazy" decoding="async" />
+              <h4>Uxcel</h4>
+              <p>An online platform where UX and product people upskill through interactive, gamified learning. Bite-sized lessons and skill assessments make it easy to keep growing.</p>
+              <span class="promo">25% off with code <code>UXSALON25</code></span>
+              <a href="https://uxcel.com/?ref=ux-salon12" target="_blank" rel="noopener" class="visit"><span>Visit Uxcel</span><span class="sr-only"> (opens in a new tab)</span>
+                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
+              </a>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section tight" data-screen-label="CTA">
+      <div class="wrap" style="padding:0;">
+        <div class="partner-section reveal">
+          <div class="partner-bg-circles" aria-hidden="true">
+            <svg class="l" viewBox="0 0 79 80" fill="none"><use href="#uxh-flower"/></svg>
+            <svg class="r" viewBox="0 0 79 80" fill="none"><use href="#uxh-flower"/></svg>
+          </div>
+          <div class="pgrid">
+            <div>
+              <span class="eyebrow on-dark"><span class="dot"></span>Let's work together</span>
+              <h2>Help keep our community<br> <em>free and open</em></h2>
+              <p>Whatever your size, there's a way to pitch in. We'll find something that fits, no activation-deck energy required.</p>
+              <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:24px;">
+                <a href="mailto:hello@uxhubbcn.com?subject=Sponsoring UX Hub Barcelona" class="btn btn-primary">Contact us<span class="sr-only"> (opens your email app)</span>
+                  <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+                </a>
+              </div>
+            </div>
+            <div class="partner-cards">
+              <article class="partner-card"><span class="pn">01</span><h3>Venues</h3><p>Keeping the lights on at the spaces that host us.</p></article>
+              <article class="partner-card"><span class="pn">02</span><h3>Food &amp; drinks</h3><p>So every meetup stays free and welcoming.</p></article>
+              <article class="partner-card"><span class="pn">03</span><h3>Speakers</h3><p>Bringing voices to Barcelona who&rsquo;d otherwise say no.</p></article>
+              <article class="partner-card"><span class="pn">04</span><h3>Zero overhead</h3><p>We&rsquo;re volunteer-run. Nothing goes to salaries.</p></article>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer id="contact" class="site-footer" data-screen-label="Footer">
+    <div class="wrap">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <a href="index.html#home" class="footer-logo" aria-label="UX Hub Barcelona, home">
+            <img src="assets/logo-stacked-white.svg" alt="UX Hub Barcelona" width="239" height="189" />
+          </a>
+          <div class="footer-mission">
+            <p class="mission-lead">We are a non-profit organization.</p>
+            <p class="mission-body">Creating regular meetups and events for UX professionals in Barcelona.</p>
+          </div>
+        </div>
+        <nav class="footer-nav" aria-label="Footer">
+          <h2>Navigation</h2>
+          <a href="index.html#home">Start</a>
+          <a href="https://www.meetup.com/ux-hub-barcelona/" target="_blank" rel="noopener">Events</a>
+          <a href="index.html#join">Mailing list</a>
+          <a href="sponsors.html" aria-current="page">Sponsors</a>
+          <a href="mailto:hello@uxhubbcn.com">Contact</a>
+        </nav>
+      </div>
+      <div class="footer-bottom">
+        <div class="fb-legal">
+          <div class="fb-line-1">
+            <span>2026 UX Hub BCN. All rights reserved.</span>
+            <a href="https://app.getterms.io/view/QJbom/privacy/en-us" target="_blank" rel="noopener" class="fb-link">Privacy policy</a>
+            <a href="https://app.getterms.io/view/QJbom/cookies/en-us" target="_blank" rel="noopener" class="fb-link" data-cookie-prefs>Cookies policy</a>
+          </div>
+          <p class="fb-address">Carrer d&rsquo;Arag&oacute; 254, 08007, Barcelona, Spain</p>
+          <p class="fb-id">ID: G-75534479</p>
+        </div>
+        <div class="fb-socials">
+          <a href="https://www.instagram.com/uxhubbcn" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.1" fill="currentColor" stroke="none"/></svg></a>
+          <a href="https://www.linkedin.com/company/ux-hub-barcelona" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2ZM8.34 17.34H5.67V9.67h2.67v7.67ZM7 8.34a1.55 1.55 0 1 1 0-3.1 1.55 1.55 0 0 1 0 3.1Zm11.34 9H15.67v-3.73c0-.89-.02-2.04-1.25-2.04-1.25 0-1.44.97-1.44 1.98v3.79H10.33V9.67h2.56v1.05h.04c.36-.68 1.23-1.4 2.53-1.4 2.7 0 3.2 1.78 3.2 4.09v3.93Z"/></svg></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- flower symbol for decorative marks -->
+  <svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute;overflow:hidden"><symbol id="uxh-flower" viewBox="0 0 200 200"><g transform="scale(2.53165,2.5)">
+    <path d="M37.2168 18.7115C41.5509 18.3034 45.6666 19.0411 49.502 21.0768C55.0348 24.0135 58.6332 28.4755 60.3271 34.442C60.9062 36.4818 61.1353 38.5828 61.04 40.7067C60.8001 46.0545 58.8476 50.6896 55.1221 54.5826C51.664 58.1962 47.415 60.3376 42.4395 61.0504C38.5583 61.6064 34.7866 61.1198 31.1211 59.611C26.8148 57.7954 23.4511 54.9575 21.0137 51.0553C19.4499 48.5518 18.4684 45.8449 18.0605 42.9205C17.4617 38.6262 18.072 34.529 19.9785 30.6481C22.009 26.515 25.0954 23.3537 29.2002 21.1549C31.7126 19.8091 34.3864 18.9781 37.2168 18.7115ZM54.3867 32.8258C51.2458 26.4623 44.5963 22.8627 37.4521 23.6783C34.0201 24.0703 30.9421 25.4024 28.3848 27.735C24.0182 31.7179 22.1552 36.7213 23.1006 42.5358C24.0542 48.3995 27.4766 52.5557 32.916 54.9772C35.5463 56.148 38.3309 56.494 41.248 56.194L41.2637 56.192C41.4846 56.1639 41.7571 56.1357 42.0098 56.0963C45.2031 55.599 48.0525 54.3154 50.46 52.1569C53.9871 48.9942 55.8721 45.0354 56.0039 40.2965C56.0767 37.6768 55.5476 35.1777 54.3867 32.8258Z" fill="currentColor" stroke="currentColor" stroke-width="1.31492"></path>
+    <path d="M15.9531 1.63379C23.2645 -0.480964 29.9459 0.856105 35.9395 5.49609C38.7081 7.6395 40.7364 10.3745 42.1338 13.5693C41.9873 13.548 41.8236 13.5262 41.6719 13.5166C39.9591 13.4085 38.2333 13.401 36.5049 13.5889C35.302 11.6034 33.743 9.93552 31.8193 8.60547C29.4942 6.99792 26.9155 6.03364 24.0889 5.74902C19.6397 5.30113 15.5829 6.38774 12.0498 9.13281C8.59447 11.8176 6.49878 15.3522 5.89355 19.6797C5.18987 24.7119 6.59241 29.1583 9.96484 32.9658C10.8295 33.942 11.823 34.7738 12.8965 35.4893C12.9245 35.5079 12.9444 35.5243 12.96 35.5361C12.9586 35.5472 12.9577 35.5602 12.9551 35.5752C12.63 37.4065 12.5662 39.2455 12.6309 41.0703C8.5341 39.0233 5.40746 36.0359 3.24316 32.0605C1.84444 29.4913 0.995897 26.7608 0.750977 23.8545C0.324104 18.7885 1.56329 14.1544 4.45117 9.96484C7.28477 5.85412 11.1341 3.0277 15.9531 1.63379Z" fill="currentColor" stroke="currentColor" stroke-width="1.31492"></path>
+    <path d="M6.41797 43.3508C7.80576 44.3788 9.28539 45.2681 10.8711 45.9846C8.13249 48.5589 6.43662 51.7129 5.89746 55.4563C5.22661 60.1147 6.35533 64.3502 9.31348 68.0461C11.8043 71.1582 15.061 73.1473 19.0107 73.8928C23.8012 74.797 28.2375 73.8437 32.1953 70.9729C33.9533 69.6977 35.3846 68.1216 36.4951 66.2708C38.3593 66.4433 40.2428 66.4901 42.1348 66.2874C41.6192 67.5183 40.9556 68.6844 40.1807 69.8049C37.315 73.9484 33.4283 76.725 28.5527 78.262C23.2484 79.7916 18.1174 79.4709 13.1641 77.1614C7.21632 74.3881 3.35208 69.8317 1.47949 63.6096C0.678718 60.9488 0.478529 58.2223 0.811523 55.4475C1.36665 50.8218 3.26603 46.8158 6.41797 43.3508Z" fill="currentColor" stroke="currentColor" stroke-width="1.31492"></path>
+    <path d="M54.8594 0.751465C57.6613 0.547827 60.3616 0.824449 62.9951 1.64404C67.7431 3.12172 71.5471 5.86888 74.3848 9.89209C76.4207 12.7787 77.6514 15.9837 78.0615 19.4897C78.6537 24.5532 77.5433 29.2283 74.7812 33.5181C72.6527 36.8238 69.7859 39.3274 66.2471 41.0728C66.2488 41.0482 66.2526 41.0235 66.2539 40.9985C66.3512 39.1603 66.2283 37.3385 65.9258 35.5356C65.9307 35.5322 65.9366 35.5288 65.9424 35.5249C68.6356 33.6971 70.6431 31.2901 71.9082 28.3062C72.987 25.7616 73.3604 23.1075 73.0898 20.3657C72.7111 16.5289 71.1242 13.2318 68.415 10.5063C65.888 7.96428 62.7982 6.37833 59.2148 5.8501C54.367 5.13558 49.9792 6.28793 46.1221 9.29834C46.0484 9.35583 45.9826 9.41616 45.9268 9.46924C45.1352 7.99651 44.2022 6.61645 43.1299 5.32959C45.8704 3.2003 48.9456 1.78724 52.3682 1.09229C53.1714 0.929191 53.9901 0.82392 54.8604 0.752441L54.8594 0.751465Z" fill="currentColor" stroke="currentColor" stroke-width="1.31492"></path>
+    <path d="M72.4619 43.3564C75.0432 46.158 76.8146 49.377 77.6562 53.0605C78.9594 58.764 78.0808 64.134 74.9541 69.0859C71.5376 74.4969 66.5808 77.7835 60.2314 78.8623C53.9093 79.9364 48.2046 78.398 43.1309 74.5225C44.1988 73.2356 45.1293 71.858 45.9248 70.3926C49.0779 72.9596 52.7688 74.2935 57.0176 74.2021H57.0254L57.0332 74.2012C63.122 73.9249 67.753 71.1939 70.9131 66.1123C72.1779 64.0783 72.8556 61.8463 73.0869 59.4941C73.4204 56.1021 72.7861 52.8923 71.1025 49.9072C70.2828 48.4539 69.2743 47.1211 68.0176 45.9775C69.5903 45.2551 71.0699 44.3774 72.4619 43.3564Z" fill="currentColor" stroke="currentColor" stroke-width="1.31492"></path>
+  </g></symbol></svg>
+
+  <button type="button" class="to-top" id="to-top" aria-label="Back to top">
+    <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg>
+  </button>
+
+  <script>
+    const io = ('IntersectionObserver' in window) && (!window.matchMedia || window.matchMedia('(prefers-reduced-motion: no-preference)').matches);
+    if (io) {
+      document.documentElement.classList.add('reveal-on');
+      const obs = new IntersectionObserver((es) => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); } }), { threshold: 0, rootMargin: '0px 0px -8% 0px' });
+      document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+      // Safety net: if anything hasn't shown shortly after load, reveal it.
+      setTimeout(() => document.querySelectorAll('.reveal:not(.in)').forEach(el => {
+        const r = el.getBoundingClientRect();
+        if (r.top < window.innerHeight) el.classList.add('in');
+      }), 1200);
+    }
+    const toTop = document.getElementById('to-top');
+    const onScroll = () => toTop.classList.toggle('show', window.scrollY > 600);
+    window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
+    const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    toTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' }));
+    const burger = document.getElementById('nav-burger');
+    const drawer = document.getElementById('mobile-drawer');
+    // Same keyboard/focus treatment as the homepage's drawer: Escape closes,
+    // Tab is trapped inside while open, and clicking outside closes it too.
+    function setDrawer(open) {
+      if (!drawer || !burger) return;
+      drawer.classList.toggle('open', open);
+      drawer.hidden = !open;
+      burger.setAttribute('aria-expanded', String(open));
+      burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+      document.body.style.overflow = open ? 'hidden' : '';
+      if (open) drawer.querySelector('a, button')?.focus();
+      else burger.focus();
+    }
+    burger?.addEventListener('click', () => setDrawer(drawer.hidden));
+    drawer?.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setDrawer(false)));
+    document.addEventListener('keydown', (e) => {
+      if (!drawer || drawer.hidden) return;
+      if (e.key === 'Escape') { setDrawer(false); return; }
+      if (e.key !== 'Tab') return;
+      const f = [...drawer.querySelectorAll('a[href], button:not([disabled])')].filter(el => el.offsetParent !== null);
+      if (!f.length) return;
+      const first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    });
+    document.addEventListener('pointerdown', (e) => {
+      if (!drawer || drawer.hidden) return;
+      if (!drawer.contains(e.target) && !burger.contains(e.target)) setDrawer(false);
+    });
+    document.querySelectorAll('a[href="#"]').forEach(a => a.addEventListener('click', e => e.preventDefault()));
+    // Community numbers come from the same daily Meetup refresh as the homepage event.
+    // The values in the markup are the last known good figures, used if the fetch fails.
+    fetch('data/events.json', { cache: 'no-store' })
+      .then(r => r.ok ? r.json() : Promise.reject())
+      .then(({ stats }) => {
+        if (!stats) return;
+        const set = (id, v) => { const el = document.getElementById(id); if (el && v != null) el.textContent = v; };
+        if (stats.members) set('stat-members', stats.members.toLocaleString('en-GB'));
+        if (stats.rating) {
+          const el = document.getElementById('stat-rating');
+          if (el) el.firstChild.nodeValue = stats.rating + ' ';
+        }
+        if (stats.ratingCount) set('stat-rating-sub', 'from ' + stats.ratingCount.toLocaleString('en-GB') + ' ratings');
+      })
+      .catch(() => {});
+
+    // GetTerms CMP: reopen the consent preferences panel from the footer link.
+    // The widget's API name varies by version, so try the known entry points and
+    // fall back to the policy page (the link's own href) if none are present.
+    document.querySelectorAll('[data-cookie-prefs]').forEach(el => el.addEventListener('click', (e) => {
+      const api = window.GetTerms || window.getterms || window.gettermsCmp;
+      const open = api && (api.showPreferences || api.openPreferences || api.show || api.reopen);
+      if (typeof open === 'function') { e.preventDefault(); open.call(api); return; }
+      const widget = document.querySelector('.gt-cookie-consent-reopen, [class*="cookie-consent"] [class*="reopen"]');
+      if (widget) { e.preventDefault(); widget.click(); }
+    }));
+  </script>
+</body>
+</html>

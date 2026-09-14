@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Colors — Foreground &amp; lines</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  :root{color-scheme:light;}
+  *{box-sizing:border-box;}
+  body{max-width:960px;margin:0 auto;padding:56px 24px 88px;}
+  a.back{display:inline-flex;align-items:center;gap:6px;font:500 13px/1 var(--uxh-font-sans);color:var(--uxh-fg-2);text-decoration:none;margin-bottom:32px;}
+  a.back:hover{color:var(--uxh-seaturtle);}
+  .card-head{margin-bottom:48px;}
+  .card-head h1{margin:8px 0 0;}
+  .card-desc{color:var(--uxh-fg-2);max-width:640px;margin:12px 0 0;font-size:15px;line-height:1.55;}
+  section+section{margin-top:48px;}
+  .grp-label{font:600 13px/1.2 var(--uxh-font-sans);letter-spacing:.04em;text-transform:uppercase;color:var(--uxh-fg-2);margin:0 0 16px;}
+  .row{display:flex;align-items:center;gap:20px;padding:16px 18px;border:1px solid var(--uxh-line);border-radius:var(--uxh-radius-md);margin-bottom:10px;background:#fff;}
+  .row .chip{flex:none;width:56px;height:56px;border-radius:var(--uxh-radius-md);}
+  .row .text{flex:1;min-width:0;}
+  .row .name{font:600 15px/1.2 var(--uxh-font-sans);margin:0 0 2px;}
+  .row .hex{font:500 13px/1 var(--uxh-font-mono);color:var(--uxh-fg-2);margin:0 0 6px;}
+  .row .use{font-size:13px;line-height:1.5;color:var(--uxh-fg-2);margin:0;}
+  .row .sample{flex:none;font:500 22px/1 var(--uxh-font-sans);}
+  .note{font-size:13px;line-height:1.6;background:var(--uxh-ceramic);border-radius:var(--uxh-radius-md);padding:14px 16px;color:var(--uxh-fg);}
+  .note b{color:var(--uxh-fg);}
+  .dark-demo{background:var(--uxh-teal-night);border-radius:var(--uxh-radius-lg);padding:28px;display:flex;flex-wrap:wrap;gap:24px;align-items:center;}
+  .dark-demo .swatch{width:64px;height:64px;border-radius:var(--uxh-radius-md);flex:none;}
+  .dark-demo p{color:var(--uxh-text-on-dark);font-size:13px;line-height:1.5;max-width:260px;margin:0;}
+</style>
+</head>
+<body>
+  <a class="back" href="index.html">&larr; Guidelines</a>
+  <header class="card-head">
+    <p class="uxh-eyebrow">Foundations &middot; Color</p>
+    <h1>Foreground &amp; lines</h1>
+    <p class="card-desc">Text tiers, hairlines, and the two accessibility corrections shipped over the brand's raw values.</p>
+  </header>
+
+  <section>
+    <p class="grp-label">Text</p>
+    <div class="row">
+      <div class="chip" style="background:var(--uxh-fg)"></div>
+      <div class="text">
+        <p class="name">fg &mdash; primary text</p>
+        <p class="hex">#323232</p>
+        <p class="use">Headings, body copy, primary UI text.</p>
+      </div>
+      <p class="sample" style="color:var(--uxh-fg)">Aa</p>
+    </div>
+    <div class="row">
+      <div class="chip" style="background:var(--uxh-fg-2)"></div>
+      <div class="text">
+        <p class="name">fg-2 &mdash; secondary text</p>
+        <p class="hex">#6a6a6a</p>
+        <p class="use"><b>AA fix:</b> the brand's raw value <code>#777777</code> measures 4.48:1 on white and fails WCAG AA for normal text. Shipped override is <code>#6a6a6a</code>, which passes.</p>
+      </div>
+      <p class="sample" style="color:var(--uxh-fg-2)">Aa</p>
+    </div>
+    <div class="row">
+      <div class="chip" style="background:var(--uxh-fg-3)"></div>
+      <div class="text">
+        <p class="name">fg-3 &mdash; muted text</p>
+        <p class="hex">#B4B4B4</p>
+        <p class="use">Placeholder text, disabled state, least-important meta. Not for body-length copy.</p>
+      </div>
+      <p class="sample" style="color:var(--uxh-fg-3)">Aa</p>
+    </div>
+  </section>
+
+  <section>
+    <p class="grp-label">Lines</p>
+    <div class="row">
+      <div class="chip" style="background:#fff;border:1px solid var(--uxh-line)"></div>
+      <div class="text">
+        <p class="name">line &mdash; hairline divider</p>
+        <p class="hex">rgba(0,0,0,0.10)</p>
+        <p class="use">Card borders, section dividers, table rules. Cards use this <em>or</em> <code>--uxh-shadow-md</code> — never both.</p>
+      </div>
+      <div style="flex:none;width:120px;height:1px;background:var(--uxh-line)"></div>
+    </div>
+    <div class="row">
+      <div class="chip" style="background:#fff;border:1px solid var(--uxh-line-strong)"></div>
+      <div class="text">
+        <p class="name">line-strong</p>
+        <p class="hex">rgba(0,0,0,0.30)</p>
+        <p class="use">Borders around color swatches, donate amount chips.</p>
+      </div>
+      <div style="flex:none;width:120px;height:1px;background:var(--uxh-line-strong)"></div>
+    </div>
+  </section>
+
+  <section>
+    <p class="grp-label">On dark &mdash; amber substitution</p>
+    <div class="dark-demo">
+      <div class="swatch" style="background:var(--uxh-yolk)"></div>
+      <div class="swatch" style="background:var(--uxh-amber-on-dark)"></div>
+      <p><b style="color:var(--uxh-text-on-dark)">Yolk on Teal Night measures only 3.7:1</b> &mdash; fails AA. Use <code>--uxh-amber-on-dark</code> (<code>#F7C77E</code>) instead for any text or icon that needs the "accent" color on a dark surface (e.g. the tier-card price on the Teal Night pricing tier).</p>
+    </div>
+  </section>
+</body>
+</html>

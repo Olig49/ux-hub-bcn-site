@@ -1,0 +1,21 @@
+{
+  "_comment": "Live event data for the homepage. A daily scheduled job rewrites this file from the Meetup iCal feed and downloads the event cover image locally. `event: null` means nothing is scheduled, and the homepage hides its events section. See scripts/refresh-events.md.",
+  "updated": "2026-08-16T09:00:00Z",
+  "source": "https://www.meetup.com/ux-hub-barcelona/events/",
+  "event": null,
+  "lastEvent": {
+    "title": "Integrating Accessibility into the Product Lifecycle",
+    "start": "2026-03-19T18:30:00+01:00",
+    "end": "2026-03-19T21:00:00+01:00",
+    "venue": "Elisava",
+    "city": "Barcelona",
+    "image": "assets/photo-meetup-4.jpg",
+    "rsvpUrl": "https://www.meetup.com/ux-hub-barcelona/"
+  },
+  "stats": {
+    "members": 2816,
+    "rating": 4.7,
+    "ratingCount": 310,
+    "capturedAt": "2026-09-12T00:00:00Z"
+  }
+}

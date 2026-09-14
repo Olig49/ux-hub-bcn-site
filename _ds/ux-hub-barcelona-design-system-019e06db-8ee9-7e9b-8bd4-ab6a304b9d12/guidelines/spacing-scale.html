@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Spacing scale</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  :root{color-scheme:light;}
+  *{box-sizing:border-box;}
+  body{max-width:960px;margin:0 auto;padding:56px 24px 88px;}
+  a.back{display:inline-flex;align-items:center;gap:6px;font:500 13px/1 var(--uxh-font-sans);color:var(--uxh-fg-2);text-decoration:none;margin-bottom:32px;}
+  a.back:hover{color:var(--uxh-seaturtle);}
+  .card-head{margin-bottom:48px;}
+  .card-head h1{margin:8px 0 0;}
+  .card-desc{color:var(--uxh-fg-2);max-width:640px;margin:12px 0 0;font-size:15px;line-height:1.55;}
+  .step{display:flex;align-items:center;gap:20px;margin-bottom:14px;}
+  .step .label{flex:none;width:150px;font:500 13px/1 var(--uxh-font-mono);color:var(--uxh-fg-2);}
+  .step .bar{background:var(--uxh-seaturtle);height:20px;border-radius:4px;}
+  .step .px{flex:none;font:600 13px/1 var(--uxh-font-sans);color:var(--uxh-fg);width:56px;}
+</style>
+</head>
+<body>
+  <a class="back" href="index.html">&larr; Guidelines</a>
+  <header class="card-head">
+    <p class="uxh-eyebrow">Foundations &middot; Spacing</p>
+    <h1>Spacing scale</h1>
+    <p class="card-desc">Nine steps, not a strict 4/8px grid &mdash; measured bars, widths proportional to their pixel value.</p>
+  </header>
+
+  <div class="step"><span class="label">--uxh-space-1</span><div class="bar" style="width:4px"></div><span class="px">4px</span></div>
+  <div class="step"><span class="label">--uxh-space-2</span><div class="bar" style="width:8px"></div><span class="px">8px</span></div>
+  <div class="step"><span class="label">--uxh-space-3</span><div class="bar" style="width:12px"></div><span class="px">12px</span></div>
+  <div class="step"><span class="label">--uxh-space-4</span><div class="bar" style="width:16px"></div><span class="px">16px</span></div>
+  <div class="step"><span class="label">--uxh-space-5</span><div class="bar" style="width:24px"></div><span class="px">24px</span></div>
+  <div class="step"><span class="label">--uxh-space-6</span><div class="bar" style="width:32px"></div><span class="px">32px</span></div>
+  <div class="step"><span class="label">--uxh-space-7</span><div class="bar" style="width:48px"></div><span class="px">48px</span></div>
+  <div class="step"><span class="label">--uxh-space-8</span><div class="bar" style="width:64px"></div><span class="px">64px</span></div>
+  <div class="step"><span class="label">--uxh-space-9</span><div class="bar" style="width:88px"></div><span class="px">88px</span></div>
+</body>
+</html>

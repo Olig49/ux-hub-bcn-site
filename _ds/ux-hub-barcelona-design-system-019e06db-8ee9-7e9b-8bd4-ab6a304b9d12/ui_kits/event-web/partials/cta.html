@@ -1,0 +1,73 @@
+<!--
+  Partial: CTA section ("Let's work together" / partners)
+  Extracted verbatim from: /project/UX Hub Barcelona.html, lines 338-379
+  (section#partners > .partner-section).
+
+  Depends on:
+    - styles/site.css → .section / .section.tight, .wrap, .partner-section
+                         (dark teal card, ~L354-361), .partner-bg-circles,
+                         .pgrid (two-column layout), .eyebrow / .on-dark /
+                         .dot, .btn / .btn-primary, .partner-cards,
+                         .partner-card (.pn number + h3 + p)
+    - styles/tokens.css → color/spacing/font custom properties, incl.
+                          --uxh-teal-night (card background)
+    - Shared inline SVG sprite: <symbol id="uxh-flower">…</symbol> — same
+      dependency as hero.html; needed once per page for the two
+      <use href="#uxh-flower"/> background circles. See README "Shared
+      SVG sprite".
+
+  JS behavior: none. This section is static markup — the "reveal" class
+  is the same progressive-enhancement fade described in hero.html and is
+  optional.
+
+  Adapting for a new event page:
+    - This is the shipped "become a partner/sponsor" CTA — for a single
+      event page, either reuse as-is (points at mailto + sponsors.html),
+      or trim it down to just the left column (eyebrow + h2 + p + the two
+      buttons) for a simpler single-button CTA banner and drop
+      .partner-cards / .pgrid's second column.
+    - Swap the eyebrow label, h2, body copy, and the two action links
+      (mailto subject line, and the secondary link's href/label).
+    - Swap or drop the three .partner-card entries (number, heading, body).
+-->
+<section id="partners" class="section tight" data-screen-label="06 Partners">
+  <div class="wrap" style="padding:0;">
+    <div class="partner-section reveal">
+      <div class="partner-bg-circles" aria-hidden="true">
+        <svg class="l" viewBox="0 0 200 200" fill="none"><use href="#uxh-flower"/></svg>
+        <svg class="r" viewBox="0 0 200 200" fill="none"><use href="#uxh-flower"/></svg>
+      </div>
+      <div class="pgrid">
+        <div>
+          <span class="eyebrow on-dark"><span class="dot"></span>For partners &amp; companies</span>
+          <h2>Let&rsquo;s <em>work together</em></h2>
+          <p>Space and speakers are what keep our meetups free. If you run a product team in Barcelona, there are a few ways we can collaborate, and we&rsquo;re grateful to the sponsors and backers who make every night possible.</p>
+          <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:24px;">
+            <a href="mailto:hello@uxhubbcn.com?subject=Sponsorship%20%2F%20Partnership%20opportunity" class="btn btn-primary">Start a conversation
+              <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+            </a>
+            <a href="sponsors.html" class="btn" style="background:transparent;color:#fff;border:1px solid rgba(255,255,255,0.25);">See our sponsors</a>
+          </div>
+        </div>
+
+        <div class="partner-cards">
+          <article class="partner-card">
+            <span class="pn">01</span>
+            <h3>Speak at an event</h3>
+            <p>Share a real case study or an honest lesson from your team. Our crowd values practical stories over polished pitches.</p>
+          </article>
+          <article class="partner-card">
+            <span class="pn">02</span>
+            <h3>Offer your space</h3>
+            <p>Open your studio or office for an evening. We bring the speakers, the MC, and the community.</p>
+          </article>
+          <article class="partner-card">
+            <span class="pn">03</span>
+            <h3>Be the next sponsor</h3>
+            <p>Connect with a passionate design community, share what you have to offer, and boost your brand visibility, while keeping our meetups free and open to all.</p>
+          </article>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

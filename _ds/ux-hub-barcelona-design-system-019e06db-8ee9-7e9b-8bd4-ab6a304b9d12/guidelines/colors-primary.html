@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Colors — Primary</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  :root{color-scheme:light;}
+  *{box-sizing:border-box;}
+  body{max-width:960px;margin:0 auto;padding:56px 24px 88px;}
+  a.back{display:inline-flex;align-items:center;gap:6px;font:500 13px/1 var(--uxh-font-sans);color:var(--uxh-fg-2);text-decoration:none;margin-bottom:32px;}
+  a.back:hover{color:var(--uxh-seaturtle);}
+  .card-head{margin-bottom:48px;}
+  .card-head h1{margin:8px 0 0;}
+  .card-desc{color:var(--uxh-fg-2);max-width:640px;margin:12px 0 0;font-size:15px;line-height:1.55;}
+  .swatch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px;}
+  .swatch{border:1px solid var(--uxh-line);border-radius:var(--uxh-radius-lg);overflow:hidden;background:#fff;}
+  .swatch .fill{height:120px;}
+  .swatch .info{padding:16px;}
+  .swatch .name{font:600 15px/1.2 var(--uxh-font-sans);margin:0 0 2px;}
+  .swatch .hex{font:500 13px/1 var(--uxh-font-mono);color:var(--uxh-fg-2);margin:0 0 8px;}
+  .swatch .use{font-size:13px;line-height:1.5;color:var(--uxh-fg-2);margin:0;}
+</style>
+</head>
+<body>
+  <a class="back" href="index.html">&larr; Guidelines</a>
+  <header class="card-head">
+    <p class="uxh-eyebrow">Foundations &middot; Color</p>
+    <h1>Primary palette</h1>
+    <p class="card-desc">Use as content blocks, accents and CTAs. Values are the live <code>--uxh-*</code> tokens in <code>colors_and_type.css</code> — never hand-typed hex.</p>
+  </header>
+
+  <div class="swatch-grid">
+    <div class="swatch">
+      <div class="fill" style="background:var(--uxh-seaturtle)"></div>
+      <div class="info">
+        <p class="name">Seaturtle</p>
+        <p class="hex">#2A99A0</p>
+        <p class="use">Primary teal — supporting shapes, icons, accent surfaces, logo "Seaturtle" variant.</p>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="fill" style="background:var(--uxh-yolk)"></div>
+      <div class="info">
+        <p class="name">Yolk</p>
+        <p class="hex">#F3A632</p>
+        <p class="use">CTAs (pill buttons), event highlights, big section numerals ("01", "02"&hellip;).</p>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="fill" style="background:var(--uxh-lime)"></div>
+      <div class="info">
+        <p class="name">Lime</p>
+        <p class="hex">#C7B85D</p>
+        <p class="use">Tags, secondary highlights, subtle graphic details.</p>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="fill" style="background:var(--uxh-purple)"></div>
+      <div class="info">
+        <p class="name">Purple</p>
+        <p class="hex">#D5B3F7</p>
+        <p class="use">Expressive moments, headers, occasional hero accents.</p>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="fill" style="background:var(--uxh-ceramic)"></div>
+      <div class="info">
+        <p class="name">Ceramic</p>
+        <p class="hex">#F3E7D8</p>
+        <p class="use">Soft warm background on slides, posts and printed materials.</p>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="fill" style="background:var(--uxh-white);border-bottom:1px solid var(--uxh-line)"></div>
+      <div class="info">
+        <p class="name">Pure White</p>
+        <p class="hex">#FFFFFF</p>
+        <p class="use">Background. Card fills, primary surface.</p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

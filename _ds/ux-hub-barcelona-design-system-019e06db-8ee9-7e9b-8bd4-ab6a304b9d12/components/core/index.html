@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en" data-accent="yolk">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Core — UX Hub Barcelona component catalog</title>
+<link rel="stylesheet" href="../../../../styles/tokens.css" />
+<link rel="stylesheet" href="../../../../styles/site.css" />
+<link rel="stylesheet" href="../../../../styles/mobile-tweaks.css" />
+<style>
+  /* ---- Catalog scaffolding only — none of this is shipped-site CSS ---- */
+  body.ds-catalog { padding: 40px 24px 140px; max-width: 1040px; margin: 0 auto; }
+  .ds-kicker { font: 700 12px/1 var(--uxh-font-sans); letter-spacing: 0.1em; text-transform: uppercase; color: var(--uxh-seaturtle); margin: 0 0 8px; }
+  .ds-title { font: 700 34px/1.15 var(--uxh-font-sans); margin: 0 0 10px; }
+  .ds-desc { font-size: 15px; line-height: 1.55; color: var(--uxh-fg-2); max-width: 680px; margin: 0 0 8px; }
+  .ds-back { display: inline-block; margin-bottom: 28px; font: 500 13px/1 var(--uxh-font-sans); color: var(--uxh-teal-night); }
+  .ds-component { margin: 0 0 68px; padding-top: 40px; border-top: 1px solid var(--uxh-line); }
+  .ds-component:first-of-type { border-top: 0; padding-top: 0; }
+  h2.ds-label { font: 700 20px/1.3 var(--uxh-font-sans); margin: 0 0 6px; color: var(--uxh-fg); }
+  .ds-label-sub { font-size: 13px; color: var(--uxh-fg-2); margin: 0 0 24px; max-width: 640px; }
+  .ds-variant { font: 600 11px/1 var(--uxh-font-sans); letter-spacing: 0.08em; text-transform: uppercase; color: var(--uxh-fg-2); margin: 28px 0 12px; }
+  .ds-variant:first-of-type { margin-top: 0; }
+  .ds-row { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; }
+  .ds-dark { background: var(--uxh-teal-night); border-radius: 16px; padding: 24px; }
+  .ds-note { font-size: 12px; color: var(--uxh-teal-night); background: var(--uxh-ceramic); border-radius: 8px; padding: 8px 12px; margin: 0 0 16px; display: inline-block; }
+</style>
+</head>
+<body class="ds-catalog">
+
+  <a class="ds-back" href="../README.md">&larr; Component families</a>
+  <p class="ds-kicker">Family · core</p>
+  <h1 class="ds-title">Core</h1>
+  <p class="ds-desc">The atoms every other component is built from: Button, Eyebrow, SectionHead and Tag. Markup below is copied verbatim from <code>UX Hub Barcelona.html</code> and <code>sponsors.html</code> — see each component's README for exact source lines.</p>
+
+  <!-- ===================================================================
+       BUTTON — .btn
+  ==================================================================== -->
+  <section class="ds-component">
+    <h2 class="ds-label">Button — <code>.btn</code></h2>
+    <p class="ds-label-sub">Pill CTA. Four fill variants share one base class plus a modifier.</p>
+
+    <p class="ds-variant">primary — source: hero, "See the next event" (UX Hub Barcelona.html:79)</p>
+    <div class="ds-row">
+      <a href="#events" class="btn btn-primary">
+        See the next event
+        <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+      </a>
+    </div>
+
+    <p class="ds-variant">ghost — source: hero, "What's a hub?" (UX Hub Barcelona.html:83) and "Add to calendar" (line 170)</p>
+    <div class="ds-row">
+      <a href="#about" class="btn btn-ghost">What&rsquo;s a hub?</a>
+      <button type="button" class="btn btn-ghost" id="add-to-calendar">
+        Add to calendar
+        <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4"/><path d="M16 3v4"/><path d="M3 11h18"/></svg>
+      </button>
+    </div>
+
+    <p class="ds-variant">on-dark — source: sponsors.html tier CTA, "Start a conversation" (sponsors.html:200), shown on its native dark surface</p>
+    <div class="ds-dark">
+      <a href="mailto:hello@uxhubbcn.com?subject=Becoming a UX Hub Barcelona season partner" class="btn btn-on-dark tier-cta" style="display:inline-flex;">Start a conversation<span class="sr-only"> (opens your email app)</span><svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
+    </div>
+
+    <p class="ds-variant">dark — <strong>no live instance found</strong> in either shipped page; reconstructed from the real <code>.btn-dark</code> rule (site.css:110-111) for completeness</p>
+    <div class="ds-row">
+      <button type="button" class="btn btn-dark">
+        Dark button
+        <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+      </button>
+    </div>
+  </section>
+
+  <!-- ===================================================================
+       EYEBROW — .eyebrow
+  ==================================================================== -->
+  <section class="ds-component">
+    <h2 class="ds-label">Eyebrow — <code>.eyebrow</code></h2>
+    <p class="ds-label-sub">Small uppercase label with a pulsing dot. Source: "Upcoming event" (UX Hub Barcelona.html:146).</p>
+
+    <p class="ds-variant">default</p>
+    <div class="ds-row">
+      <span class="eyebrow"><span class="dot"></span>Upcoming event</span>
+    </div>
+
+    <p class="ds-variant">on-dark — source: partner section, "For partners &amp; companies" (UX Hub Barcelona.html:348)</p>
+    <div class="ds-dark">
+      <span class="eyebrow on-dark"><span class="dot"></span>For partners &amp; companies</span>
+    </div>
+  </section>
+
+  <!-- ===================================================================
+       SECTION HEAD — .section-head
+  ==================================================================== -->
+  <section class="ds-component">
+    <h2 class="ds-label">SectionHead — <code>.section-head</code></h2>
+    <p class="ds-label-sub">Big yolk numeral + heading grid. Source: Events section head (UX Hub Barcelona.html:122-125).</p>
+
+    <p class="ds-variant">default</p>
+    <div class="section-head reveal">
+      <span class="section-number">01</span>
+      <h2>Our next <em>event</em></h2>
+    </div>
+
+    <p class="ds-variant">with head-meta — source: About section head pattern (grid col 3 is unused here; shown per spec's third auto column)</p>
+    <div class="section-head reveal">
+      <span class="section-number">03</span>
+      <h2>About us</h2>
+      <span class="head-meta">A hub is a regular gathering under the roof of an inspiring host.</span>
+    </div>
+
+    <p class="ds-variant">one-line variant — page-scoped in sponsors.html (style block lines 87-88), source: "Meet our sponsors &amp; partners" (sponsors.html:210)</p>
+    <div class="section-head reveal" style="width:100%;">
+      <span class="section-number">02</span>
+      <h2 class="sp-h2-oneline" style="align-self:auto;width:100%;">Meet our <em>sponsors &amp; partners</em></h2>
+    </div>
+  </section>
+
+  <!-- ===================================================================
+       TAG — .badge / .promo / .promo-soon / .pn / (bonus) .chip
+  ==================================================================== -->
+  <section class="ds-component">
+    <h2 class="ds-label">Tag — <code>.badge</code>, <code>.promo</code>, <code>.promo-soon</code>, <code>.pn</code></h2>
+    <p class="ds-label-sub">Outline-only chips. Solid fills are meant to stay reserved for Button — see the <code>.chip-teal</code> note below for where that rule is broken today.</p>
+
+    <p class="ds-variant">badge — source: sponsor tier badges (sponsors.html:168, 180, 192). Rule lives in sponsors.html's own &lt;style&gt;, not site.css.</p>
+    <div class="ds-row">
+      <span class="badge">Friend</span>
+      <span class="badge">Supporter</span>
+    </div>
+    <div class="ds-dark" style="margin-top:12px;">
+      <span class="badge">Season partner</span>
+      <p class="ds-note" style="margin-top:12px;">on dark tier surface — <code>.tier.is-teal .badge</code> swaps to a white-on-translucent fill</p>
+    </div>
+
+    <p class="ds-variant">promo — source: Uxcel sponsor card (sponsors.html:246). Rule is page-scoped in sponsors.html.</p>
+    <div class="ds-row">
+      <span class="promo">25% off with code <code>UXSALON25</code></span>
+    </div>
+
+    <p class="ds-variant">promo-soon — source: Uxia sponsor card (sponsors.html:221)</p>
+    <div class="ds-row">
+      <span class="promo promo-soon">Member perk coming soon</span>
+    </div>
+
+    <p class="ds-variant">numeral (<code>.pn</code>) on dark — source: partner card (UX Hub Barcelona.html:361)</p>
+    <div class="ds-dark">
+      <span class="pn">01</span>
+    </div>
+
+    <p class="ds-variant">bonus, undocumented in the spec's Tag section — <code>.chip.chip-teal</code>, source: event status label (UX Hub Barcelona.html:132)</p>
+    <div class="ds-row">
+      <span class="chip chip-teal">Talk &middot; free</span>
+    </div>
+    <p class="ds-note">Note: this is a <strong>solid</strong> fill, which contradicts the "outline-only chips, solid fills reserved for buttons" rule stated for this family — flagging as a real inconsistency rather than silently fixing it.</p>
+  </section>
+
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Spacing in use</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  :root{color-scheme:light;}
+  *{box-sizing:border-box;}
+  body{max-width:960px;margin:0 auto;padding:56px 24px 88px;}
+  a.back{display:inline-flex;align-items:center;gap:6px;font:500 13px/1 var(--uxh-font-sans);color:var(--uxh-fg-2);text-decoration:none;margin-bottom:32px;}
+  a.back:hover{color:var(--uxh-seaturtle);}
+  .card-head{margin-bottom:48px;}
+  .card-head h1{margin:8px 0 0;}
+  .card-desc{color:var(--uxh-fg-2);max-width:640px;margin:12px 0 0;font-size:15px;line-height:1.55;}
+  section{margin-bottom:56px;}
+  .spec{font:500 13px/1 var(--uxh-font-mono);color:var(--uxh-fg-2);margin:0 0 14px;}
+  .spec code{color:var(--uxh-fg);}
+
+  /* Example 1: .wrap page gutter, measured from styles/site.css */
+  .demo-wrap{border:1px dashed var(--uxh-line-strong);border-radius:var(--uxh-radius-md);overflow:hidden;background:var(--uxh-warm-white);}
+  .demo-wrap .inner{padding:0 32px;height:64px;display:flex;align-items:center;}
+  .demo-wrap .inner .block{background:var(--uxh-seaturtle);height:24px;width:100%;border-radius:4px;}
+  .demo-wrap .tag{font:500 12px/1 var(--uxh-font-mono);color:var(--uxh-fg-2);padding:6px 10px;}
+
+  /* Example 2: section padding rhythm */
+  .demo-section{display:flex;flex-direction:column;gap:2px;}
+  .demo-section .band{background:var(--uxh-ceramic);position:relative;}
+  .demo-section .band.tight{height:72px;}
+  .demo-section .band.full{height:100px;}
+  .demo-section .band .content{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font:600 13px/1 var(--uxh-font-sans);color:var(--uxh-fg-2);}
+
+  /* Example 3: section-head grid */
+  .demo-head{display:grid;grid-template-columns:auto 1fr auto;gap:28px;align-items:end;background:#fff;border:1px solid var(--uxh-line);border-radius:var(--uxh-radius-md);padding:20px;}
+  .demo-head .box{background:var(--uxh-seaturtle);opacity:0.15;border:1px dashed var(--uxh-seaturtle);border-radius:6px;height:44px;}
+  @media (max-width:600px){ .demo-head{grid-template-columns:1fr;gap:16px;} }
+</style>
+</head>
+<body>
+  <a class="back" href="index.html">&larr; Guidelines</a>
+  <header class="card-head">
+    <p class="uxh-eyebrow">Foundations &middot; Spacing</p>
+    <h1>Spacing in use</h1>
+    <p class="card-desc">The scale as it actually appears in shipped layout &mdash; values measured from <code>styles/site.css</code>, not rounded.</p>
+  </header>
+
+  <section>
+    <p class="spec">.wrap page gutter &mdash; <code>padding: 0 32px</code>, steps to <code>0 20px</code> at &le;720px (space-6 &rarr; between space-4/5)</p>
+    <div class="demo-wrap">
+      <div class="inner"><div class="block"></div></div>
+    </div>
+  </section>
+
+  <section>
+    <p class="spec">.section vertical rhythm &mdash; <code>padding: 100px 0</code> default, <code>.tight</code> variant <code>72px 0</code></p>
+    <div class="demo-section">
+      <div class="band full"><div class="content">.section &mdash; 100px 0</div></div>
+      <div class="band tight"><div class="content">.section.tight &mdash; 72px 0</div></div>
+    </div>
+  </section>
+
+  <section>
+    <p class="spec">.section-head &mdash; <code>grid-template-columns: auto 1fr auto</code>, <code>gap: 28px</code>, <code>margin-bottom: 48px</code> (collapses to one column, 16px gap, at &le;720px)</p>
+    <div class="demo-head">
+      <div class="box" style="width:60px"></div>
+      <div class="box"></div>
+      <div class="box" style="width:100px"></div>
+    </div>
+  </section>
+</body>
+</html>
