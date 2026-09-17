@@ -33,14 +33,15 @@ html[data-accent="teal"]   { --site-accent: var(--uxh-seaturtle); --site-accent-
    .mobile-drawer below) is what keeps it reading as one continuous shape
    instead of a second card appearing underneath. */
 .nav-shell { max-width: 1280px; margin: 0 auto; position: relative;
-  /* 97% opaque, not the ~80% a "glass" bar usually gets: backdrop-filter
+  /* 99% opaque, not the ~80% a "glass" bar usually gets: backdrop-filter
      is silently unsupported/disabled on a meaningful share of Android
      Chrome configurations (older GPUs, data-saver, battery saver), which
      falls back to this flat background-color alone — with zero blur, it
      needs to be opaque enough on its own to fully hide whatever content
-     scrolls underneath. Blur/saturate below are a bonus where they do
-     render, not load-bearing for legibility. */
-  background: rgba(255,255,255,0.97);
+     scrolls underneath. 97% still let a faint trace of high-contrast text
+     show through on review; 99% reads as clean while leaving blur/saturate
+     below still doing real work on devices where they do render. */
+  background: rgba(255,255,255,0.99);
   backdrop-filter: blur(16px) saturate(140%); -webkit-backdrop-filter: blur(16px) saturate(140%);
   border: 1px solid rgba(0,0,0,0.06); border-radius: 999px;
   box-shadow: 0 8px 28px rgba(15,55,58,0.06);
@@ -125,9 +126,9 @@ html[data-accent="teal"]   { --site-accent: var(--uxh-seaturtle); --site-accent-
    full-height box from swallowing taps on the hero content behind it
    during the close transition. */
 .mobile-drawer { position: absolute; top: 100%; left: 0; right: 0;
-  /* Same 97% rationale as .nav-shell above — must match its opacity
+  /* Same 99% rationale as .nav-shell above — must match its opacity
      exactly or the "one continuous shape" seam becomes visible again. */
-  background: rgba(255,255,255,0.97);
+  background: rgba(255,255,255,0.99);
   backdrop-filter: blur(16px) saturate(140%); -webkit-backdrop-filter: blur(16px) saturate(140%);
   border: 1px solid rgba(0,0,0,0.06); border-top: 0; border-radius: 0 0 28px 28px;
   box-shadow: 0 8px 28px rgba(15,55,58,0.06);

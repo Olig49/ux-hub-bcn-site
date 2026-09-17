@@ -13,14 +13,15 @@ for the live-rendered catalog.
   `.mobile-drawer` overlays against (see MobileDrawer below for why the drawer is an absolutely
   positioned sibling now, not a child laid out in flow inside it). `position: relative`
   (required — it's `.mobile-drawer`'s `position: absolute` containing block), `background:
-  rgba(255,255,255,0.97)`, `backdrop-filter: blur(16px) saturate(140%)`, `1px solid
+  rgba(255,255,255,0.99)`, `backdrop-filter: blur(16px) saturate(140%)`, `1px solid
   rgba(0,0,0,0.06)`, `box-shadow: 0 8px 28px rgba(15,55,58,0.06)`, `max-width: 1280px`.
-  97%, not the ~80% a "glass" bar would usually get: `backdrop-filter` is silently
+  99%, not the ~80% a "glass" bar would usually get: `backdrop-filter` is silently
   unsupported/disabled on a meaningful share of Android Chrome configurations (older GPUs,
   data-saver, battery saver), which falls back to this flat `background` alone — confirmed on a
   real device (patchy, unblurred hero text bleeding through the drawer) and reproduced in a
-  desktop browser with `backdrop-filter` forced off, at every opacity below ~97%. Blur/saturate
-  are a bonus where they render, not load-bearing for legibility — `.mobile-drawer` below must
+  desktop browser with `backdrop-filter` forced off, at every opacity below ~97%. Even 97% still
+  read as too see-through on a real device on review, hence 99%. Blur/saturate are a bonus where
+  they render, not load-bearing for legibility — `.mobile-drawer` below must
   keep the exact same alpha or the "one continuous shape" seam becomes visible again.
   `border-radius: 999px` (→ `var(--uxh-radius-pill)`) at rest; `28px 28px 0 0` while
   `.mobile-drawer.open` exists inside it (`.nav-shell:has(.mobile-drawer.open)`) — the shell's
