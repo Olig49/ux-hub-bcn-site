@@ -134,9 +134,17 @@ html[data-accent="teal"]   { --site-accent: var(--uxh-seaturtle); --site-accent-
    `pointer-events: none` while closed stops the now-always-present
    full-height box from swallowing taps on the page content behind it
    during the close transition. */
-.mobile-drawer { position: absolute; top: 100%; left: 0; right: 0;
-  /* Same rationale as .nav-shell above — must match its background
-     exactly or the "one continuous shape" seam becomes visible again. */
+.mobile-drawer { position: absolute; top: calc(100% + 1px); left: -1px; right: -1px;
+  /* top/left/right are offset by exactly .nav-shell's 1px border-width.
+     An absolutely positioned child's percentage/zero offsets resolve
+     against its containing block's PADDING box, not its border box — so
+     with the plain `top:100%; left:0; right:0` this used to have, the
+     drawer sat 1px inside .nav-shell's real (border-inclusive) edges on
+     every side: a literal 1px step at the seam instead of one flush
+     shape, visible at real device pixel density even though it never
+     showed up in a desktop screenshot at typical zoom. Same rationale as
+     .nav-shell above on background — must match it exactly or the
+     "one continuous shape" seam becomes visible again. */
   background: #ffffff;
   border: 1px solid rgba(0,0,0,0.06); border-top: 0; border-radius: 0 0 28px 28px;
   box-shadow: 0 8px 28px rgba(15,55,58,0.06);

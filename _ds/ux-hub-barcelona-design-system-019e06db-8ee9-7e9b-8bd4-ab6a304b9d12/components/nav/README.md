@@ -105,11 +105,16 @@ added for it.
   background/border/shadow directly — which *did* read as one seamless shape, but growing in
   flow also grew `.nav-shell`'s own box, which pushed every bit of page content below the sticky
   header down the page on every open/close. Reported as a real regression ("content behind
-  should stay in place"), so it moved again: now `position: absolute; top: 100%; left: 0;
-  right: 0` against `.nav-shell` (which is why the shell needs `position: relative` — see
-  above), completely out of document flow, so opening/closing it never changes the shell's
-  height or moves anything below the header. It keeps its own matching `background`/
-  `border` (`border-top: 0` — the shell's own bottom border is the seam
+  should stay in place"), so it moved again: now `position: absolute;
+  top: calc(100% + 1px); left: -1px; right: -1px` against `.nav-shell` (which is why the shell
+  needs `position: relative` — see above), completely out of document flow, so opening/closing
+  it never changes the shell's height or moves anything below the header. **The `+1px`/`-1px`
+  offsets matter, not decoration**: `.nav-shell` has a 1px border, and an absolutely positioned
+  child's `top:100%`/`left:0`/`right:0` resolve against the containing block's *padding* box, not
+  its *border* box — plain `top:100%; left:0; right:0` (what this had at first) put the drawer
+  1px inside `.nav-shell`'s real edges on every side, a literal 1px step at the seam that didn't
+  show up in a desktop screenshot but was visible at real device pixel density. It keeps its own
+  matching `background`/`border` (`border-top: 0` — the shell's own bottom border is the seam
   between the two, so there's no doubled border line) and `border-radius: 0 0 28px 28px` (only
   the bottom two corners — the top ones are square, flush against the shell's now-square bottom
   corners while open). The result reads as the same one continuous shape as the in-flow version
