@@ -135,13 +135,23 @@ added for it.
   stops this now-always-full-height box from swallowing taps on whatever page content sits behind
   it during the close transition, since — unlike the old grid-rows version — its layout box no
   longer shrinks away to nothing as it closes.
-- **`[hidden]` still does real removal-from-layout** once the close transition finishes
-  (`.mobile-drawer[hidden] { display: none; }`, same pattern as the Modal's `.modal-overlay` —
-  see `overlay/README.md`) — on open, clear `hidden` first, then add `.open` on the next
-  animation frame (`requestAnimationFrame`) so the browser has a frame to transition from; on
-  close, remove `.open` first, then set `hidden = true` after a `setTimeout` matching the
-  transition duration (360ms, kept literal in the JS rather than read from CSS — same tradeoff
-  as the Modal's equivalent `setTimeout`, see `overlay/README.md`) rather than instantly.
+- **Closed state is `visibility: hidden`, not the `[hidden]` attribute (`display: none`) this
+  used to have — a real, user-reported asymmetry between opening and closing traced back to
+  exactly this.** A `display:none` element has no previously-rendered frame for the browser to
+  transition *from*, so opening required JS to remove `hidden`, wait a `requestAnimationFrame`
+  for the browser to actually paint the closed state once, *then* add `.open` — a real ~1-frame
+  delay between tap and visible motion that closing never had (closing could remove `.open`
+  synchronously, since the drawer was already rendered). `visibility` keeps the box
+  rendered-but-invisible at all times, so both directions now start their motion on the same
+  frame — verified via `getComputedStyle().clipPath` sampled every `requestAnimationFrame` after
+  each click: 2 frames to first visible change, both directions, both pages. `visibility` itself
+  still flips asymmetrically, but via CSS `transition-delay` now, not JS timing: instant
+  (`0s` delay) on open so keyboard/AT users can reach it immediately, delayed until the full
+  360ms transition finishes on close (`transition: ..., visibility 0s var(--uxh-dur-nav)`) so it
+  stays hit-testable for the whole close animation. The JS is correspondingly simpler — no rAF,
+  no `setTimeout`, `setDrawer` is a single synchronous class/attribute toggle in both directions,
+  with an explicit `aria-hidden` set alongside `aria-expanded` rather than relying on `[hidden]`
+  for the accessibility semantics.
   **`aria-expanded` on the burger button is set inside that same `requestAnimationFrame`
   callback on open, not synchronously on click.** It used to be set synchronously right after
   the if/else block (same tick as `drawer.hidden = false`), one frame *before* `.open` — since

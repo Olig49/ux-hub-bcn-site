@@ -55,7 +55,7 @@
         </button>
       </nav>
 
-      <div class="mobile-drawer" id="mobile-drawer" hidden>
+      <div class="mobile-drawer" id="mobile-drawer" aria-hidden="true">
         <div class="mobile-drawer-inner">
           <a href="https://www.meetup.com/ux-hub-barcelona/events/" target="_blank" rel="noopener">Events</a>
           <a href="#partners">For partners</a>
@@ -612,36 +612,31 @@
     const drawer = document.getElementById('mobile-drawer');
     // The drawer is the only navigation under 880px, so it gets the same
     // keyboard treatment as the event modal.
+    // Both directions are now a single synchronous class/attribute toggle —
+    // no requestAnimationFrame, no setTimeout. That used to be asymmetric:
+    // opening needed an rAF-deferred flush because the drawer was
+    // display:none (no previously-rendered frame to transition from), while
+    // closing didn't (the drawer was already rendered), giving open a real
+    // ~1-frame delay before motion started that close never had. Now the
+    // closed state is visibility:hidden, not [hidden]/display:none — the
+    // box is always rendered (just invisible), so there's always a valid
+    // frame to transition from and neither direction needs a timing trick.
+    // CSS's own transition-delay on `visibility` (see site.css) handles
+    // keeping it out of the tab order/AT tree while closed instead.
     function setDrawer(open) {
       if (!drawer || !burger) return;
-      if (open) {
-        drawer.hidden = false;
-        // Force a layout flush before adding .open, so the browser actually
-        // transitions from the closed clip-path/border-radius starting state
-        // instead of jumping straight to the end state in the same paint.
-        // aria-expanded is set in this same rAF callback, not synchronously
-        // below — it drives the burger icon's own CSS transition, so setting
-        // it a frame early made the icon visibly finish its X-morph before
-        // the drawer/corners even started theirs. Same frame, same start
-        // time is what makes the three read as one gesture instead of three.
-        requestAnimationFrame(() => {
-          drawer.classList.add('open');
-          burger.setAttribute('aria-expanded', 'true');
-        });
-      } else {
-        drawer.classList.remove('open');
-        burger.setAttribute('aria-expanded', 'false');
-        setTimeout(() => { drawer.hidden = true; }, 360); // matches --uxh-dur-nav
-      }
+      drawer.classList.toggle('open', open);
+      drawer.setAttribute('aria-hidden', String(!open));
+      burger.setAttribute('aria-expanded', String(open));
       burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
       document.body.style.overflow = open ? 'hidden' : '';
       if (open) drawer.querySelector('a, button')?.focus();
       else burger.focus();
     }
-    burger?.addEventListener('click', () => setDrawer(drawer.hidden));
+    burger?.addEventListener('click', () => setDrawer(!drawer.classList.contains('open')));
     drawer?.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setDrawer(false)));
     document.addEventListener('keydown', (e) => {
-      if (!drawer || drawer.hidden) return;
+      if (!drawer || !drawer.classList.contains('open')) return;
       if (e.key === 'Escape') { setDrawer(false); return; }
       if (e.key !== 'Tab') return;
       const f = [...drawer.querySelectorAll('a[href], button:not([disabled])')].filter(el => el.offsetParent !== null);
@@ -651,7 +646,7 @@
       else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
     });
     document.addEventListener('pointerdown', (e) => {
-      if (!drawer || drawer.hidden) return;
+      if (!drawer || !drawer.classList.contains('open')) return;
       if (!drawer.contains(e.target) && !burger.contains(e.target)) setDrawer(false);
     });
 

@@ -124,7 +124,7 @@
         </button>
       </nav>
 
-      <div class="mobile-drawer" id="mobile-drawer" hidden>
+      <div class="mobile-drawer" id="mobile-drawer" aria-hidden="true">
         <div class="mobile-drawer-inner">
           <a href="https://www.meetup.com/ux-hub-barcelona/events/" target="_blank" rel="noopener">Events</a>
           <a href="index.html#partners">For partners</a>
@@ -365,25 +365,25 @@
     const drawer = document.getElementById('mobile-drawer');
     // Same keyboard/focus treatment as the homepage's drawer: Escape closes,
     // Tab is trapped inside while open, and clicking outside closes it too.
+    // Both directions are a single synchronous class/attribute toggle — no
+    // requestAnimationFrame, no setTimeout. See site.css's .mobile-drawer
+    // comment for why (closed state is visibility:hidden, not
+    // [hidden]/display:none, so there's always a valid frame to transition
+    // from and neither direction needs a timing trick).
     function setDrawer(open) {
       if (!drawer || !burger) return;
-      if (open) {
-        drawer.hidden = false;
-        requestAnimationFrame(() => drawer.classList.add('open'));
-      } else {
-        drawer.classList.remove('open');
-        setTimeout(() => { drawer.hidden = true; }, 360); // matches --uxh-dur-nav
-      }
+      drawer.classList.toggle('open', open);
+      drawer.setAttribute('aria-hidden', String(!open));
       burger.setAttribute('aria-expanded', String(open));
       burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
       document.body.style.overflow = open ? 'hidden' : '';
       if (open) drawer.querySelector('a, button')?.focus();
       else burger.focus();
     }
-    burger?.addEventListener('click', () => setDrawer(drawer.hidden));
+    burger?.addEventListener('click', () => setDrawer(!drawer.classList.contains('open')));
     drawer?.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setDrawer(false)));
     document.addEventListener('keydown', (e) => {
-      if (!drawer || drawer.hidden) return;
+      if (!drawer || !drawer.classList.contains('open')) return;
       if (e.key === 'Escape') { setDrawer(false); return; }
       if (e.key !== 'Tab') return;
       const f = [...drawer.querySelectorAll('a[href], button:not([disabled])')].filter(el => el.offsetParent !== null);
@@ -393,7 +393,7 @@
       else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
     });
     document.addEventListener('pointerdown', (e) => {
-      if (!drawer || drawer.hidden) return;
+      if (!drawer || !drawer.classList.contains('open')) return;
       if (!drawer.contains(e.target) && !burger.contains(e.target)) setDrawer(false);
     });
     document.querySelectorAll('a[href="#"]').forEach(a => a.addEventListener('click', e => e.preventDefault()));

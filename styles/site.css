@@ -133,7 +133,23 @@ html[data-accent="teal"]   { --site-accent: var(--uxh-seaturtle); --site-accent-
    solid with no backdrop-filter at all, not translucent.
    `pointer-events: none` while closed stops the now-always-present
    full-height box from swallowing taps on the page content behind it
-   during the close transition. */
+   during the close transition.
+   Closed state is `visibility: hidden`, not the `[hidden]` attribute
+   (`display: none`) this used to have. That swap fixes a real asymmetry:
+   a `display:none` element has no previously-rendered frame for the
+   browser to transition *from*, so opening it required JS to remove
+   `hidden`, wait a `requestAnimationFrame` for the browser to actually
+   paint the closed state once, *then* add `.open` — a real ~1-frame gap
+   between tap and visible motion that closing never had (closing just
+   removes `.open` synchronously, since the box was already rendered).
+   `visibility` keeps the box rendered-but-invisible at all times, so
+   there's always a valid frame to transition from and open no longer
+   needs the rAF delay — both directions now start their motion on the
+   same frame as the JS class change. `visibility` itself still needs to
+   flip asymmetrically via `transition-delay` (see `.open` below) so
+   keyboard/AT users still can't reach it while visually closed: instant
+   on open, delayed until the close animation finishes on close — that
+   asymmetry is deliberate and invisible, unlike the old rAF one. */
 .mobile-drawer { position: absolute; top: calc(100% + 1px); left: -1px; right: -1px;
   /* top/left/right are offset by exactly .nav-shell's 1px border-width.
      An absolutely positioned child's percentage/zero offsets resolve
@@ -150,10 +166,21 @@ html[data-accent="teal"]   { --site-accent: var(--uxh-seaturtle); --site-accent-
   box-shadow: 0 8px 28px rgba(15,55,58,0.06);
   overflow: hidden;
   clip-path: inset(0 0 100% 0);
+  visibility: hidden;
   pointer-events: none;
-  transition: clip-path var(--uxh-dur-nav) var(--uxh-ease); }
-.mobile-drawer.open { clip-path: inset(0 0 0% 0); pointer-events: auto; }
-.mobile-drawer[hidden] { display: none; }
+  /* visibility's 0s duration + a delay equal to the full transition means:
+     closing → stays "visible" (hit-testable/rendered) for the whole
+     360ms clip-path animation, only actually flipping hidden the instant
+     it finishes. See .open below for the opposite (instant) case. */
+  transition: clip-path var(--uxh-dur-nav) var(--uxh-ease), visibility 0s var(--uxh-dur-nav); }
+.mobile-drawer.open {
+  clip-path: inset(0 0 0% 0);
+  visibility: visible;
+  pointer-events: auto;
+  /* Opening → visibility flips to "visible" immediately (0s, no delay),
+     so keyboard/AT users can reach the drawer's contents right away
+     rather than waiting for the clip-path reveal to finish. */
+  transition: clip-path var(--uxh-dur-nav) var(--uxh-ease), visibility 0s; }
 .mobile-drawer-inner { overflow: hidden; display: flex; flex-direction: column; gap: 4px; padding: 0 12px 12px; }
 .mobile-drawer-inner a { padding: 14px 16px; border-radius: 12px; font: 500 16px/1 var(--uxh-font-sans); }
 .mobile-drawer-inner a:hover { background: var(--uxh-soft-beige); }
