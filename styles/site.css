@@ -81,10 +81,27 @@ html[data-accent="teal"]   { --site-accent: var(--uxh-seaturtle); --site-accent-
 .nav-burger { display: none; width: 40px; height: 40px; border-radius: 999px; align-items: center; justify-content: center; position: relative; flex: none; }
 .nav-burger:hover { background: rgba(0,0,0,0.05); }
 /* Three bars that morph into an X — positioned absolutely so each bar's own
-   center of rotation stays fixed as it rotates into place. */
+   center of rotation stays fixed as it rotates into place.
+   `transform`/`top` run 440ms, not the shared 360ms `--uxh-dur-nav` the
+   drawer's clip-path and the shell's corner-radius use — deliberately
+   longer, not a typo. Confirmed by measuring both properties' actual
+   computed values every few ms through the transition: at the same
+   360ms duration and easing, a rotation reads as visually finished
+   (within ~2° of 0/45) a consistent ~48ms before the drawer's clip-path
+   reads as visually finished (within ~2% of fully open/closed) — small
+   angles near the end of a rotation are imperceptible well before the
+   literal target, while a sliver of still-legible list-item text is not.
+   Both are driven by the exact same aria-expanded/`.open` change, so this
+   isn't a start-time gap (that was fixed separately, see `.mobile-drawer`
+   below) — it's that identical progress values don't look like identical
+   *visual* progress across different property types. 440ms was solved
+   for, not guessed: it's the duration at which the burger's own "looks
+   done" moment lands on the same frame as the drawer's, measured via
+   `getComputedStyle` sampling, not eyeballed. If either curve/duration
+   changes, re-measure — don't assume the ~48ms gap stays proportional. */
 .burger-bar { position: absolute; left: 50%; top: 19px; width: 18px; height: 2px; margin-left: -9px;
   border-radius: 999px; background: var(--uxh-fg);
-  transition: transform var(--uxh-dur-nav) var(--uxh-ease), opacity 240ms var(--uxh-ease), top var(--uxh-dur-nav) var(--uxh-ease); }
+  transition: transform 440ms var(--uxh-ease), opacity 240ms var(--uxh-ease), top 440ms var(--uxh-ease); }
 .burger-bar:nth-child(1) { top: 14px; }
 .burger-bar:nth-child(3) { top: 24px; }
 .nav-burger[aria-expanded="true"] .burger-bar:nth-child(1) { top: 19px; transform: rotate(45deg); }

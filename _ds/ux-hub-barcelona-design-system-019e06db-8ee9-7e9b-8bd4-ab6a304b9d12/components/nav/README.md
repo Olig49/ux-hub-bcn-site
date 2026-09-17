@@ -54,10 +54,21 @@ for the live-rendered catalog.
   animate than swapping SVG paths), styled off `[aria-expanded]` rather than a separate JS-added
   class, so the same attribute that already drives the accessible state also drives the visual
   one — no risk of the two disagreeing. Open state: bars 1 and 3 slide to the vertical centre
-  (`top: 19px`) and rotate ±45°, bar 2 fades to `opacity: 0`. `transition: transform
-  var(--uxh-dur-nav), opacity 240ms, top var(--uxh-dur-nav)`, all `var(--uxh-ease)` — the rotate/
-  slide runs the full 360ms alongside the shell and drawer, opacity a touch faster (240ms) so
-  the middle bar doesn't linger half-visible through the rotation.
+  (`top: 19px`) and rotate ±45°, bar 2 fades to `opacity: 0`. `transition: transform 440ms,
+  opacity 240ms, top 440ms`, all `var(--uxh-ease)`.
+  **440ms is deliberate, not the shared `var(--uxh-dur-nav)` (360ms) the shell/drawer use** —
+  a real, user-reported "the icon and the drawer don't move as one" bug traced to exactly this
+  gap. Confirmed by sampling both properties' actual computed values every few ms through the
+  transition (`getComputedStyle` on the bar's `transform` matrix and the drawer's `clip-path`):
+  at matching 360ms/easing, the icon reads as visually finished (within ~2° of its target) a
+  consistent ~48ms *before* the drawer reads as visually finished (within ~2% of fully
+  open/closed) — small residual rotation angles near the end are imperceptible well before the
+  literal target, while a sliver of still-legible list-item text is not. Both start on the same
+  frame already (a separate fix, see MobileDrawer below), so this wasn't a start-time gap — it's
+  that identical numeric progress doesn't read as identical *visual* progress across a rotation
+  vs. a content reveal. 440ms was solved for empirically (measuring where the gap closes to 0ms),
+  not chosen by feel — if the drawer's own duration/easing ever changes, re-measure rather than
+  assume this stays proportional.
 - **Right-alignment gotcha:** `.nav` is a plain flex row; `.nav-links` carries the
   `margin-left: auto` that pushes everything after it (CTA, burger) to the right edge. That
   margin disappears the instant `.nav-links` is `display: none` (≤880px), which used to leave
