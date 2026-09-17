@@ -55,8 +55,15 @@ html[data-accent="teal"]   { --site-accent: var(--uxh-seaturtle); --site-accent-
 /* The shell's own height never changes now (the drawer no longer lives
    inside it), so its bottom corners just flatten to 0 while open — that's
    what lines them up flush with the drawer's square top edge below, with
-   no rounded-corner gap between the two shapes. */
-.nav-shell:has(.mobile-drawer.open) { border-radius: 28px 28px 0 0; }
+   no rounded-corner gap between the two shapes.
+   border-bottom-color goes transparent too: the shell's own 1px border
+   runs on all four sides always, and .mobile-drawer's matching border has
+   border-top:0, so with the shell's bottom border still visible while
+   open, that one edge was the only line separating them — read as a
+   header bar sitting on top of a separate dropdown, not one continuous
+   panel. Transparent (not `border-bottom: none`) so the border-box
+   height doesn't shift by 1px when this toggles. */
+.nav-shell:has(.mobile-drawer.open) { border-radius: 28px 28px 0 0; border-bottom-color: transparent; }
 .nav { display: flex; align-items: center; gap: 18px;
   padding: 10px 12px 10px 20px;
 }

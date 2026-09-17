@@ -32,7 +32,13 @@ for the live-rendered catalog.
   own height never changes (the drawer isn't inside its box any more), so this is purely about
   flattening the bottom two corners to line up flush with the drawer's square top edge below,
   not about a pill radius clamping down on a taller box the way it briefly did in an earlier
-  version. Transitions on `border-radius` alone, `var(--uxh-dur-nav) var(--uxh-ease)` (360ms —
+  version. The same open-state rule also sets `border-bottom-color: transparent` (not
+  `border-bottom: none` — that would shift the border-box height by 1px): the shell's 1px border
+  runs on all four sides at rest, and with the drawer's matching border having `border-top: 0`,
+  the shell's own bottom border was the one remaining visible line at the seam while open — read
+  as a header bar sitting on top of a separate dropdown rather than one continuous panel, once
+  a user pointed at it directly in a static screenshot. Transitions on `border-radius` alone,
+  `var(--uxh-dur-nav) var(--uxh-ease)` (360ms —
   its own token, deliberately slower than the 220ms `--uxh-dur-overlay` used elsewhere, e.g. the
   event Modal: a full-menu open/close read as rushed at 220ms in review, so the nav got its own,
   longer duration rather than everything on that token slowing down with it), timed to match the
