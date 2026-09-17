@@ -500,7 +500,7 @@
             <button type="submit" class="btn btn-dark">Sign up</button>
 
             <p class="mail-ack" id="mail-ack" hidden role="status">Thanks. We&rsquo;ve opened a new tab, check your inbox to confirm your subscription.</p>
-            <p class="fineprint">Unsubscribing is one click. We use it for events, nothing else.</p>
+            <p class="fineprint">Unsubscribing is one click. We use your information for our events, nothing else.</p>
 
             <input type="text" name="email_address_check" value="" class="mail-hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
             <input type="hidden" name="locale" value="en" />
@@ -617,14 +617,22 @@
       if (open) {
         drawer.hidden = false;
         // Force a layout flush before adding .open, so the browser actually
-        // transitions from the opacity:0/translateY starting state instead
-        // of jumping straight to the end state in the same paint.
-        requestAnimationFrame(() => drawer.classList.add('open'));
+        // transitions from the closed clip-path/border-radius starting state
+        // instead of jumping straight to the end state in the same paint.
+        // aria-expanded is set in this same rAF callback, not synchronously
+        // below — it drives the burger icon's own CSS transition, so setting
+        // it a frame early made the icon visibly finish its X-morph before
+        // the drawer/corners even started theirs. Same frame, same start
+        // time is what makes the three read as one gesture instead of three.
+        requestAnimationFrame(() => {
+          drawer.classList.add('open');
+          burger.setAttribute('aria-expanded', 'true');
+        });
       } else {
         drawer.classList.remove('open');
+        burger.setAttribute('aria-expanded', 'false');
         setTimeout(() => { drawer.hidden = true; }, 360); // matches --uxh-dur-nav
       }
-      burger.setAttribute('aria-expanded', String(open));
       burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
       document.body.style.overflow = open ? 'hidden' : '';
       if (open) drawer.querySelector('a, button')?.focus();

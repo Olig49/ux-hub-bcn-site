@@ -33,7 +33,14 @@ html[data-accent="teal"]   { --site-accent: var(--uxh-seaturtle); --site-accent-
    .mobile-drawer below) is what keeps it reading as one continuous shape
    instead of a second card appearing underneath. */
 .nav-shell { max-width: 1280px; margin: 0 auto; position: relative;
-  background: rgba(255,255,255,0.82);
+  /* 97% opaque, not the ~80% a "glass" bar usually gets: backdrop-filter
+     is silently unsupported/disabled on a meaningful share of Android
+     Chrome configurations (older GPUs, data-saver, battery saver), which
+     falls back to this flat background-color alone — with zero blur, it
+     needs to be opaque enough on its own to fully hide whatever content
+     scrolls underneath. Blur/saturate below are a bonus where they do
+     render, not load-bearing for legibility. */
+  background: rgba(255,255,255,0.97);
   backdrop-filter: blur(16px) saturate(140%); -webkit-backdrop-filter: blur(16px) saturate(140%);
   border: 1px solid rgba(0,0,0,0.06); border-radius: 999px;
   box-shadow: 0 8px 28px rgba(15,55,58,0.06);
@@ -96,22 +103,39 @@ html[data-accent="teal"]   { --site-accent: var(--uxh-seaturtle); --site-accent-
    between them), radius rounds only the bottom two corners — combined with
    .nav-shell's top corners flattening while open (above), the two boxes
    read as one continuous shape with a zero-gap seam, not two separate
-   cards. Height still animates via the grid-template-rows 0fr/1fr trick
-   (a plain max-height/height transition either clips a tall list short or
-   overshoots past its real content height): the row tweens from zero to
-   content height, and only collapses all the way to a true 0 because
-   .mobile-drawer-inner has overflow:hidden — a grid track's automatic
-   minimum size is content-based unless the item's own overflow isn't
-   visible, in which case it can shrink past that floor. */
+   cards.
+   Reveal is a clip-path tween, not a height/grid-template-rows one: the
+   box sits at its full natural content height the entire time — only the
+   visible region changes. This is a pure paint/compositor animation
+   (no layout recalculation every frame, unlike grid-template-rows), and
+   it sidesteps the max-height problem the old approach was written to
+   avoid in the first place (clipping a tall list short, or overshooting
+   past real content height): percentage-based inset() scales to whatever
+   the content's actual height is, no guessing required.
+   NOTE: switching to clip-path did NOT fix the separate issue where the
+   drawer shows unblurred page content bleeding through on some real
+   Android phones — confirmed unrelated to animation (the artifact is
+   identical at rest, seconds after the transition ends) and unrelated to
+   blur radius (backdrop-filter appears to simply not render on at least
+   some Chrome/Android configurations, falling back to the bare
+   translucent background-color with zero blur). That's a
+   background-opacity problem, not an animation one — see the rgba alpha
+   chosen below and don't assume lowering it back down is safe.
+   `pointer-events: none` while closed stops the now-always-present
+   full-height box from swallowing taps on the hero content behind it
+   during the close transition. */
 .mobile-drawer { position: absolute; top: 100%; left: 0; right: 0;
-  background: rgba(255,255,255,0.82);
+  /* Same 97% rationale as .nav-shell above — must match its opacity
+     exactly or the "one continuous shape" seam becomes visible again. */
+  background: rgba(255,255,255,0.97);
   backdrop-filter: blur(16px) saturate(140%); -webkit-backdrop-filter: blur(16px) saturate(140%);
   border: 1px solid rgba(0,0,0,0.06); border-top: 0; border-radius: 0 0 28px 28px;
   box-shadow: 0 8px 28px rgba(15,55,58,0.06);
   overflow: hidden;
-  display: grid; grid-template-rows: 0fr;
-  transition: grid-template-rows var(--uxh-dur-nav) var(--uxh-ease); }
-.mobile-drawer.open { grid-template-rows: 1fr; }
+  clip-path: inset(0 0 100% 0);
+  pointer-events: none;
+  transition: clip-path var(--uxh-dur-nav) var(--uxh-ease); }
+.mobile-drawer.open { clip-path: inset(0 0 0% 0); pointer-events: auto; }
 .mobile-drawer[hidden] { display: none; }
 .mobile-drawer-inner { overflow: hidden; display: flex; flex-direction: column; gap: 4px; padding: 0 12px 12px; }
 .mobile-drawer-inner a { padding: 14px 16px; border-radius: 12px; font: 500 16px/1 var(--uxh-font-sans); }

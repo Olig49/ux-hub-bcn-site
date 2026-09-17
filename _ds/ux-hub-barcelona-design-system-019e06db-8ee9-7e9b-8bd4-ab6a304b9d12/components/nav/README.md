@@ -13,8 +13,15 @@ for the live-rendered catalog.
   `.mobile-drawer` overlays against (see MobileDrawer below for why the drawer is an absolutely
   positioned sibling now, not a child laid out in flow inside it). `position: relative`
   (required — it's `.mobile-drawer`'s `position: absolute` containing block), `background:
-  rgba(255,255,255,0.82)`, `backdrop-filter: blur(16px) saturate(140%)`, `1px solid
+  rgba(255,255,255,0.97)`, `backdrop-filter: blur(16px) saturate(140%)`, `1px solid
   rgba(0,0,0,0.06)`, `box-shadow: 0 8px 28px rgba(15,55,58,0.06)`, `max-width: 1280px`.
+  97%, not the ~80% a "glass" bar would usually get: `backdrop-filter` is silently
+  unsupported/disabled on a meaningful share of Android Chrome configurations (older GPUs,
+  data-saver, battery saver), which falls back to this flat `background` alone — confirmed on a
+  real device (patchy, unblurred hero text bleeding through the drawer) and reproduced in a
+  desktop browser with `backdrop-filter` forced off, at every opacity below ~97%. Blur/saturate
+  are a bonus where they render, not load-bearing for legibility — `.mobile-drawer` below must
+  keep the exact same alpha or the "one continuous shape" seam becomes visible again.
   `border-radius: 999px` (→ `var(--uxh-radius-pill)`) at rest; `28px 28px 0 0` while
   `.mobile-drawer.open` exists inside it (`.nav-shell:has(.mobile-drawer.open)`) — the shell's
   own height never changes (the drawer isn't inside its box any more), so this is purely about
@@ -24,7 +31,7 @@ for the live-rendered catalog.
   its own token, deliberately slower than the 220ms `--uxh-dur-overlay` used elsewhere, e.g. the
   event Modal: a full-menu open/close read as rushed at 220ms in review, so the nav got its own,
   longer duration rather than everything on that token slowing down with it), timed to match the
-  drawer's own height transition below.
+  drawer's own clip-path reveal transition below.
 - **Bar** (`.nav`): plain flex row inside the shell — `padding: 10px 12px 10px 20px`, `gap: 18px`.
   No background/border/radius of its own any more; that all moved to `.nav-shell` above.
 - **Links** (`.nav-link`): `padding: 9px 16px`, pill, `font: 500 14px/1`; hover →
@@ -103,30 +110,38 @@ added for it.
   corners while open). The result reads as the same one continuous shape as the in-flow version
   did, just achieved by two separately positioned boxes with matching styling and a zero-gap
   seam instead of one box that grows.
-- **Height animation** (`.mobile-drawer`): `display: grid; grid-template-rows: 0fr` (closed) →
-  `1fr` (`.open`), `transition: grid-template-rows var(--uxh-dur-nav) var(--uxh-ease)`
+- **Reveal animation** (`.mobile-drawer`): `clip-path: inset(0 0 100% 0)` (closed) →
+  `inset(0 0 0% 0)` (`.open`), `transition: clip-path var(--uxh-dur-nav) var(--uxh-ease)`
   (360ms — see `.nav-shell` above for why this got its own, slower token instead of reusing
-  `--uxh-dur-overlay`). This is the standard "CSS-only accordion" trick — a single-row, single-column grid
-  can tween its row size in `fr` units from 0 to content-height smoothly, which a plain `height`
-  or `max-height` transition can't do without either hardcoding a pixel value or overshooting.
-  It only collapses all the way to a true `0px` because the actual content sits in a nested
-  **`.mobile-drawer-inner`** wrapper with `overflow: hidden`: a grid track's automatic minimum
-  size is normally content-based (so `0fr` alone would still show the content's min-content
-  height), but that automatic minimum drops to `0` once the grid item's own overflow isn't
-  `visible` — the `overflow: hidden` on `.mobile-drawer-inner` is what makes `0fr` actually mean
-  zero, not a decoration. This part of the mechanism is unchanged by the move to
-  `position: absolute` — grid row sizing is computed from the grid container's own box
-  regardless of whether that box is in flow or positioned, so `0fr`/`1fr` still animate the same
-  way; only the *consequence* of the drawer's height changed (repaints an overlay instead of
-  reflowing the page).
+  `--uxh-dur-overlay`). This replaced an earlier `display: grid; grid-template-rows: 0fr → 1fr`
+  "CSS-only accordion" trick, for two reasons: it's a pure paint/compositor animation (no layout
+  recalculation every frame, unlike a grid track's actual row size changing), and it still solves
+  the original problem that trick was written for — a plain `height`/`max-height` transition
+  either clips a tall list short or overshoots past its real content height, while percentage-based
+  `inset()` scales to whatever the content's actual height is with no guessing. The box now sits
+  at its full natural content height at all times; only the visible region changes. `overflow:
+  hidden` stays on both `.mobile-drawer` and `.mobile-drawer-inner` (belt-and-suspenders — the
+  outer clip-path already prevents any visible overflow). `pointer-events: none` while closed
+  stops this now-always-full-height box from swallowing taps on whatever page content sits behind
+  it during the close transition, since — unlike the old grid-rows version — its layout box no
+  longer shrinks away to nothing as it closes.
 - **`[hidden]` still does real removal-from-layout** once the close transition finishes
   (`.mobile-drawer[hidden] { display: none; }`, same pattern as the Modal's `.modal-overlay` —
-  see `overlay/README.md`) — same JS sequencing as before, just now toggling a grid row instead
-  of opacity/transform: on open, clear `hidden` first, then add `.open` on the next animation
-  frame (`requestAnimationFrame`) so the browser has a frame to transition from; on close,
-  remove `.open` first, then set `hidden = true` after a `setTimeout` matching the transition
-  duration (360ms, kept literal in the JS rather than read from CSS — same tradeoff as the
-  Modal's equivalent `setTimeout`, see `overlay/README.md`) rather than instantly.
+  see `overlay/README.md`) — on open, clear `hidden` first, then add `.open` on the next
+  animation frame (`requestAnimationFrame`) so the browser has a frame to transition from; on
+  close, remove `.open` first, then set `hidden = true` after a `setTimeout` matching the
+  transition duration (360ms, kept literal in the JS rather than read from CSS — same tradeoff
+  as the Modal's equivalent `setTimeout`, see `overlay/README.md`) rather than instantly.
+  **`aria-expanded` on the burger button is set inside that same `requestAnimationFrame`
+  callback on open, not synchronously on click.** It used to be set synchronously right after
+  the if/else block (same tick as `drawer.hidden = false`), one frame *before* `.open` — since
+  `aria-expanded` is what drives the burger icon's own X-morph transition (see NavBar above),
+  that one-frame head start made the icon visibly finish rotating before the drawer/corners even
+  began theirs, which read as the open gesture being three separate, uncoordinated motions
+  rather than one. Moving `aria-expanded`'s flip-to-`true` into the same rAF callback as
+  `.open` fixes it — all three (icon, corner-flattening, drawer reveal) now start on the
+  identical frame. On close there's no such gap to begin with: `.open` removal and
+  `aria-expanded`'s flip-to-`false` are both synchronous in the same tick, no rAF involved.
 - **Items** (inside `.mobile-drawer-inner`): `padding: 14px 16px`, `border-radius: 12px` (→
   `var(--uxh-radius-md)`), hover → `var(--uxh-soft-beige)`. **`.drawer-cta`:** sized to its own
   content (`display: inline-flex; align-self: flex-start`, not a full-width row like the plain
