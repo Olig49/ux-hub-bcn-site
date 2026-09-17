@@ -73,17 +73,25 @@ html[data-accent="teal"]   { --site-accent: var(--uxh-seaturtle); --site-accent-
      clip-path every few ms — the corner reads as fully settled at
      essentially the same instant the drawer's reveal first becomes
      perceptible, in both directions, rather than one lagging the other. */
-  /* border-bottom-color gets the same instant-on-open/delayed-on-close
-     pattern as .mobile-drawer's `visibility` below — see that comment
-     for the full rationale. Without it, closing the drawer snapped the
-     border back to visible in the very first frame (confirmed via
-     getComputedStyle sampling: t=2ms, while the drawer was still 100%
-     open) — a border line popping into existence through the middle of
-     the still-fully-open drawer, before anything else had visibly
-     started to close. `0s` duration + a delay equal to the corner's own
-     transition on open (instant), or equal to the full close duration
-     on close, via the rule below. */
-  transition: border-radius 70ms var(--uxh-ease), border-bottom-color 0s var(--uxh-dur-nav);
+  /* border-bottom-color gets the same delayed-on-close pattern as
+     .mobile-drawer's `visibility` below — see that comment for the full
+     rationale (don't show a border on a still-open drawer). Without a
+     delay at all, closing the drawer snapped the border back to visible
+     in the very first frame (confirmed via getComputedStyle sampling:
+     t=2ms, while the drawer was still 100% open) — a border line
+     popping into existence through the middle of the still-fully-open
+     drawer, before anything else had visibly started to close.
+     It's a real 120ms fade now, not the `0s` instant snap this first
+     had: a hard, zero-duration appearance was itself a distinct,
+     separately-reported problem — "part of it closes fast, where the
+     original cut for the nav bar is" — even correctly delayed so it
+     never showed prematurely, an instant snap exactly at the seam read
+     as abrupt against everything else (the drawer, the content) fading
+     or shrinking gradually. `calc(var(--uxh-dur-nav) - 120ms)` delay
+     means the fade starts 120ms before the close animation's own end
+     and finishes exactly when it does, rather than snapping at the
+     very last frame. */
+  transition: border-radius 70ms var(--uxh-ease), border-bottom-color 120ms var(--uxh-ease) calc(var(--uxh-dur-nav) - 120ms);
 }
 /* The shell's own height never changes now (the drawer no longer lives
    inside it), so its bottom corners just flatten to 0 while open — that's
@@ -95,12 +103,13 @@ html[data-accent="teal"]   { --site-accent: var(--uxh-seaturtle); --site-accent-
    open, that one edge was the only line separating them — read as a
    header bar sitting on top of a separate dropdown, not one continuous
    panel. Transparent (not `border-bottom: none`) so the border-box
-   height doesn't shift by 1px when this toggles. Zero transition-delay
-   here (vs. the full `var(--uxh-dur-nav)` delay on the base rule above)
-   is what makes it vanish instantly on open but only reappear once the
-   close animation actually finishes. */
+   height doesn't shift by 1px when this toggles. No delay here (vs. the
+   `calc(var(--uxh-dur-nav) - 120ms)` delay on the base rule above) is
+   what makes it start vanishing immediately on open; a real 90ms fade
+   rather than a `0s` snap, matching why the close direction isn't an
+   instant snap either — see that comment for the full rationale. */
 .nav-shell:has(.mobile-drawer.open) { border-radius: 28px 28px 0 0; border-bottom-color: transparent;
-  transition: border-radius 70ms var(--uxh-ease), border-bottom-color 0s; }
+  transition: border-radius 70ms var(--uxh-ease), border-bottom-color 90ms var(--uxh-ease); }
 .nav { display: flex; align-items: center; gap: 18px;
   padding: 10px 12px 10px 20px;
 }
