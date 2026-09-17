@@ -73,7 +73,17 @@ html[data-accent="teal"]   { --site-accent: var(--uxh-seaturtle); --site-accent-
      clip-path every few ms — the corner reads as fully settled at
      essentially the same instant the drawer's reveal first becomes
      perceptible, in both directions, rather than one lagging the other. */
-  transition: border-radius 70ms var(--uxh-ease);
+  /* border-bottom-color gets the same instant-on-open/delayed-on-close
+     pattern as .mobile-drawer's `visibility` below — see that comment
+     for the full rationale. Without it, closing the drawer snapped the
+     border back to visible in the very first frame (confirmed via
+     getComputedStyle sampling: t=2ms, while the drawer was still 100%
+     open) — a border line popping into existence through the middle of
+     the still-fully-open drawer, before anything else had visibly
+     started to close. `0s` duration + a delay equal to the corner's own
+     transition on open (instant), or equal to the full close duration
+     on close, via the rule below. */
+  transition: border-radius 70ms var(--uxh-ease), border-bottom-color 0s var(--uxh-dur-nav);
 }
 /* The shell's own height never changes now (the drawer no longer lives
    inside it), so its bottom corners just flatten to 0 while open — that's
@@ -85,8 +95,12 @@ html[data-accent="teal"]   { --site-accent: var(--uxh-seaturtle); --site-accent-
    open, that one edge was the only line separating them — read as a
    header bar sitting on top of a separate dropdown, not one continuous
    panel. Transparent (not `border-bottom: none`) so the border-box
-   height doesn't shift by 1px when this toggles. */
-.nav-shell:has(.mobile-drawer.open) { border-radius: 28px 28px 0 0; border-bottom-color: transparent; }
+   height doesn't shift by 1px when this toggles. Zero transition-delay
+   here (vs. the full `var(--uxh-dur-nav)` delay on the base rule above)
+   is what makes it vanish instantly on open but only reappear once the
+   close animation actually finishes. */
+.nav-shell:has(.mobile-drawer.open) { border-radius: 28px 28px 0 0; border-bottom-color: transparent;
+  transition: border-radius 70ms var(--uxh-ease), border-bottom-color 0s; }
 .nav { display: flex; align-items: center; gap: 18px;
   padding: 10px 12px 10px 20px;
 }

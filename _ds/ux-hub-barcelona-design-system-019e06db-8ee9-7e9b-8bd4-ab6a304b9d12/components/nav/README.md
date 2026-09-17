@@ -40,6 +40,17 @@ for the live-rendered catalog.
   remaining visible line at the seam while open — read as a header bar sitting on top of a
   separate dropdown rather than one continuous panel, once a user pointed at it directly in a
   static screenshot.
+  **`border-bottom-color` needs its own `transition`, or closing looks broken.** It isn't
+  covered by the `border-radius` transition below (different property), so without an explicit
+  entry it just snaps — confirmed via `getComputedStyle` sampling: on close, the border popped
+  back to visible at `t=2ms`, while the drawer was still 100% open (`bottomInsetPct` still `0`)
+  — a border line appearing through the middle of a still-fully-open drawer, before anything
+  else had visibly started to close. Fixed with the same instant-on-open/delayed-on-close
+  pattern as `.mobile-drawer`'s `visibility` below: `transition: ..., border-bottom-color 0s
+  var(--uxh-dur-nav)` on the base (closed-target) rule so it only reappears once the full close
+  animation has actually finished, and `transition: ..., border-bottom-color 0s` (no delay) on
+  the `:has(.mobile-drawer.open)` rule so it vanishes immediately on open, matching how fast the
+  corner itself starts moving.
   **`border-radius` transitions on its own fast `70ms`, not the shared `360ms`
   `var(--uxh-dur-nav)` the drawer/burger use — and the `36px` resting value (not `999px`)
   matters just as much as the duration.** A real, user-reported "the corner and the drawer don't
