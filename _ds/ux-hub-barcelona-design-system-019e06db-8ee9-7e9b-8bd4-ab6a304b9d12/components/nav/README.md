@@ -177,6 +177,18 @@ added for it.
   stops this now-always-full-height box from swallowing taps on whatever page content sits behind
   it during the close transition, since — unlike the old grid-rows version — its layout box no
   longer shrinks away to nothing as it closes.
+- **`.mobile-drawer-inner` fades independently of the outer clip-path, on its own faster
+  timeline** — `opacity: 0` at rest, `1` while `.mobile-drawer.open`, `transition: opacity
+  130ms` on the closed-target rule, `200ms` on the open one (both `var(--uxh-ease)`). Without
+  this, the clip line sweeps straight through fully-opaque, legible text: closing visibly slices
+  list items in half mid-letter before they disappear, which reads as abrupt no matter how well
+  the outer box's own timing is tuned — a real, distinct problem confirmed to persist even after
+  the burger icon, the corner radius, and the clip-path itself were all separately fixed and
+  verified in sync with each other. `130ms` is fast enough that content is already invisible
+  well before the clip line physically reaches most list items on close, so the box finishes
+  collapsing around nothing rather than through something legible; `200ms` on open is slower (no
+  delay, but a longer duration) so a letter is never shown "half-cut" at full opacity either —
+  whatever's exposed materializes rather than snapping to fully readable inside a moving mask.
 - **Closed state is `visibility: hidden`, not the `[hidden]` attribute (`display: none`) this
   used to have — a real, user-reported asymmetry between opening and closing traced back to
   exactly this.** A `display:none` element has no previously-rendered frame for the browser to

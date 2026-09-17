@@ -242,7 +242,24 @@ html[data-accent="teal"]   { --site-accent: var(--uxh-seaturtle); --site-accent-
      so keyboard/AT users can reach the drawer's contents right away
      rather than waiting for the clip-path reveal to finish. */
   transition: clip-path var(--uxh-dur-nav) var(--uxh-ease), visibility 0s; }
-.mobile-drawer-inner { overflow: hidden; display: flex; flex-direction: column; gap: 4px; padding: 0 12px 12px; }
+/* Content fades independently of the outer box's clip-path reveal, on its
+   own faster timeline. Without this, the hard clip edge sweeps straight
+   through fully-opaque, legible text as it moves — closing visibly slices
+   list items in half mid-letter before they disappear, which reads as
+   abrupt/broken no matter how well the outer box's own timing is tuned
+   (confirmed: this persisted after fixing every timing-sync issue between
+   the burger icon, the corner radius, and the clip-path itself — a real,
+   distinct problem, not the same class of bug as those). Closing: content
+   fades out over 130ms, well inside the time it takes the clip line to
+   physically reach most list items, so by the time the sweep gets there
+   the text is already invisible — the box then finishes collapsing around
+   nothing rather than through something legible. Opening: content fades
+   in over 200ms with no delay, so a letter is never shown "half-cut" at
+   full opacity either — whatever's exposed materializes rather than
+   snapping to fully readable inside a moving mask. */
+.mobile-drawer-inner { overflow: hidden; display: flex; flex-direction: column; gap: 4px; padding: 0 12px 12px;
+  opacity: 0; transition: opacity 130ms var(--uxh-ease); }
+.mobile-drawer.open .mobile-drawer-inner { opacity: 1; transition: opacity 200ms var(--uxh-ease); }
 .mobile-drawer-inner a { padding: 14px 16px; border-radius: 12px; font: 500 16px/1 var(--uxh-font-sans); }
 .mobile-drawer-inner a:hover { background: var(--uxh-soft-beige); }
 .mobile-drawer-inner .drawer-cta { align-self: flex-start; margin-top: 4px; padding: 14px 16px; border-radius: 999px;
