@@ -27,22 +27,36 @@ for the live-rendered catalog.
   declared at all (it would be inert dead code at 100% opacity, not a stylistic choice to
   quietly revisit — it failed against real content, not just in theory). `.mobile-drawer` below
   must keep the exact same background or the "one continuous shape" seam becomes visible again.
-  `border-radius: 999px` (→ `var(--uxh-radius-pill)`) at rest; `28px 28px 0 0` while
-  `.mobile-drawer.open` exists inside it (`.nav-shell:has(.mobile-drawer.open)`) — the shell's
-  own height never changes (the drawer isn't inside its box any more), so this is purely about
-  flattening the bottom two corners to line up flush with the drawer's square top edge below,
-  not about a pill radius clamping down on a taller box the way it briefly did in an earlier
-  version. The same open-state rule also sets `border-bottom-color: transparent` (not
-  `border-bottom: none` — that would shift the border-box height by 1px): the shell's 1px border
-  runs on all four sides at rest, and with the drawer's matching border having `border-top: 0`,
-  the shell's own bottom border was the one remaining visible line at the seam while open — read
-  as a header bar sitting on top of a separate dropdown rather than one continuous panel, once
-  a user pointed at it directly in a static screenshot. Transitions on `border-radius` alone,
-  `var(--uxh-dur-nav) var(--uxh-ease)` (360ms —
-  its own token, deliberately slower than the 220ms `--uxh-dur-overlay` used elsewhere, e.g. the
-  event Modal: a full-menu open/close read as rushed at 220ms in review, so the nav got its own,
-  longer duration rather than everything on that token slowing down with it), timed to match the
-  drawer's own clip-path reveal transition below.
+  `border-radius: 36px` (renders identically to a full pill — see below for why it isn't the
+  usual `999px`/`var(--uxh-radius-pill)` "however round" convention here specifically) at rest;
+  `28px 28px 0 0` while `.mobile-drawer.open` exists inside it
+  (`.nav-shell:has(.mobile-drawer.open)`) — the shell's own height never changes (the drawer
+  isn't inside its box any more), so this is purely about flattening the bottom two corners to
+  line up flush with the drawer's square top edge below, not about a pill radius clamping down
+  on a taller box the way it briefly did in an earlier version. The same open-state rule also
+  sets `border-bottom-color: transparent` (not `border-bottom: none` — that would shift the
+  border-box height by 1px): the shell's 1px border runs on all four sides at rest, and with the
+  drawer's matching border having `border-top: 0`, the shell's own bottom border was the one
+  remaining visible line at the seam while open — read as a header bar sitting on top of a
+  separate dropdown rather than one continuous panel, once a user pointed at it directly in a
+  static screenshot.
+  **`border-radius` transitions on its own fast `70ms`, not the shared `360ms`
+  `var(--uxh-dur-nav)` the drawer/burger use — and the `36px` resting value (not `999px`)
+  matters just as much as the duration.** A real, user-reported "the corner and the drawer don't
+  move as one" bug, confirmed by sampling both `.nav-shell`'s computed `border-radius` and
+  `.mobile-drawer`'s computed `clip-path` every few ms through the transition: with a `999px`
+  resting value, the numeric range crossed is enormous (`999→28` opening, `28→999` closing), but
+  only the ~33px nearest either end is visually distinct on this ~66px-tall bar — past that, any
+  radius already renders as a fully rounded cap (clamped by the box's own height), so the two
+  directions behaved asymmetrically under one shared ease-out curve: closing shot past the
+  visual cap almost instantly (needs <1% of the nominal range to look "done"), opening stayed
+  visibly rounded far longer (needs ~99.8% of the range to cross back under the cap) — long
+  enough that the drawer below was already visibly revealing content while the corner above
+  still looked like a rounded pill sitting on it. `36px` keeps the identical rendered look (still
+  above the ~33px half-height cap) but makes the whole range small and symmetric (`36↔28`, 8px
+  either way); `70ms` is short enough that the corner now reads as fully settled at essentially
+  the same instant the drawer's reveal first becomes perceptible, in both directions — verified
+  by measurement, not tuned by feel.
 - **Bar** (`.nav`): plain flex row inside the shell — `padding: 10px 12px 10px 20px`, `gap: 18px`.
   No background/border/radius of its own any more; that all moved to `.nav-shell` above.
 - **Links** (`.nav-link`): `padding: 9px 16px`, pill, `font: 500 14px/1`; hover →

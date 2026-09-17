@@ -48,9 +48,32 @@ html[data-accent="teal"]   { --site-accent: var(--uxh-seaturtle); --site-accent-
      revisit lightly if "glass" comes back up: it failed on real content,
      not just in theory. */
   background: #ffffff;
-  border: 1px solid rgba(0,0,0,0.06); border-radius: 999px;
+  border: 1px solid rgba(0,0,0,0.06); border-radius: 36px;
   box-shadow: 0 8px 28px rgba(15,55,58,0.06);
-  transition: border-radius var(--uxh-dur-nav) var(--uxh-ease);
+  /* border-radius runs its OWN fast 70ms, not the shared 360ms
+     --uxh-dur-nav the drawer/burger use — deliberate, and 36px (not the
+     999px "however round" convention used elsewhere for pills) matters
+     just as much as the duration. Measured via getComputedStyle
+     sampling: with a 999px resting value, the numeric range this
+     transitions across is enormous (999→28 opening, 28→999 closing) but
+     only the portion within ~33px of either end is visually distinct on
+     a ~66px-tall bar — anything past that already renders as a fully
+     rounded cap, clamped by the box's own height. That made the two
+     directions behave asymmetrically under a shared ease-out curve:
+     closing shot from 28 up past the visual cap almost instantly (needs
+     <1% of the nominal range to look "done"), while opening stayed
+     visibly rounded far longer (needs ~99.8% of the range to cross back
+     under the cap) — long enough that the drawer below was already
+     visibly revealing content while the corner above still looked like
+     a rounded pill sitting on top of it, a real seam a user pointed at
+     directly. 36px keeps the same rendered "fully rounded" look (still
+     above the ~33px half-height cap) but makes the whole transition
+     range small and symmetric (36↔28, 8px either way), and 70ms is
+     short enough that — verified by sampling both this and the drawer's
+     clip-path every few ms — the corner reads as fully settled at
+     essentially the same instant the drawer's reveal first becomes
+     perceptible, in both directions, rather than one lagging the other. */
+  transition: border-radius 70ms var(--uxh-ease);
 }
 /* The shell's own height never changes now (the drawer no longer lives
    inside it), so its bottom corners just flatten to 0 while open — that's
