@@ -47,8 +47,19 @@ for the live-rendered catalog.
   — a border line appearing through the middle of a still-fully-open drawer, before anything
   else had visibly started to close. Fixed with a delayed pattern like `.mobile-drawer`'s
   `visibility` below: `transition: ..., border-bottom-color 120ms var(--uxh-ease)
-  calc(var(--uxh-dur-nav) - 120ms)` on the base (closed-target) rule, so the fade only starts
-  120ms before the close animation's own end and finishes exactly when it does.
+  calc(280ms - 120ms)` on the base (closed-target) rule, so the fade only starts 120ms before
+  the close animation's own end and finishes exactly when it does.
+  **That `calc()` was originally written against `var(--uxh-dur-nav)` (360ms), and silently
+  broke when `.mobile-drawer`'s own close-direction `clip-path` was later shortened to `280ms`
+  (see that entry below) without updating this one.** For a while after that change, this fade
+  finished at 360ms while the drawer itself had already fully closed and gone `visibility:hidden`
+  at 280ms — border-bottom-color was still visibly completing its fade (~alpha 0.02-0.05 of its
+  0.06 resting value) for ~33ms after the box it belongs to had already disappeared. Same failure
+  mode as the two bugs already documented in this entry, just introduced by a *later* edit
+  elsewhere rather than by this rule itself. Re-pointed at the literal `280ms` .mobile-drawer's
+  close now uses. **Any time `.mobile-drawer`'s own close duration changes again, this `calc()`
+  needs to change with it — it does not derive from the same token, on purpose, so update both
+  by hand and re-measure together.**
   **A `0s` instant snap — even correctly delayed so it never showed prematurely — was itself a
   second, separately-reported bug: "part of it closes fast, where the original cut for the nav
   bar is."** Delaying *when* it appears fixed the premature-line problem; it did nothing about

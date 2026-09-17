@@ -87,11 +87,25 @@ html[data-accent="teal"]   { --site-accent: var(--uxh-seaturtle); --site-accent-
      original cut for the nav bar is" — even correctly delayed so it
      never showed prematurely, an instant snap exactly at the seam read
      as abrupt against everything else (the drawer, the content) fading
-     or shrinking gradually. `calc(var(--uxh-dur-nav) - 120ms)` delay
-     means the fade starts 120ms before the close animation's own end
-     and finishes exactly when it does, rather than snapping at the
-     very last frame. */
-  transition: border-radius 70ms var(--uxh-ease), border-bottom-color 120ms var(--uxh-ease) calc(var(--uxh-dur-nav) - 120ms);
+     or shrinking gradually. The delay is written as `calc(280ms - 120ms)`
+     — 280ms being .mobile-drawer's own close-direction clip-path
+     duration below, NOT `var(--uxh-dur-nav)` (360ms), even though that's
+     the token this whole file otherwise uses for "the shared nav/drawer
+     duration". They silently went out of sync once: this delay was
+     originally written against `var(--uxh-dur-nav)` back when the
+     drawer's own close transition was still 360ms too, so both finished
+     on the same frame. When the drawer's close duration was later
+     shortened to 280ms (see .mobile-drawer) to fix a different lag
+     between it and the content fade, this calc kept referencing the old
+     360ms token and quietly started finishing 80ms after the drawer had
+     already fully disappeared — confirmed via getComputedStyle sampling
+     of both together: border-bottom-color was still visibly mid-fade
+     (rgba alpha ~0.02-0.05 of its resting 0.06) for ~33ms after
+     clip-path had already reached 100%/visibility:hidden. Point this at
+     whichever literal duration .mobile-drawer's close actually uses, not
+     the shared token, and re-measure both together if either changes —
+     that's what broke last time. */
+  transition: border-radius 70ms var(--uxh-ease), border-bottom-color 120ms var(--uxh-ease) calc(280ms - 120ms);
 }
 /* The shell's own height never changes now (the drawer no longer lives
    inside it), so its bottom corners just flatten to 0 while open — that's
