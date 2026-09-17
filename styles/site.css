@@ -33,16 +33,21 @@ html[data-accent="teal"]   { --site-accent: var(--uxh-seaturtle); --site-accent-
    .mobile-drawer below) is what keeps it reading as one continuous shape
    instead of a second card appearing underneath. */
 .nav-shell { max-width: 1280px; margin: 0 auto; position: relative;
-  /* 99% opaque, not the ~80% a "glass" bar usually gets: backdrop-filter
-     is silently unsupported/disabled on a meaningful share of Android
-     Chrome configurations (older GPUs, data-saver, battery saver), which
-     falls back to this flat background-color alone — with zero blur, it
-     needs to be opaque enough on its own to fully hide whatever content
-     scrolls underneath. 97% still let a faint trace of high-contrast text
-     show through on review; 99% reads as clean while leaving blur/saturate
-     below still doing real work on devices where they do render. */
-  background: rgba(255,255,255,0.99);
-  backdrop-filter: blur(16px) saturate(140%); -webkit-backdrop-filter: blur(16px) saturate(140%);
+  /* Fully solid, no "glass" translucency at all — dropped after 82%, 97%
+     and 99% opacity all still let content behind it bleed through
+     visibly. backdrop-filter is silently unsupported/disabled on a
+     meaningful share of Android Chrome configurations, which falls back
+     to this flat background-color alone; even at 99% opaque, scrolling
+     the sticky nav over something saturated (confirmed with the teal
+     .marquee section) still produced an obvious color-tinted patch on
+     one part of the bar/drawer, reading as a seam rather than one
+     consistent surface. There is no opacity that is both "visibly glass"
+     and "never tints" on a device where the blur doesn't render, so this
+     picks the latter — no backdrop-filter is declared any more since at
+     full opacity it would be inert dead code, not a design choice to
+     revisit lightly if "glass" comes back up: it failed on real content,
+     not just in theory. */
+  background: #ffffff;
   border: 1px solid rgba(0,0,0,0.06); border-radius: 999px;
   box-shadow: 0 8px 28px rgba(15,55,58,0.06);
   transition: border-radius var(--uxh-dur-nav) var(--uxh-ease);
@@ -99,7 +104,7 @@ html[data-accent="teal"]   { --site-accent: var(--uxh-seaturtle); --site-accent-
    child of it. It used to be laid out in flow, which grew .nav-shell's own
    box and pushed the page content below the header down on every open;
    taking it out of flow means opening/closing only ever repaints this
-   overlay, the page underneath never moves. Same background/blur/border as
+   overlay, the page underneath never moves. Same background/border as
    .nav-shell, no top border (the shell's own bottom border is the seam
    between them), radius rounds only the bottom two corners — combined with
    .nav-shell's top corners flattening while open (above), the two boxes
@@ -114,22 +119,25 @@ html[data-accent="teal"]   { --site-accent: var(--uxh-seaturtle); --site-accent-
    past real content height): percentage-based inset() scales to whatever
    the content's actual height is, no guessing required.
    NOTE: switching to clip-path did NOT fix the separate issue where the
-   drawer shows unblurred page content bleeding through on some real
-   Android phones — confirmed unrelated to animation (the artifact is
-   identical at rest, seconds after the transition ends) and unrelated to
-   blur radius (backdrop-filter appears to simply not render on at least
-   some Chrome/Android configurations, falling back to the bare
-   translucent background-color with zero blur). That's a
-   background-opacity problem, not an animation one — see the rgba alpha
-   chosen below and don't assume lowering it back down is safe.
+   drawer shows page content bleeding through on some real Android
+   phones — confirmed unrelated to animation (the artifact is identical
+   at rest, seconds after the transition ends) and unrelated to blur
+   radius (backdrop-filter appears to simply not render on at least some
+   Chrome/Android configurations, falling back to the bare
+   translucent background-color alone). That turned out to be
+   unfixable at any opacity short of fully solid: even 99% opaque still
+   showed an obvious color-tinted patch where the drawer opened over the
+   saturated teal .marquee section (scroll the page so .marquee sits
+   just under the sticky header, then open the drawer, to reproduce) —
+   see .nav-shell's background comment above for why this is now fully
+   solid with no backdrop-filter at all, not translucent.
    `pointer-events: none` while closed stops the now-always-present
-   full-height box from swallowing taps on the hero content behind it
+   full-height box from swallowing taps on the page content behind it
    during the close transition. */
 .mobile-drawer { position: absolute; top: 100%; left: 0; right: 0;
-  /* Same 99% rationale as .nav-shell above — must match its opacity
+  /* Same rationale as .nav-shell above — must match its background
      exactly or the "one continuous shape" seam becomes visible again. */
-  background: rgba(255,255,255,0.99);
-  backdrop-filter: blur(16px) saturate(140%); -webkit-backdrop-filter: blur(16px) saturate(140%);
+  background: #ffffff;
   border: 1px solid rgba(0,0,0,0.06); border-top: 0; border-radius: 0 0 28px 28px;
   box-shadow: 0 8px 28px rgba(15,55,58,0.06);
   overflow: hidden;

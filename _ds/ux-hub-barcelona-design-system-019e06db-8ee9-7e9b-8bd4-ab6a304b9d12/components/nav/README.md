@@ -13,16 +13,20 @@ for the live-rendered catalog.
   `.mobile-drawer` overlays against (see MobileDrawer below for why the drawer is an absolutely
   positioned sibling now, not a child laid out in flow inside it). `position: relative`
   (required — it's `.mobile-drawer`'s `position: absolute` containing block), `background:
-  rgba(255,255,255,0.99)`, `backdrop-filter: blur(16px) saturate(140%)`, `1px solid
-  rgba(0,0,0,0.06)`, `box-shadow: 0 8px 28px rgba(15,55,58,0.06)`, `max-width: 1280px`.
-  99%, not the ~80% a "glass" bar would usually get: `backdrop-filter` is silently
-  unsupported/disabled on a meaningful share of Android Chrome configurations (older GPUs,
-  data-saver, battery saver), which falls back to this flat `background` alone — confirmed on a
-  real device (patchy, unblurred hero text bleeding through the drawer) and reproduced in a
-  desktop browser with `backdrop-filter` forced off, at every opacity below ~97%. Even 97% still
-  read as too see-through on a real device on review, hence 99%. Blur/saturate are a bonus where
-  they render, not load-bearing for legibility — `.mobile-drawer` below must
-  keep the exact same alpha or the "one continuous shape" seam becomes visible again.
+  #ffffff` (fully solid, no `backdrop-filter`), `1px solid rgba(0,0,0,0.06)`,
+  `box-shadow: 0 8px 28px rgba(15,55,58,0.06)`, `max-width: 1280px`.
+  **No translucency at all any more** — this went through 82% → 97% → 99% opacity with
+  `backdrop-filter: blur(16px) saturate(140%)`, each one narrowing but not eliminating a real
+  bug: `backdrop-filter` is silently unsupported/disabled on a meaningful share of Android
+  Chrome configurations, which falls back to the bare `background` alone, and even 99% opaque
+  still produced a visible color-tinted patch where the drawer opened over the saturated teal
+  `.marquee` section (scroll so `.marquee` sits just under the sticky header, then open the
+  drawer, to reproduce) — confirmed on a real device and in a desktop browser with
+  `backdrop-filter` forced off. There is no opacity that's both "visibly glass" and "never
+  tints" once blur isn't rendering, so this is now fully solid and `backdrop-filter` isn't
+  declared at all (it would be inert dead code at 100% opacity, not a stylistic choice to
+  quietly revisit — it failed against real content, not just in theory). `.mobile-drawer` below
+  must keep the exact same background or the "one continuous shape" seam becomes visible again.
   `border-radius: 999px` (→ `var(--uxh-radius-pill)`) at rest; `28px 28px 0 0` while
   `.mobile-drawer.open` exists inside it (`.nav-shell:has(.mobile-drawer.open)`) — the shell's
   own height never changes (the drawer isn't inside its box any more), so this is purely about
@@ -105,7 +109,7 @@ added for it.
   right: 0` against `.nav-shell` (which is why the shell needs `position: relative` — see
   above), completely out of document flow, so opening/closing it never changes the shell's
   height or moves anything below the header. It keeps its own matching `background`/
-  `backdrop-filter`/`border` (`border-top: 0` — the shell's own bottom border is the seam
+  `border` (`border-top: 0` — the shell's own bottom border is the seam
   between the two, so there's no doubled border line) and `border-radius: 0 0 28px 28px` (only
   the bottom two corners — the top ones are square, flush against the shell's now-square bottom
   corners while open). The result reads as the same one continuous shape as the in-flow version
