@@ -146,7 +146,23 @@ html[data-accent="teal"]   { --site-accent: var(--uxh-seaturtle); --site-accent-
 .nav-cta .arrow { transition: transform 200ms; }
 .nav-cta:hover .arrow { transform: translateX(3px); }
 .nav-burger { display: none; width: 40px; height: 40px; border-radius: 999px; align-items: center; justify-content: center; position: relative; flex: none; }
-.nav-burger:hover { background: rgba(0,0,0,0.05); }
+/* Guarded behind (hover: hover) — this is the only element in the mobile
+   nav/drawer path a touch device can reach that had an unguarded :hover.
+   Chrome/Safari on touch apply :hover on tap (there's no pointer to move
+   away and fire a real mouseleave), so without this guard the tap that
+   opens or closes the drawer leaves a gray circle stuck behind the icon
+   until some unrelated later tap elsewhere clears it — visible through
+   the entire close animation as an extra smudge that has nothing to do
+   with, and can't be fixed by, any of the clip-path/opacity/border-color
+   timing work elsewhere in this file. Confirmed via Playwright with
+   `hasTouch`/`isMobile` + `page.touchscreen.tap` (a real touch tap, not
+   `.click()`'s mouse event, which doesn't reproduce this): the hover
+   background was still present via getComputedStyle 500ms after the
+   drawer had fully closed and settled. `(hover: hover)` is true only for
+   pointers that can genuinely hover (mouse, trackpad, stylus) — false
+   for touchscreens — so this now only applies where a real hover exists
+   to eventually leave. */
+@media (hover: hover) { .nav-burger:hover { background: rgba(0,0,0,0.05); } }
 /* Three bars that morph into an X — positioned absolutely so each bar's own
    center of rotation stays fixed as it rotates into place.
    `transform`/`top` run 440ms, not the shared 360ms `--uxh-dur-nav` the
@@ -313,14 +329,27 @@ html[data-accent="teal"]   { --site-accent: var(--uxh-seaturtle); --site-accent-
   opacity: 0; transition: opacity 320ms var(--uxh-ease); }
 .mobile-drawer.open .mobile-drawer-inner { opacity: 1; transition: opacity 340ms var(--uxh-ease); }
 .mobile-drawer-inner a { padding: 14px 16px; border-radius: 12px; font: 500 16px/1 var(--uxh-font-sans); }
-.mobile-drawer-inner a:hover { background: var(--uxh-soft-beige); }
 .mobile-drawer-inner .drawer-cta { align-self: flex-start; margin-top: 4px; padding: 14px 16px; border-radius: 999px;
   background: var(--site-accent); color: var(--site-accent-fg); font: 600 16px/1 var(--uxh-font-sans);
   display: inline-flex; align-items: center; gap: 8px; transition: filter 160ms, transform 80ms; }
-.mobile-drawer-inner .drawer-cta:hover { filter: brightness(0.95); }
 .mobile-drawer-inner .drawer-cta:active { transform: scale(0.98); }
 .mobile-drawer-inner .drawer-cta .arrow { transition: transform 200ms; }
-.mobile-drawer-inner .drawer-cta:hover .arrow { transform: translateX(3px); }
+/* Same (hover: hover) guard as .nav-burger above, and more visible here:
+   every one of these links/the CTA is exactly what a touch tap closes
+   the drawer BY, via setDrawer(false) in the click handler (see the JS).
+   Unguarded, tapping "Donate" (or any link) to close the drawer left
+   that item's hover background/tint stuck for the entire close fade —
+   a colored patch sitting on the one item the user just tapped, fading
+   out along with everything else instead of never appearing at all.
+   This is very likely the specific "closing still looks off" a real
+   device kept showing after every clip-path/opacity/border-color fix in
+   this file measured out fine in isolation — none of that timing work
+   touches this, because it isn't a timing bug. */
+@media (hover: hover) {
+  .mobile-drawer-inner a:hover { background: var(--uxh-soft-beige); }
+  .mobile-drawer-inner .drawer-cta:hover { filter: brightness(0.95); }
+  .mobile-drawer-inner .drawer-cta:hover .arrow { transform: translateX(3px); }
+}
 
 /* ------------- Next event modal ------------- */
 .modal-overlay[hidden] { display: none; }

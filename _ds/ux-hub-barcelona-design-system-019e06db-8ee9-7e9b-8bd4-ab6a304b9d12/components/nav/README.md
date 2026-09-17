@@ -271,6 +271,24 @@ added for it.
   links), full pill (`var(--uxh-radius-pill)`) matching the desktop `.nav-cta`, `background:
   var(--site-accent)`, `font: 600 16px/1`, and carries the same trailing-arrow markup + hover
   nudge as `.nav-cta`.
+- **Every `:hover` a touch tap can reach in this component — `.nav-burger`, the drawer's links,
+  `.drawer-cta` — is wrapped in `@media (hover: hover)`.** Not a timing bug at all, unlike
+  everything else in this file, but it produced a real, visible symptom in the same place: on a
+  touchscreen, tapping applies `:hover` (there's no pointer to move away and fire a real
+  `mouseleave`) and, unguarded, it never clears until some unrelated later tap lands elsewhere.
+  Concretely: tapping the burger left a gray circle stuck behind the icon through the whole
+  close animation; tapping a drawer link or `.drawer-cta` to close the drawer (the single most
+  common way it closes) left that item's hover tint stuck on it while everything else was
+  fading/shrinking around it. Confirmed with Playwright's `hasTouch`/`isMobile` +
+  `page.touchscreen.tap` (a real touch tap — `.click()`'s synthetic mouse event does not
+  reproduce this): `getComputedStyle` still showed the hover background 500ms after the drawer
+  had fully closed and settled. `(hover: hover)` is true only for pointers that can genuinely
+  hover (mouse, trackpad, stylus), false for touchscreens, so it now only applies where a real
+  hover exists to eventually leave — verified the same background reads transparent after a
+  touch tap, and unchanged (still applies) on a real mouse hover. **This is very likely what
+  kept reading as "closing still looks off" through every clip-path/opacity/border-color fix in
+  this file that measured out fine in isolation** — none of that timing work could have touched
+  it, because it was never a timing bug.
 
 **Selector/location:** `.mobile-drawer`, `.mobile-drawer.open`, `.mobile-drawer-inner`,
 `.mobile-drawer-inner a`, `.mobile-drawer-inner .drawer-cta` — site.css. **Found in:**
