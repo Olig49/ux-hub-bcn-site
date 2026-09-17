@@ -238,11 +238,30 @@ html[data-accent="teal"]   { --site-accent: var(--uxh-seaturtle); --site-accent-
   clip-path: inset(0 0 100% 0);
   visibility: hidden;
   pointer-events: none;
-  /* visibility's 0s duration + a delay equal to the full transition means:
-     closing → stays "visible" (hit-testable/rendered) for the whole
-     360ms clip-path animation, only actually flipping hidden the instant
-     it finishes. See .open below for the opposite (instant) case. */
-  transition: clip-path var(--uxh-dur-nav) var(--uxh-ease), visibility 0s var(--uxh-dur-nav); }
+  /* Closing gets its OWN shorter clip-path duration (280ms, not the shared
+     360ms --uxh-dur-nav) instead of reusing the open direction's timing.
+     Root cause, found by sampling getComputedStyle on clip-path and the
+     content's opacity together at 360ms: --uxh-ease is an ease-OUT curve
+     (fast start, long slow tail as it settles) — correct for opening
+     (the box decelerates smoothly into place) but wrong for closing,
+     where the SAME curve means clip-path crawls through its last ~10%
+     (a visible sliver, still showing the border/shadow) over the final
+     ~200ms of the 360ms run. Content's opacity fade (below) — same
+     curve, different property — reaches perceptually-invisible much
+     earlier in the SAME run (~t=220ms, clip only ~93% there), so for
+     roughly 90-100ms the content was already gone while an empty white
+     sliver sat there before finally collapsing: the "looks like two
+     separate components, one lingering after the other" bug. Shortening
+     just this duration to 280ms keeps --uxh-ease's shape (still settles
+     smoothly, not abrupt) but compresses it so the visually-complete
+     point (~97%+ clip) lands around the same ~210-220ms content is
+     already invisible at, instead of ~90-100ms behind it. Verified by
+     re-running the same sampling after the change — not guessed.
+     visibility's delay is matched to the same 280ms so the drawer stops
+     being hit-testable/focusable right when it visually finishes, not
+     360ms later. See .open below for the (unaffected, still 360ms)
+     opening case. */
+  transition: clip-path 280ms var(--uxh-ease), visibility 0s 280ms; }
 .mobile-drawer.open {
   clip-path: inset(0 0 0% 0);
   visibility: visible;

@@ -172,7 +172,10 @@ added for it.
 - **Reveal animation** (`.mobile-drawer`): `clip-path: inset(0 0 100% 0)` (closed) →
   `inset(0 0 0% 0)` (`.open`), `transition: clip-path var(--uxh-dur-nav) var(--uxh-ease)`
   (360ms — see `.nav-shell` above for why this got its own, slower token instead of reusing
-  `--uxh-dur-overlay`). This replaced an earlier `display: grid; grid-template-rows: 0fr → 1fr`
+  `--uxh-dur-overlay`) **on open only**. Closing uses the same `--uxh-ease` curve but its own
+  shorter `280ms` — see the "empty shape lingering" entry below for why the two directions
+  need different durations here even though open doesn't. This replaced an earlier
+  `display: grid; grid-template-rows: 0fr → 1fr`
   "CSS-only accordion" trick, for two reasons: it's a pure paint/compositor animation (no layout
   recalculation every frame, unlike a grid track's actual row size changing), and it still solves
   the original problem that trick was written for — a plain `height`/`max-height` transition
@@ -203,8 +206,24 @@ added for it.
   feel), keep content's fade finishing only slightly *ahead* of the box's own visual completion
   — invisible with the box ~3% open on close, fully opaque with the box ~98% open on opening —
   close enough behind the box that nothing is shown half-clipped at full opacity, without lagging
-  far enough to leave an empty shape lingering either. If the box's own clip-path duration/easing
-  ever changes, re-measure this pairing rather than assume the margin holds.
+  far enough to leave an empty shape lingering either. **This margin drifted back out of sync
+  later and the "empty shape lingers" artifact came back** — not from another opacity-duration
+  change, but because the box's own close-direction `clip-path` was still on the shared 360ms
+  token. `--uxh-ease` is `cubic-bezier(0.2, 0.8, 0.2, 1)`, an ease-OUT curve (fast start, long
+  slow-settling tail) — right for opening (the box decelerates smoothly into its final size) but
+  wrong for closing, where that same tail means clip-path crawls through its last ~10% (a visible
+  sliver, border and shadow still showing) over the final ~200ms of a 360ms run. Re-measured:
+  content's opacity was already below 0.05 (perceptually invisible) by ~t=217ms of the close run,
+  but clip-path was still only ~93% there, not the ~97% the paragraph above assumes — an
+  ~90-100ms window of an empty, contentless white shape still visibly shrinking, the same
+  symptom this section already describes, just caused by the box's timing drifting rather than
+  the content's. Fixed by giving `.mobile-drawer`'s close-direction `clip-path` (and the matching
+  `visibility` delay) its own `280ms` instead of reusing `var(--uxh-dur-nav)` — same curve shape,
+  compressed enough that its visually-complete point now lands around the same ~210-220ms
+  content is already invisible at. Confirmed by re-running the same paired sampling after the
+  change: clip-path and opacity now cross their perceptual-completion thresholds within ~10ms of
+  each other instead of ~90-100ms apart. If either duration changes again, re-measure this
+  pairing rather than assume the margin holds — it has already drifted once.
 - **Closed state is `visibility: hidden`, not the `[hidden]` attribute (`display: none`) this
   used to have — a real, user-reported asymmetry between opening and closing traced back to
   exactly this.** A `display:none` element has no previously-rendered frame for the browser to
@@ -217,8 +236,11 @@ added for it.
   each click: 2 frames to first visible change, both directions, both pages. `visibility` itself
   still flips asymmetrically, but via CSS `transition-delay` now, not JS timing: instant
   (`0s` delay) on open so keyboard/AT users can reach it immediately, delayed until the full
-  360ms transition finishes on close (`transition: ..., visibility 0s var(--uxh-dur-nav)`) so it
-  stays hit-testable for the whole close animation. The JS is correspondingly simpler — no rAF,
+  close-direction transition finishes (`transition: ..., visibility 0s 280ms` — matched to
+  clip-path's own close duration, not `var(--uxh-dur-nav)`; see the reveal-animation and
+  content-fade entries above) so it stays hit-testable for the whole close animation, and stops
+  being hit-testable right when it visually finishes rather than lingering ~80ms after. The JS
+  is correspondingly simpler — no rAF,
   no `setTimeout`, `setDrawer` is a single synchronous class/attribute toggle in both directions,
   with an explicit `aria-hidden` set alongside `aria-expanded` rather than relying on `[hidden]`
   for the accessibility semantics.
